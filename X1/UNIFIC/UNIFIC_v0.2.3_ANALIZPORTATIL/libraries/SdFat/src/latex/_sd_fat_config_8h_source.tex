@@ -1,0 +1,212 @@
+\hypertarget{_sd_fat_config_8h_source}{}\doxysection{Sd\+Fat\+Config.\+h}
+\mbox{\hyperlink{_sd_fat_config_8h}{Ir a la documentación de este archivo.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 }
+\DoxyCodeLine{29 \textcolor{preprocessor}{\#ifndef SdFatConfig\_h}}
+\DoxyCodeLine{30 \textcolor{preprocessor}{\#define SdFatConfig\_h}}
+\DoxyCodeLine{31 \textcolor{preprocessor}{\#include <stdint.h>}}
+\DoxyCodeLine{32 \textcolor{preprocessor}{\#ifdef \_\_AVR\_\_}}
+\DoxyCodeLine{33 \textcolor{preprocessor}{\#include <avr/io.h>}}
+\DoxyCodeLine{34 \textcolor{preprocessor}{\#endif  }\textcolor{comment}{// \_\_AVR\_\_}}
+\DoxyCodeLine{35 \textcolor{comment}{//}}
+\DoxyCodeLine{36 \textcolor{comment}{// To try UTF-\/8 encoded filenames.}}
+\DoxyCodeLine{37 \textcolor{comment}{// \#define USE\_UTF8\_LONG\_NAMES 1}}
+\DoxyCodeLine{38 \textcolor{comment}{//}}
+\DoxyCodeLine{39 \textcolor{comment}{// For minimum flash size use these settings:}}
+\DoxyCodeLine{40 \textcolor{comment}{// \#define USE\_FAT\_FILE\_FLAG\_CONTIGUOUS 0}}
+\DoxyCodeLine{41 \textcolor{comment}{// \#define ENABLE\_DEDICATED\_SPI 0}}
+\DoxyCodeLine{42 \textcolor{comment}{// \#define USE\_LONG\_FILE\_NAMES 0}}
+\DoxyCodeLine{43 \textcolor{comment}{// \#define SDFAT\_FILE\_TYPE 1}}
+\DoxyCodeLine{44 \textcolor{comment}{//}}
+\DoxyCodeLine{45 \textcolor{comment}{// Options can be set in a makefile or an IDE like platformIO}}
+\DoxyCodeLine{46 \textcolor{comment}{// if they are in a \#ifndef/\#endif block below.}}
+\DoxyCodeLine{47 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{49 \textcolor{comment}{}\textcolor{preprocessor}{\#define ENABLE\_ARDUINO\_FEATURES 1}}
+\DoxyCodeLine{51 \textcolor{preprocessor}{\#define ENABLE\_ARDUINO\_SERIAL 1}}
+\DoxyCodeLine{53 \textcolor{preprocessor}{\#define ENABLE\_ARDUINO\_STRING 1}}
+\DoxyCodeLine{54 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{55 \textcolor{preprocessor}{\#if ENABLE\_ARDUINO\_FEATURES}}
+\DoxyCodeLine{56 \textcolor{preprocessor}{\#include "{}Arduino.h"{}}}
+\DoxyCodeLine{57 \textcolor{preprocessor}{\#ifdef PLATFORM\_ID}}
+\DoxyCodeLine{58 \textcolor{comment}{// Only defined if a Particle device.}}
+\DoxyCodeLine{59 \textcolor{preprocessor}{\#include "{}application.h"{}}}
+\DoxyCodeLine{60 \textcolor{preprocessor}{\#endif  }\textcolor{comment}{// PLATFORM\_ID}}
+\DoxyCodeLine{61 \textcolor{preprocessor}{\#endif  }\textcolor{comment}{// ENABLE\_ARDUINO\_FEATURES}}
+\DoxyCodeLine{62 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{71 \textcolor{comment}{}\textcolor{preprocessor}{\#ifndef SDFAT\_FILE\_TYPE}}
+\DoxyCodeLine{72 \textcolor{preprocessor}{\#if defined(\_\_AVR\_\_) \&\& FLASHEND < 0X8000}}
+\DoxyCodeLine{73 \textcolor{comment}{// 32K AVR boards.}}
+\DoxyCodeLine{74 \textcolor{preprocessor}{\#define SDFAT\_FILE\_TYPE 1}}
+\DoxyCodeLine{75 \textcolor{preprocessor}{\#elif defined(\_\_arm\_\_)}}
+\DoxyCodeLine{76 \textcolor{comment}{// ARM boards usually have plenty of memory}}
+\DoxyCodeLine{77 \textcolor{preprocessor}{\#define SDFAT\_FILE\_TYPE 3}}
+\DoxyCodeLine{78 \textcolor{preprocessor}{\#else  }\textcolor{comment}{// defined(\_\_AVR\_\_) \&\& FLASHEND < 0X8000}}
+\DoxyCodeLine{79 \textcolor{comment}{// All other boards.}}
+\DoxyCodeLine{80 \textcolor{preprocessor}{\#define SDFAT\_FILE\_TYPE 1}}
+\DoxyCodeLine{81 \textcolor{preprocessor}{\#endif  }\textcolor{comment}{// defined(\_\_AVR\_\_) \&\& FLASHEND < 0X8000}}
+\DoxyCodeLine{82 \textcolor{preprocessor}{\#endif  }\textcolor{comment}{// SDFAT\_FILE\_TYPE}}
+\DoxyCodeLine{83 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{88 \textcolor{comment}{}\textcolor{preprocessor}{\#ifndef USE\_FAT\_FILE\_FLAG\_CONTIGUOUS}}
+\DoxyCodeLine{89 \textcolor{preprocessor}{\#define USE\_FAT\_FILE\_FLAG\_CONTIGUOUS 1}}
+\DoxyCodeLine{90 \textcolor{preprocessor}{\#endif  }\textcolor{comment}{// USE\_FAT\_FILE\_FLAG\_CONTIGUOUS}}
+\DoxyCodeLine{91 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{100 \textcolor{comment}{}\textcolor{preprocessor}{\#ifndef ENABLE\_DEDICATED\_SPI}}
+\DoxyCodeLine{101 \textcolor{preprocessor}{\#if defined(\_\_AVR\_\_) \&\& FLASHEND < 0X8000}}
+\DoxyCodeLine{102 \textcolor{comment}{// 32K AVR boards.}}
+\DoxyCodeLine{103 \textcolor{preprocessor}{\#define ENABLE\_DEDICATED\_SPI 1}}
+\DoxyCodeLine{104 \textcolor{preprocessor}{\#else  }\textcolor{comment}{// defined(\_\_AVR\_\_) \&\& FLASHEND < 0X8000}}
+\DoxyCodeLine{105 \textcolor{comment}{// All other boards.}}
+\DoxyCodeLine{106 \textcolor{preprocessor}{\#define ENABLE\_DEDICATED\_SPI 1}}
+\DoxyCodeLine{107 \textcolor{preprocessor}{\#endif  }\textcolor{comment}{// defined(\_\_AVR\_\_) \&\& FLASHEND < 0X8000}}
+\DoxyCodeLine{108 \textcolor{preprocessor}{\#endif  }\textcolor{comment}{// ENABLE\_DEDICATED\_SPI}}
+\DoxyCodeLine{109 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{110 \textcolor{comment}{// Driver options}}
+\DoxyCodeLine{123 \textcolor{comment}{}\textcolor{preprocessor}{\#ifndef SPI\_DRIVER\_SELECT}}
+\DoxyCodeLine{124 \textcolor{preprocessor}{\#define SPI\_DRIVER\_SELECT 0}}
+\DoxyCodeLine{125 \textcolor{preprocessor}{\#endif  }\textcolor{comment}{// SPI\_DRIVER\_SELECT}}
+\DoxyCodeLine{132 \textcolor{comment}{}\#ifndef USE\_SPI\_ARRAY\_TRANSFER}
+\DoxyCodeLine{133 \textcolor{preprocessor}{\#define USE\_SPI\_ARRAY\_TRANSFER 0}}
+\DoxyCodeLine{134 \textcolor{preprocessor}{\#endif  }\textcolor{comment}{// USE\_SPI\_ARRAY\_TRANSFER}}
+\DoxyCodeLine{138 \textcolor{comment}{}\#ifndef SD\_MAX\_INIT\_RATE\_KHZ}
+\DoxyCodeLine{139 \textcolor{preprocessor}{\#define SD\_MAX\_INIT\_RATE\_KHZ 400}}
+\DoxyCodeLine{140 \textcolor{preprocessor}{\#endif  }\textcolor{comment}{// SD\_MAX\_INIT\_RATE\_KHZ}}
+\DoxyCodeLine{163 \textcolor{comment}{}\#ifndef USE\_BLOCK\_DEVICE\_INTERFACE}
+\DoxyCodeLine{164 \textcolor{preprocessor}{\#define USE\_BLOCK\_DEVICE\_INTERFACE 0}}
+\DoxyCodeLine{165 \textcolor{preprocessor}{\#endif  }\textcolor{comment}{// USE\_BLOCK\_DEVICE\_INTERFACE}}
+\DoxyCodeLine{179 \textcolor{comment}{}\#ifndef SD\_CHIP\_SELECT\_MODE}
+\DoxyCodeLine{180 \textcolor{preprocessor}{\#define SD\_CHIP\_SELECT\_MODE 0}}
+\DoxyCodeLine{181 \textcolor{preprocessor}{\#endif  }\textcolor{comment}{// SD\_CHIP\_SELECT\_MODE}}
+\DoxyCodeLine{183 \textcolor{comment}{}typedef uint8\_t SdCsPin\_t;}
+\DoxyCodeLine{184 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{205 \textcolor{comment}{}\textcolor{preprocessor}{\#ifndef USE\_LONG\_FILE\_NAMES}}
+\DoxyCodeLine{206 \textcolor{preprocessor}{\#define USE\_LONG\_FILE\_NAMES 1}}
+\DoxyCodeLine{207 \textcolor{preprocessor}{\#endif  }\textcolor{comment}{// USE\_LONG\_FILE\_NAMES}}
+\DoxyCodeLine{220 \textcolor{comment}{}\#ifndef USE\_UTF8\_LONG\_NAMES}
+\DoxyCodeLine{221 \textcolor{preprocessor}{\#define USE\_UTF8\_LONG\_NAMES 0}}
+\DoxyCodeLine{222 \textcolor{preprocessor}{\#endif  }\textcolor{comment}{// USE\_UTF8\_LONG\_NAMES}}
+\DoxyCodeLine{223 }
+\DoxyCodeLine{224 \textcolor{preprocessor}{\#if USE\_UTF8\_LONG\_NAMES \&\& !USE\_LONG\_FILE\_NAMES}}
+\DoxyCodeLine{225 \textcolor{preprocessor}{\#error "{}USE\_UTF8\_LONG\_NAMES requires USE\_LONG\_FILE\_NAMES to be non-\/zero."{}}}
+\DoxyCodeLine{226 \textcolor{preprocessor}{\#endif  }\textcolor{comment}{// USE\_UTF8\_LONG\_NAMES \&\& !USE\_LONG\_FILE\_NAMES}}
+\DoxyCodeLine{227 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{233 \textcolor{comment}{}\textcolor{preprocessor}{\#ifndef MAINTAIN\_FREE\_CLUSTER\_COUNT}}
+\DoxyCodeLine{234 \textcolor{preprocessor}{\#define MAINTAIN\_FREE\_CLUSTER\_COUNT 0}}
+\DoxyCodeLine{235 \textcolor{preprocessor}{\#endif  }\textcolor{comment}{// MAINTAIN\_FREE\_CLUSTER\_COUNT}}
+\DoxyCodeLine{236 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{251 \textcolor{comment}{}\textcolor{preprocessor}{\#define FS\_DEFAULT\_DATE FS\_DATE(compileYear(), 1, 1)}}
+\DoxyCodeLine{253 \textcolor{preprocessor}{\#define FS\_DEFAULT\_TIME FS\_TIME(0, 0, 0)}}
+\DoxyCodeLine{254 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{263 \textcolor{comment}{}\textcolor{preprocessor}{\#ifndef CHECK\_FLASH\_PROGRAMMING}}
+\DoxyCodeLine{264 \textcolor{preprocessor}{\#define CHECK\_FLASH\_PROGRAMMING 0}}
+\DoxyCodeLine{265 \textcolor{preprocessor}{\#endif  }\textcolor{comment}{// CHECK\_FLASH\_PROGRAMMING}}
+\DoxyCodeLine{266 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{276 \textcolor{comment}{}\textcolor{preprocessor}{\#ifndef USE\_SD\_CRC}}
+\DoxyCodeLine{277 \textcolor{preprocessor}{\#define USE\_SD\_CRC 0}}
+\DoxyCodeLine{278 \textcolor{preprocessor}{\#endif  }\textcolor{comment}{// USE\_SD\_CRC}}
+\DoxyCodeLine{279 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{284 \textcolor{comment}{}\textcolor{preprocessor}{\#ifndef USE\_FCNTL\_H}}
+\DoxyCodeLine{285 \textcolor{preprocessor}{\#if defined(\_\_AVR\_\_)}}
+\DoxyCodeLine{286 \textcolor{comment}{// AVR fcntl.h does not define open flags.}}
+\DoxyCodeLine{287 \textcolor{preprocessor}{\#define USE\_FCNTL\_H 0}}
+\DoxyCodeLine{288 \textcolor{preprocessor}{\#elif defined(PLATFORM\_ID)}}
+\DoxyCodeLine{289 \textcolor{comment}{// Particle boards -\/ use fcntl.h.}}
+\DoxyCodeLine{290 \textcolor{preprocessor}{\#define USE\_FCNTL\_H 1}}
+\DoxyCodeLine{291 \textcolor{preprocessor}{\#elif defined(\_\_arm\_\_)}}
+\DoxyCodeLine{292 \textcolor{comment}{// ARM gcc defines open flags.}}
+\DoxyCodeLine{293 \textcolor{preprocessor}{\#define USE\_FCNTL\_H 1}}
+\DoxyCodeLine{294 \textcolor{preprocessor}{\#elif defined(ESP32)}}
+\DoxyCodeLine{295 \textcolor{preprocessor}{\#define USE\_FCNTL\_H 1}}
+\DoxyCodeLine{296 \textcolor{preprocessor}{\#else  }\textcolor{comment}{// defined(\_\_AVR\_\_)}}
+\DoxyCodeLine{297 \textcolor{preprocessor}{\#define USE\_FCNTL\_H 0}}
+\DoxyCodeLine{298 \textcolor{preprocessor}{\#endif  }\textcolor{comment}{// defined(\_\_AVR\_\_)}}
+\DoxyCodeLine{299 \textcolor{preprocessor}{\#endif  }\textcolor{comment}{// USE\_FCNTL\_H}}
+\DoxyCodeLine{300 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{305 \textcolor{comment}{}\textcolor{preprocessor}{\#ifndef INCLUDE\_SDIOS}}
+\DoxyCodeLine{306 \textcolor{preprocessor}{\#define INCLUDE\_SDIOS 0}}
+\DoxyCodeLine{307 \textcolor{preprocessor}{\#endif  }\textcolor{comment}{// INCLUDE\_SDIOS}}
+\DoxyCodeLine{308 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{313 \textcolor{comment}{}\textcolor{preprocessor}{\#ifndef FAT12\_SUPPORT}}
+\DoxyCodeLine{314 \textcolor{preprocessor}{\#define FAT12\_SUPPORT 0}}
+\DoxyCodeLine{315 \textcolor{preprocessor}{\#endif  }\textcolor{comment}{// FAT12\_SUPPORT}}
+\DoxyCodeLine{316 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{322 \textcolor{comment}{}\textcolor{preprocessor}{\#ifndef DESTRUCTOR\_CLOSES\_FILE}}
+\DoxyCodeLine{323 \textcolor{preprocessor}{\#define DESTRUCTOR\_CLOSES\_FILE 0}}
+\DoxyCodeLine{324 \textcolor{preprocessor}{\#endif  }\textcolor{comment}{// DESTRUCTOR\_CLOSES\_FILE}}
+\DoxyCodeLine{325 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{343 \textcolor{comment}{}\textcolor{preprocessor}{\#ifndef ENDL\_CALLS\_FLUSH}}
+\DoxyCodeLine{344 \textcolor{preprocessor}{\#define ENDL\_CALLS\_FLUSH 0}}
+\DoxyCodeLine{345 \textcolor{preprocessor}{\#endif  }\textcolor{comment}{// ENDL\_CALLS\_FLUSH}}
+\DoxyCodeLine{346 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{353 \textcolor{comment}{}\textcolor{preprocessor}{\#if defined(PLATFORM\_ID) || defined(ESP8266)}}
+\DoxyCodeLine{354 \textcolor{comment}{// If Particle device or ESP8266 call yield.}}
+\DoxyCodeLine{355 \textcolor{preprocessor}{\#define WDT\_YIELD\_TIME\_MILLIS 100}}
+\DoxyCodeLine{356 \textcolor{preprocessor}{\#else  }\textcolor{comment}{// defined(PLATFORM\_ID) || defined(ESP8266)}}
+\DoxyCodeLine{357 \textcolor{preprocessor}{\#define WDT\_YIELD\_TIME\_MILLIS 0}}
+\DoxyCodeLine{358 \textcolor{preprocessor}{\#endif  }\textcolor{comment}{// defined(PLATFORM\_ID) || defined(ESP8266)}}
+\DoxyCodeLine{359 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{364 \textcolor{comment}{}\textcolor{preprocessor}{\#if \_\_BYTE\_ORDER\_\_ == \_\_ORDER\_LITTLE\_ENDIAN\_\_\(\backslash\)}}
+\DoxyCodeLine{365 \textcolor{preprocessor}{  \&\& (defined(\_\_AVR\_\_) || defined(\_\_ARM\_FEATURE\_UNALIGNED))}}
+\DoxyCodeLine{366 \textcolor{preprocessor}{\#define USE\_SIMPLE\_LITTLE\_ENDIAN 1}}
+\DoxyCodeLine{367 \textcolor{preprocessor}{\#else  }\textcolor{comment}{// \_\_BYTE\_ORDER\_}}
+\DoxyCodeLine{368 \textcolor{preprocessor}{\#define USE\_SIMPLE\_LITTLE\_ENDIAN 0}}
+\DoxyCodeLine{369 \textcolor{preprocessor}{\#endif  }\textcolor{comment}{// \_\_BYTE\_ORDER\_}}
+\DoxyCodeLine{370 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{376 \textcolor{comment}{}\textcolor{preprocessor}{\#ifdef \_\_arm\_\_}}
+\DoxyCodeLine{377 \textcolor{preprocessor}{\#define USE\_SEPARATE\_FAT\_CACHE 1}}
+\DoxyCodeLine{378 \textcolor{preprocessor}{\#else  }\textcolor{comment}{// \_\_arm\_\_}}
+\DoxyCodeLine{379 \textcolor{preprocessor}{\#define USE\_SEPARATE\_FAT\_CACHE 0}}
+\DoxyCodeLine{380 \textcolor{preprocessor}{\#endif  }\textcolor{comment}{// \_\_arm\_\_}}
+\DoxyCodeLine{381 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{387 \textcolor{comment}{}\textcolor{preprocessor}{\#ifdef \_\_arm\_\_}}
+\DoxyCodeLine{388 \textcolor{preprocessor}{\#define USE\_EXFAT\_BITMAP\_CACHE 1}}
+\DoxyCodeLine{389 \textcolor{preprocessor}{\#else  }\textcolor{comment}{// \_\_arm\_\_}}
+\DoxyCodeLine{390 \textcolor{preprocessor}{\#define USE\_EXFAT\_BITMAP\_CACHE 0}}
+\DoxyCodeLine{391 \textcolor{preprocessor}{\#endif  }\textcolor{comment}{// \_\_arm\_\_}}
+\DoxyCodeLine{392 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{398 \textcolor{comment}{}\textcolor{preprocessor}{\#if defined(RAMEND) \&\& RAMEND < 3000}}
+\DoxyCodeLine{399 \textcolor{preprocessor}{\#define USE\_MULTI\_SECTOR\_IO 0}}
+\DoxyCodeLine{400 \textcolor{preprocessor}{\#else  }\textcolor{comment}{// RAMEND}}
+\DoxyCodeLine{401 \textcolor{preprocessor}{\#define USE\_MULTI\_SECTOR\_IO 1}}
+\DoxyCodeLine{402 \textcolor{preprocessor}{\#endif  }\textcolor{comment}{// RAMEND}}
+\DoxyCodeLine{403 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{405 \textcolor{comment}{}\textcolor{preprocessor}{\#if defined(\_\_MK64FX512\_\_) || defined(\_\_MK66FX1M0\_\_)}}
+\DoxyCodeLine{406 \textcolor{comment}{// Pseudo pin select for SDIO.}}
+\DoxyCodeLine{407 \textcolor{preprocessor}{\#ifndef BUILTIN\_SDCARD}}
+\DoxyCodeLine{408 \textcolor{preprocessor}{\#define BUILTIN\_SDCARD 254}}
+\DoxyCodeLine{409 \textcolor{preprocessor}{\#endif  }\textcolor{comment}{// BUILTIN\_SDCARD}}
+\DoxyCodeLine{410 \textcolor{comment}{// SPI for built-\/in card.}}
+\DoxyCodeLine{411 \textcolor{preprocessor}{\#ifndef SDCARD\_SPI}}
+\DoxyCodeLine{412 \textcolor{preprocessor}{\#define SDCARD\_SPI      SPI1}}
+\DoxyCodeLine{413 \textcolor{preprocessor}{\#define SDCARD\_MISO\_PIN 59}}
+\DoxyCodeLine{414 \textcolor{preprocessor}{\#define SDCARD\_MOSI\_PIN 61}}
+\DoxyCodeLine{415 \textcolor{preprocessor}{\#define SDCARD\_SCK\_PIN  60}}
+\DoxyCodeLine{416 \textcolor{preprocessor}{\#define SDCARD\_SS\_PIN   62}}
+\DoxyCodeLine{417 \textcolor{preprocessor}{\#endif  }\textcolor{comment}{// SDCARD\_SPI}}
+\DoxyCodeLine{418 \textcolor{preprocessor}{\#define HAS\_SDIO\_CLASS 1}}
+\DoxyCodeLine{419 \textcolor{preprocessor}{\#endif  }\textcolor{comment}{// defined(\_\_MK64FX512\_\_) || defined(\_\_MK66FX1M0\_\_)}}
+\DoxyCodeLine{420 \textcolor{preprocessor}{\#if defined(\_\_IMXRT1062\_\_)}}
+\DoxyCodeLine{421 \textcolor{preprocessor}{\#define HAS\_SDIO\_CLASS 1}}
+\DoxyCodeLine{422 \textcolor{preprocessor}{\#endif  }\textcolor{comment}{// defined(\_\_IMXRT1062\_\_)}}
+\DoxyCodeLine{423 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{427 \textcolor{comment}{}\textcolor{preprocessor}{\#if defined(ARDUINO\_ARCH\_APOLLO3)\(\backslash\)}}
+\DoxyCodeLine{428 \textcolor{preprocessor}{  || (defined(\_\_AVR\_\_) \&\& defined(SPDR) \&\& defined(SPSR) \&\& defined(SPIF))\(\backslash\)}}
+\DoxyCodeLine{429 \textcolor{preprocessor}{  || (defined(\_\_AVR\_\_) \&\& defined(SPI0) \&\& defined(SPI\_RXCIF\_bm))\(\backslash\)}}
+\DoxyCodeLine{430 \textcolor{preprocessor}{  || defined(ESP8266) || defined(ESP32)\(\backslash\)}}
+\DoxyCodeLine{431 \textcolor{preprocessor}{  || defined(PLATFORM\_ID)\(\backslash\)}}
+\DoxyCodeLine{432 \textcolor{preprocessor}{  || defined(ARDUINO\_SAM\_DUE)\(\backslash\)}}
+\DoxyCodeLine{433 \textcolor{preprocessor}{  || defined(STM32\_CORE\_VERSION)\(\backslash\)}}
+\DoxyCodeLine{434 \textcolor{preprocessor}{  || defined(\_\_STM32F1\_\_) || defined(\_\_STM32F4\_\_)\(\backslash\)}}
+\DoxyCodeLine{435 \textcolor{preprocessor}{  || (defined(CORE\_TEENSY) \&\& defined(\_\_arm\_\_))}}
+\DoxyCodeLine{436 \textcolor{preprocessor}{\#define SD\_HAS\_CUSTOM\_SPI 1}}
+\DoxyCodeLine{437 \textcolor{preprocessor}{\#else  }\textcolor{comment}{// SD\_HAS\_CUSTOM\_SPI}}
+\DoxyCodeLine{438 \textcolor{comment}{// Use standard SPI library.}}
+\DoxyCodeLine{439 \textcolor{preprocessor}{\#define SD\_HAS\_CUSTOM\_SPI 0}}
+\DoxyCodeLine{440 \textcolor{preprocessor}{\#endif  }\textcolor{comment}{// SD\_HAS\_CUSTOM\_SPI}}
+\DoxyCodeLine{441 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{442 \textcolor{preprocessor}{\#ifndef HAS\_SDIO\_CLASS}}
+\DoxyCodeLine{444 \textcolor{preprocessor}{\#define HAS\_SDIO\_CLASS 0}}
+\DoxyCodeLine{445 \textcolor{preprocessor}{\#endif  }\textcolor{comment}{// HAS\_SDIO\_CLASS}}
+\DoxyCodeLine{446 }
+\DoxyCodeLine{447 \textcolor{preprocessor}{\#endif  }\textcolor{comment}{// SdFatConfig\_h}}
+
+\end{DoxyCode}

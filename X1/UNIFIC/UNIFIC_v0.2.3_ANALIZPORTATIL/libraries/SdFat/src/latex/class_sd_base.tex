@@ -1,0 +1,538 @@
+\hypertarget{class_sd_base}{}\doxysection{Referencia de la plantilla de la Clase Sd\+Base\texorpdfstring{$<$}{<} Vol \texorpdfstring{$>$}{>}}
+\label{class_sd_base}\index{SdBase$<$ Vol $>$@{SdBase$<$ Vol $>$}}
+
+
+base SD file system template class.  
+
+
+
+
+{\ttfamily \#include $<$Sd\+Fat.\+h$>$}
+
+Diagrama de herencias de Sd\+Base\texorpdfstring{$<$}{<} Vol \texorpdfstring{$>$}{>}\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_sd_base}
+\end{center}
+\end{figure}
+\doxysubsection*{Métodos públicos}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{class_sd_base_abff5f318cfe072b80119f1938cd591bb}{begin}} (\mbox{\hyperlink{_sd_fat_config_8h_a7a489fb14a59adf251794342604fc5ea}{Sd\+Cs\+Pin\+\_\+t}} cs\+Pin=SS)
+\item 
+bool \mbox{\hyperlink{class_sd_base_a94081827e77063eacf6fa035143cfde1}{begin}} (\mbox{\hyperlink{_sd_fat_config_8h_a7a489fb14a59adf251794342604fc5ea}{Sd\+Cs\+Pin\+\_\+t}} cs\+Pin, uint32\+\_\+t max\+Sck)
+\item 
+bool \mbox{\hyperlink{class_sd_base_a5748f43d73a4272ec8dc302fb0213556}{begin}} (Sd\+Spi\+Config spi\+Config)
+\item 
+bool \mbox{\hyperlink{class_sd_base_ab6343925e4605897d4a1c39be6705760}{begin}} (Sdio\+Config sdio\+Config)
+\item 
+Sd\+Card $\ast$ \mbox{\hyperlink{class_sd_base_ac54cd93a01fc44d2916dde21a57b2a2a}{card}} ()
+\item 
+bool \mbox{\hyperlink{class_sd_base_a7a5e3b08f6cdd94cfaa19a1b43df6ed9}{card\+Begin}} (Sd\+Spi\+Config spi\+Config)
+\item 
+bool \mbox{\hyperlink{class_sd_base_a64cd10a3ce5ee342d0fd31738f385362}{card\+Begin}} (Sdio\+Config sdio\+Config)
+\item 
+void \mbox{\hyperlink{class_sd_base_ac9d239810a48c90bd0f3a3e9c4c606a9}{error\+Halt}} (print\+\_\+t $\ast$pr)
+\item 
+void \mbox{\hyperlink{class_sd_base_a1691b7a85fc11851a6942de035d73772}{error\+Halt}} (print\+\_\+t $\ast$pr, const char $\ast$msg)
+\item 
+void \mbox{\hyperlink{class_sd_base_ac530fe041855d994a53d2e1b9c33f22d}{error\+Halt}} (print\+\_\+t $\ast$pr, const \+\_\+\+\_\+\+Flash\+String\+Helper $\ast$msg)
+\item 
+void \mbox{\hyperlink{class_sd_base_acb8180faf22cf72d97ec81330a700b05}{init\+Error\+Halt}} (print\+\_\+t $\ast$pr)
+\item 
+void \mbox{\hyperlink{class_sd_base_aef6fd47c67b9b8498c1398e58422f169}{init\+Error\+Halt}} (print\+\_\+t $\ast$pr, const char $\ast$msg)
+\item 
+void \mbox{\hyperlink{class_sd_base_a8a249b866a4b24ac0a0753f966aab299}{init\+Error\+Halt}} (Print $\ast$pr, const \+\_\+\+\_\+\+Flash\+String\+Helper $\ast$msg)
+\item 
+void \mbox{\hyperlink{class_sd_base_a918474d623107f64b7ab9ca88d6fe46f}{init\+Error\+Print}} (Print $\ast$pr)
+\item 
+void \mbox{\hyperlink{class_sd_base_a234e80318c39229fe968a182b172148c}{print\+Fat\+Type}} (print\+\_\+t $\ast$pr)
+\item 
+void \mbox{\hyperlink{class_sd_base_a22d184b3266ae7cb31ab47b7203e91ac}{error\+Print}} (print\+\_\+t $\ast$pr)
+\item 
+void \mbox{\hyperlink{class_sd_base_a7d119e8ae896cc4caa073e9f54823f3e}{error\+Print}} (print\+\_\+t $\ast$pr, char const $\ast$msg)
+\item 
+void \mbox{\hyperlink{class_sd_base_a6793653198ce4c570ae92d2f9436dca9}{error\+Print}} (Print $\ast$pr, const \+\_\+\+\_\+\+Flash\+String\+Helper $\ast$msg)
+\item 
+void \mbox{\hyperlink{class_sd_base_a6a8ba118e754b2b9fa0f34410163e228}{print\+Sd\+Error}} (print\+\_\+t $\ast$pr)
+\item 
+uint8\+\_\+t \mbox{\hyperlink{class_sd_base_af2bb8fea732f9272a2e98772fbcc4595}{sd\+Error\+Code}} ()
+\item 
+uint8\+\_\+t \mbox{\hyperlink{class_sd_base_a5f8f363b6c23f1d8bfeb858c946f1994}{sd\+Error\+Data}} ()
+\item 
+Vol $\ast$ \mbox{\hyperlink{class_sd_base_ac527c2821cb72c5373c743c8440b83b6}{vol}} ()
+\item 
+bool \mbox{\hyperlink{class_sd_base_a1f1de2aac5384475b67506f86199e4c8}{volume\+Begin}} ()
+\item 
+void \mbox{\hyperlink{class_sd_base_abe8d75ba435b4decd6b2079b4272d0e5}{init\+Error\+Print}} ()
+\item 
+void \mbox{\hyperlink{class_sd_base_a3a0d626662aa29c5b942442d0f6ee0ff}{error\+Halt}} (const \+\_\+\+\_\+\+Flash\+String\+Helper $\ast$msg)
+\item 
+void \mbox{\hyperlink{class_sd_base_a841a42d2ddc34c21dfb208b9a377c777}{error\+Halt}} ()
+\item 
+void \mbox{\hyperlink{class_sd_base_a65aab6f19ed26777c2b3a149bbed39b5}{error\+Halt}} (const char $\ast$msg)
+\item 
+void \mbox{\hyperlink{class_sd_base_a5901169e4d6ae992b348df518da68a76}{init\+Error\+Halt}} ()
+\item 
+void \mbox{\hyperlink{class_sd_base_ab4d5db510feb64a9cd487defe5bb62d9}{error\+Print}} (const char $\ast$msg)
+\item 
+void \mbox{\hyperlink{class_sd_base_afebeeb8af2027f1c9a0b4f1106be9c2a}{error\+Print}} (const \+\_\+\+\_\+\+Flash\+String\+Helper $\ast$msg)
+\item 
+void \mbox{\hyperlink{class_sd_base_a9b6c279ebcd8fa95d6b409d099986931}{init\+Error\+Halt}} (const char $\ast$msg)
+\item 
+void \mbox{\hyperlink{class_sd_base_a557ac64877bdd851cd27bf0a00f380c2}{init\+Error\+Halt}} (const \+\_\+\+\_\+\+Flash\+String\+Helper $\ast$msg)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Descripción detallada}
+\subsubsection*{template$<$class Vol$>$\newline
+class Sd\+Base$<$ Vol $>$}
+base SD file system template class. 
+
+\doxysubsection{Documentación de las funciones miembro}
+\mbox{\Hypertarget{class_sd_base_a94081827e77063eacf6fa035143cfde1}\label{class_sd_base_a94081827e77063eacf6fa035143cfde1}} 
+\index{SdBase$<$ Vol $>$@{SdBase$<$ Vol $>$}!begin@{begin}}
+\index{begin@{begin}!SdBase$<$ Vol $>$@{SdBase$<$ Vol $>$}}
+\doxysubsubsection{\texorpdfstring{begin()}{begin()}\hspace{0.1cm}{\footnotesize\ttfamily [1/4]}}
+{\footnotesize\ttfamily template$<$class Vol $>$ \\
+bool \mbox{\hyperlink{class_sd_base}{Sd\+Base}}$<$ Vol $>$\+::begin (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{_sd_fat_config_8h_a7a489fb14a59adf251794342604fc5ea}{Sd\+Cs\+Pin\+\_\+t}}}]{cs\+Pin,  }\item[{uint32\+\_\+t}]{max\+Sck }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Initialize SD card and file system.
+
+
+\begin{DoxyParams}[1]{Parámetros}
+\mbox{\texttt{ in}}  & {\em cs\+Pin} & SD card chip select pin. \\
+\hline
+\mbox{\texttt{ in}}  & {\em max\+Sck} & Maximum SCK frequency. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Devuelve}
+true for success or false for failure. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_sd_base_abff5f318cfe072b80119f1938cd591bb}\label{class_sd_base_abff5f318cfe072b80119f1938cd591bb}} 
+\index{SdBase$<$ Vol $>$@{SdBase$<$ Vol $>$}!begin@{begin}}
+\index{begin@{begin}!SdBase$<$ Vol $>$@{SdBase$<$ Vol $>$}}
+\doxysubsubsection{\texorpdfstring{begin()}{begin()}\hspace{0.1cm}{\footnotesize\ttfamily [2/4]}}
+{\footnotesize\ttfamily template$<$class Vol $>$ \\
+bool \mbox{\hyperlink{class_sd_base}{Sd\+Base}}$<$ Vol $>$\+::begin (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{_sd_fat_config_8h_a7a489fb14a59adf251794342604fc5ea}{Sd\+Cs\+Pin\+\_\+t}}}]{cs\+Pin = {\ttfamily SS} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Initialize SD card and file system.
+
+
+\begin{DoxyParams}[1]{Parámetros}
+\mbox{\texttt{ in}}  & {\em cs\+Pin} & SD card chip select pin. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Devuelve}
+true for success or false for failure. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_sd_base_ab6343925e4605897d4a1c39be6705760}\label{class_sd_base_ab6343925e4605897d4a1c39be6705760}} 
+\index{SdBase$<$ Vol $>$@{SdBase$<$ Vol $>$}!begin@{begin}}
+\index{begin@{begin}!SdBase$<$ Vol $>$@{SdBase$<$ Vol $>$}}
+\doxysubsubsection{\texorpdfstring{begin()}{begin()}\hspace{0.1cm}{\footnotesize\ttfamily [3/4]}}
+{\footnotesize\ttfamily template$<$class Vol $>$ \\
+bool \mbox{\hyperlink{class_sd_base}{Sd\+Base}}$<$ Vol $>$\+::begin (\begin{DoxyParamCaption}\item[{Sdio\+Config}]{sdio\+Config }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Initialize SD card and file system for SDIO mode.
+
+
+\begin{DoxyParams}[1]{Parámetros}
+\mbox{\texttt{ in}}  & {\em sdio\+Config} & SDIO configuration. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Devuelve}
+true for success or false for failure. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_sd_base_a5748f43d73a4272ec8dc302fb0213556}\label{class_sd_base_a5748f43d73a4272ec8dc302fb0213556}} 
+\index{SdBase$<$ Vol $>$@{SdBase$<$ Vol $>$}!begin@{begin}}
+\index{begin@{begin}!SdBase$<$ Vol $>$@{SdBase$<$ Vol $>$}}
+\doxysubsubsection{\texorpdfstring{begin()}{begin()}\hspace{0.1cm}{\footnotesize\ttfamily [4/4]}}
+{\footnotesize\ttfamily template$<$class Vol $>$ \\
+bool \mbox{\hyperlink{class_sd_base}{Sd\+Base}}$<$ Vol $>$\+::begin (\begin{DoxyParamCaption}\item[{Sd\+Spi\+Config}]{spi\+Config }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Initialize SD card and file system for SPI mode.
+
+
+\begin{DoxyParams}[1]{Parámetros}
+\mbox{\texttt{ in}}  & {\em spi\+Config} & SPI configuration. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Devuelve}
+true for success or false for failure. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_sd_base_ac54cd93a01fc44d2916dde21a57b2a2a}\label{class_sd_base_ac54cd93a01fc44d2916dde21a57b2a2a}} 
+\index{SdBase$<$ Vol $>$@{SdBase$<$ Vol $>$}!card@{card}}
+\index{card@{card}!SdBase$<$ Vol $>$@{SdBase$<$ Vol $>$}}
+\doxysubsubsection{\texorpdfstring{card()}{card()}}
+{\footnotesize\ttfamily template$<$class Vol $>$ \\
+Sd\+Card $\ast$ \mbox{\hyperlink{class_sd_base}{Sd\+Base}}$<$ Vol $>$\+::card (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\begin{DoxyReturn}{Devuelve}
+Pointer to SD card object. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_sd_base_a64cd10a3ce5ee342d0fd31738f385362}\label{class_sd_base_a64cd10a3ce5ee342d0fd31738f385362}} 
+\index{SdBase$<$ Vol $>$@{SdBase$<$ Vol $>$}!cardBegin@{cardBegin}}
+\index{cardBegin@{cardBegin}!SdBase$<$ Vol $>$@{SdBase$<$ Vol $>$}}
+\doxysubsubsection{\texorpdfstring{cardBegin()}{cardBegin()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class Vol $>$ \\
+bool \mbox{\hyperlink{class_sd_base}{Sd\+Base}}$<$ Vol $>$\+::card\+Begin (\begin{DoxyParamCaption}\item[{Sdio\+Config}]{sdio\+Config }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Initialize SD card in SDIO mode.
+
+
+\begin{DoxyParams}[1]{Parámetros}
+\mbox{\texttt{ in}}  & {\em sdio\+Config} & SDIO configuration. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Devuelve}
+true for success or false for failure. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_sd_base_a7a5e3b08f6cdd94cfaa19a1b43df6ed9}\label{class_sd_base_a7a5e3b08f6cdd94cfaa19a1b43df6ed9}} 
+\index{SdBase$<$ Vol $>$@{SdBase$<$ Vol $>$}!cardBegin@{cardBegin}}
+\index{cardBegin@{cardBegin}!SdBase$<$ Vol $>$@{SdBase$<$ Vol $>$}}
+\doxysubsubsection{\texorpdfstring{cardBegin()}{cardBegin()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class Vol $>$ \\
+bool \mbox{\hyperlink{class_sd_base}{Sd\+Base}}$<$ Vol $>$\+::card\+Begin (\begin{DoxyParamCaption}\item[{Sd\+Spi\+Config}]{spi\+Config }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Initialize SD card in SPI mode.
+
+
+\begin{DoxyParams}[1]{Parámetros}
+\mbox{\texttt{ in}}  & {\em spi\+Config} & SPI configuration. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Devuelve}
+true for success or false for failure. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_sd_base_a841a42d2ddc34c21dfb208b9a377c777}\label{class_sd_base_a841a42d2ddc34c21dfb208b9a377c777}} 
+\index{SdBase$<$ Vol $>$@{SdBase$<$ Vol $>$}!errorHalt@{errorHalt}}
+\index{errorHalt@{errorHalt}!SdBase$<$ Vol $>$@{SdBase$<$ Vol $>$}}
+\doxysubsubsection{\texorpdfstring{errorHalt()}{errorHalt()}\hspace{0.1cm}{\footnotesize\ttfamily [1/6]}}
+{\footnotesize\ttfamily template$<$class Vol $>$ \\
+void \mbox{\hyperlink{class_sd_base}{Sd\+Base}}$<$ Vol $>$\+::error\+Halt (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Print error info to Serial and halt. \mbox{\Hypertarget{class_sd_base_a3a0d626662aa29c5b942442d0f6ee0ff}\label{class_sd_base_a3a0d626662aa29c5b942442d0f6ee0ff}} 
+\index{SdBase$<$ Vol $>$@{SdBase$<$ Vol $>$}!errorHalt@{errorHalt}}
+\index{errorHalt@{errorHalt}!SdBase$<$ Vol $>$@{SdBase$<$ Vol $>$}}
+\doxysubsubsection{\texorpdfstring{errorHalt()}{errorHalt()}\hspace{0.1cm}{\footnotesize\ttfamily [2/6]}}
+{\footnotesize\ttfamily template$<$class Vol $>$ \\
+void \mbox{\hyperlink{class_sd_base}{Sd\+Base}}$<$ Vol $>$\+::error\+Halt (\begin{DoxyParamCaption}\item[{const \+\_\+\+\_\+\+Flash\+String\+Helper $\ast$}]{msg }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Print msg to Serial and halt.
+
+
+\begin{DoxyParams}[1]{Parámetros}
+\mbox{\texttt{ in}}  & {\em msg} & Message to print. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_sd_base_a65aab6f19ed26777c2b3a149bbed39b5}\label{class_sd_base_a65aab6f19ed26777c2b3a149bbed39b5}} 
+\index{SdBase$<$ Vol $>$@{SdBase$<$ Vol $>$}!errorHalt@{errorHalt}}
+\index{errorHalt@{errorHalt}!SdBase$<$ Vol $>$@{SdBase$<$ Vol $>$}}
+\doxysubsubsection{\texorpdfstring{errorHalt()}{errorHalt()}\hspace{0.1cm}{\footnotesize\ttfamily [3/6]}}
+{\footnotesize\ttfamily template$<$class Vol $>$ \\
+void \mbox{\hyperlink{class_sd_base}{Sd\+Base}}$<$ Vol $>$\+::error\+Halt (\begin{DoxyParamCaption}\item[{const char $\ast$}]{msg }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Print error info and halt.
+
+
+\begin{DoxyParams}[1]{Parámetros}
+\mbox{\texttt{ in}}  & {\em msg} & Message to print. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_sd_base_ac9d239810a48c90bd0f3a3e9c4c606a9}\label{class_sd_base_ac9d239810a48c90bd0f3a3e9c4c606a9}} 
+\index{SdBase$<$ Vol $>$@{SdBase$<$ Vol $>$}!errorHalt@{errorHalt}}
+\index{errorHalt@{errorHalt}!SdBase$<$ Vol $>$@{SdBase$<$ Vol $>$}}
+\doxysubsubsection{\texorpdfstring{errorHalt()}{errorHalt()}\hspace{0.1cm}{\footnotesize\ttfamily [4/6]}}
+{\footnotesize\ttfamily template$<$class Vol $>$ \\
+void \mbox{\hyperlink{class_sd_base}{Sd\+Base}}$<$ Vol $>$\+::error\+Halt (\begin{DoxyParamCaption}\item[{print\+\_\+t $\ast$}]{pr }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Print error info and halt.
+
+
+\begin{DoxyParams}[1]{Parámetros}
+\mbox{\texttt{ in}}  & {\em pr} & Print destination. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_sd_base_ac530fe041855d994a53d2e1b9c33f22d}\label{class_sd_base_ac530fe041855d994a53d2e1b9c33f22d}} 
+\index{SdBase$<$ Vol $>$@{SdBase$<$ Vol $>$}!errorHalt@{errorHalt}}
+\index{errorHalt@{errorHalt}!SdBase$<$ Vol $>$@{SdBase$<$ Vol $>$}}
+\doxysubsubsection{\texorpdfstring{errorHalt()}{errorHalt()}\hspace{0.1cm}{\footnotesize\ttfamily [5/6]}}
+{\footnotesize\ttfamily template$<$class Vol $>$ \\
+void \mbox{\hyperlink{class_sd_base}{Sd\+Base}}$<$ Vol $>$\+::error\+Halt (\begin{DoxyParamCaption}\item[{print\+\_\+t $\ast$}]{pr,  }\item[{const \+\_\+\+\_\+\+Flash\+String\+Helper $\ast$}]{msg }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Print msg and halt.
+
+
+\begin{DoxyParams}[1]{Parámetros}
+\mbox{\texttt{ in}}  & {\em pr} & Print destination. \\
+\hline
+\mbox{\texttt{ in}}  & {\em msg} & Message to print. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_sd_base_a1691b7a85fc11851a6942de035d73772}\label{class_sd_base_a1691b7a85fc11851a6942de035d73772}} 
+\index{SdBase$<$ Vol $>$@{SdBase$<$ Vol $>$}!errorHalt@{errorHalt}}
+\index{errorHalt@{errorHalt}!SdBase$<$ Vol $>$@{SdBase$<$ Vol $>$}}
+\doxysubsubsection{\texorpdfstring{errorHalt()}{errorHalt()}\hspace{0.1cm}{\footnotesize\ttfamily [6/6]}}
+{\footnotesize\ttfamily template$<$class Vol $>$ \\
+void \mbox{\hyperlink{class_sd_base}{Sd\+Base}}$<$ Vol $>$\+::error\+Halt (\begin{DoxyParamCaption}\item[{print\+\_\+t $\ast$}]{pr,  }\item[{const char $\ast$}]{msg }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Print error info and halt.
+
+
+\begin{DoxyParams}[1]{Parámetros}
+\mbox{\texttt{ in}}  & {\em pr} & Print destination. \\
+\hline
+\mbox{\texttt{ in}}  & {\em msg} & Message to print. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_sd_base_afebeeb8af2027f1c9a0b4f1106be9c2a}\label{class_sd_base_afebeeb8af2027f1c9a0b4f1106be9c2a}} 
+\index{SdBase$<$ Vol $>$@{SdBase$<$ Vol $>$}!errorPrint@{errorPrint}}
+\index{errorPrint@{errorPrint}!SdBase$<$ Vol $>$@{SdBase$<$ Vol $>$}}
+\doxysubsubsection{\texorpdfstring{errorPrint()}{errorPrint()}\hspace{0.1cm}{\footnotesize\ttfamily [1/5]}}
+{\footnotesize\ttfamily template$<$class Vol $>$ \\
+void \mbox{\hyperlink{class_sd_base}{Sd\+Base}}$<$ Vol $>$\+::error\+Print (\begin{DoxyParamCaption}\item[{const \+\_\+\+\_\+\+Flash\+String\+Helper $\ast$}]{msg }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Print msg, any SD error code.
+
+
+\begin{DoxyParams}[1]{Parámetros}
+\mbox{\texttt{ in}}  & {\em msg} & Message to print. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_sd_base_ab4d5db510feb64a9cd487defe5bb62d9}\label{class_sd_base_ab4d5db510feb64a9cd487defe5bb62d9}} 
+\index{SdBase$<$ Vol $>$@{SdBase$<$ Vol $>$}!errorPrint@{errorPrint}}
+\index{errorPrint@{errorPrint}!SdBase$<$ Vol $>$@{SdBase$<$ Vol $>$}}
+\doxysubsubsection{\texorpdfstring{errorPrint()}{errorPrint()}\hspace{0.1cm}{\footnotesize\ttfamily [2/5]}}
+{\footnotesize\ttfamily template$<$class Vol $>$ \\
+void \mbox{\hyperlink{class_sd_base}{Sd\+Base}}$<$ Vol $>$\+::error\+Print (\begin{DoxyParamCaption}\item[{const char $\ast$}]{msg }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Print msg, any SD error code.
+
+
+\begin{DoxyParams}[1]{Parámetros}
+\mbox{\texttt{ in}}  & {\em msg} & Message to print. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_sd_base_a6793653198ce4c570ae92d2f9436dca9}\label{class_sd_base_a6793653198ce4c570ae92d2f9436dca9}} 
+\index{SdBase$<$ Vol $>$@{SdBase$<$ Vol $>$}!errorPrint@{errorPrint}}
+\index{errorPrint@{errorPrint}!SdBase$<$ Vol $>$@{SdBase$<$ Vol $>$}}
+\doxysubsubsection{\texorpdfstring{errorPrint()}{errorPrint()}\hspace{0.1cm}{\footnotesize\ttfamily [3/5]}}
+{\footnotesize\ttfamily template$<$class Vol $>$ \\
+void \mbox{\hyperlink{class_sd_base}{Sd\+Base}}$<$ Vol $>$\+::error\+Print (\begin{DoxyParamCaption}\item[{Print $\ast$}]{pr,  }\item[{const \+\_\+\+\_\+\+Flash\+String\+Helper $\ast$}]{msg }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Print msg, any SD error code.
+
+
+\begin{DoxyParams}[1]{Parámetros}
+\mbox{\texttt{ in}}  & {\em pr} & Print destination. \\
+\hline
+\mbox{\texttt{ in}}  & {\em msg} & Message to print. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_sd_base_a22d184b3266ae7cb31ab47b7203e91ac}\label{class_sd_base_a22d184b3266ae7cb31ab47b7203e91ac}} 
+\index{SdBase$<$ Vol $>$@{SdBase$<$ Vol $>$}!errorPrint@{errorPrint}}
+\index{errorPrint@{errorPrint}!SdBase$<$ Vol $>$@{SdBase$<$ Vol $>$}}
+\doxysubsubsection{\texorpdfstring{errorPrint()}{errorPrint()}\hspace{0.1cm}{\footnotesize\ttfamily [4/5]}}
+{\footnotesize\ttfamily template$<$class Vol $>$ \\
+void \mbox{\hyperlink{class_sd_base}{Sd\+Base}}$<$ Vol $>$\+::error\+Print (\begin{DoxyParamCaption}\item[{print\+\_\+t $\ast$}]{pr }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Print SD error\+Code and error\+Data.
+
+
+\begin{DoxyParams}[1]{Parámetros}
+\mbox{\texttt{ in}}  & {\em pr} & Print destination. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_sd_base_a7d119e8ae896cc4caa073e9f54823f3e}\label{class_sd_base_a7d119e8ae896cc4caa073e9f54823f3e}} 
+\index{SdBase$<$ Vol $>$@{SdBase$<$ Vol $>$}!errorPrint@{errorPrint}}
+\index{errorPrint@{errorPrint}!SdBase$<$ Vol $>$@{SdBase$<$ Vol $>$}}
+\doxysubsubsection{\texorpdfstring{errorPrint()}{errorPrint()}\hspace{0.1cm}{\footnotesize\ttfamily [5/5]}}
+{\footnotesize\ttfamily template$<$class Vol $>$ \\
+void \mbox{\hyperlink{class_sd_base}{Sd\+Base}}$<$ Vol $>$\+::error\+Print (\begin{DoxyParamCaption}\item[{print\+\_\+t $\ast$}]{pr,  }\item[{char const $\ast$}]{msg }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Print msg, any SD error code.
+
+
+\begin{DoxyParams}[1]{Parámetros}
+\mbox{\texttt{ in}}  & {\em pr} & Print destination. \\
+\hline
+\mbox{\texttt{ in}}  & {\em msg} & Message to print. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_sd_base_a5901169e4d6ae992b348df518da68a76}\label{class_sd_base_a5901169e4d6ae992b348df518da68a76}} 
+\index{SdBase$<$ Vol $>$@{SdBase$<$ Vol $>$}!initErrorHalt@{initErrorHalt}}
+\index{initErrorHalt@{initErrorHalt}!SdBase$<$ Vol $>$@{SdBase$<$ Vol $>$}}
+\doxysubsubsection{\texorpdfstring{initErrorHalt()}{initErrorHalt()}\hspace{0.1cm}{\footnotesize\ttfamily [1/6]}}
+{\footnotesize\ttfamily template$<$class Vol $>$ \\
+void \mbox{\hyperlink{class_sd_base}{Sd\+Base}}$<$ Vol $>$\+::init\+Error\+Halt (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Print error info and halt. \mbox{\Hypertarget{class_sd_base_a557ac64877bdd851cd27bf0a00f380c2}\label{class_sd_base_a557ac64877bdd851cd27bf0a00f380c2}} 
+\index{SdBase$<$ Vol $>$@{SdBase$<$ Vol $>$}!initErrorHalt@{initErrorHalt}}
+\index{initErrorHalt@{initErrorHalt}!SdBase$<$ Vol $>$@{SdBase$<$ Vol $>$}}
+\doxysubsubsection{\texorpdfstring{initErrorHalt()}{initErrorHalt()}\hspace{0.1cm}{\footnotesize\ttfamily [2/6]}}
+{\footnotesize\ttfamily template$<$class Vol $>$ \\
+void \mbox{\hyperlink{class_sd_base}{Sd\+Base}}$<$ Vol $>$\+::init\+Error\+Halt (\begin{DoxyParamCaption}\item[{const \+\_\+\+\_\+\+Flash\+String\+Helper $\ast$}]{msg }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Print error info and halt.
+
+
+\begin{DoxyParams}[1]{Parámetros}
+\mbox{\texttt{ in}}  & {\em msg} & Message to print. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_sd_base_a9b6c279ebcd8fa95d6b409d099986931}\label{class_sd_base_a9b6c279ebcd8fa95d6b409d099986931}} 
+\index{SdBase$<$ Vol $>$@{SdBase$<$ Vol $>$}!initErrorHalt@{initErrorHalt}}
+\index{initErrorHalt@{initErrorHalt}!SdBase$<$ Vol $>$@{SdBase$<$ Vol $>$}}
+\doxysubsubsection{\texorpdfstring{initErrorHalt()}{initErrorHalt()}\hspace{0.1cm}{\footnotesize\ttfamily [3/6]}}
+{\footnotesize\ttfamily template$<$class Vol $>$ \\
+void \mbox{\hyperlink{class_sd_base}{Sd\+Base}}$<$ Vol $>$\+::init\+Error\+Halt (\begin{DoxyParamCaption}\item[{const char $\ast$}]{msg }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Print error info and halt.
+
+
+\begin{DoxyParams}[1]{Parámetros}
+\mbox{\texttt{ in}}  & {\em msg} & Message to print. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_sd_base_a8a249b866a4b24ac0a0753f966aab299}\label{class_sd_base_a8a249b866a4b24ac0a0753f966aab299}} 
+\index{SdBase$<$ Vol $>$@{SdBase$<$ Vol $>$}!initErrorHalt@{initErrorHalt}}
+\index{initErrorHalt@{initErrorHalt}!SdBase$<$ Vol $>$@{SdBase$<$ Vol $>$}}
+\doxysubsubsection{\texorpdfstring{initErrorHalt()}{initErrorHalt()}\hspace{0.1cm}{\footnotesize\ttfamily [4/6]}}
+{\footnotesize\ttfamily template$<$class Vol $>$ \\
+void \mbox{\hyperlink{class_sd_base}{Sd\+Base}}$<$ Vol $>$\+::init\+Error\+Halt (\begin{DoxyParamCaption}\item[{Print $\ast$}]{pr,  }\item[{const \+\_\+\+\_\+\+Flash\+String\+Helper $\ast$}]{msg }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Print error info and halt.
+
+
+\begin{DoxyParams}[1]{Parámetros}
+\mbox{\texttt{ in}}  & {\em pr} & Print destination. \\
+\hline
+\mbox{\texttt{ in}}  & {\em msg} & Message to print. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_sd_base_acb8180faf22cf72d97ec81330a700b05}\label{class_sd_base_acb8180faf22cf72d97ec81330a700b05}} 
+\index{SdBase$<$ Vol $>$@{SdBase$<$ Vol $>$}!initErrorHalt@{initErrorHalt}}
+\index{initErrorHalt@{initErrorHalt}!SdBase$<$ Vol $>$@{SdBase$<$ Vol $>$}}
+\doxysubsubsection{\texorpdfstring{initErrorHalt()}{initErrorHalt()}\hspace{0.1cm}{\footnotesize\ttfamily [5/6]}}
+{\footnotesize\ttfamily template$<$class Vol $>$ \\
+void \mbox{\hyperlink{class_sd_base}{Sd\+Base}}$<$ Vol $>$\+::init\+Error\+Halt (\begin{DoxyParamCaption}\item[{print\+\_\+t $\ast$}]{pr }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Print error info and halt.
+
+
+\begin{DoxyParams}[1]{Parámetros}
+\mbox{\texttt{ in}}  & {\em pr} & Print destination. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_sd_base_aef6fd47c67b9b8498c1398e58422f169}\label{class_sd_base_aef6fd47c67b9b8498c1398e58422f169}} 
+\index{SdBase$<$ Vol $>$@{SdBase$<$ Vol $>$}!initErrorHalt@{initErrorHalt}}
+\index{initErrorHalt@{initErrorHalt}!SdBase$<$ Vol $>$@{SdBase$<$ Vol $>$}}
+\doxysubsubsection{\texorpdfstring{initErrorHalt()}{initErrorHalt()}\hspace{0.1cm}{\footnotesize\ttfamily [6/6]}}
+{\footnotesize\ttfamily template$<$class Vol $>$ \\
+void \mbox{\hyperlink{class_sd_base}{Sd\+Base}}$<$ Vol $>$\+::init\+Error\+Halt (\begin{DoxyParamCaption}\item[{print\+\_\+t $\ast$}]{pr,  }\item[{const char $\ast$}]{msg }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Print error info and halt.
+
+
+\begin{DoxyParams}[1]{Parámetros}
+\mbox{\texttt{ in}}  & {\em pr} & Print destination. \\
+\hline
+\mbox{\texttt{ in}}  & {\em msg} & Message to print. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_sd_base_abe8d75ba435b4decd6b2079b4272d0e5}\label{class_sd_base_abe8d75ba435b4decd6b2079b4272d0e5}} 
+\index{SdBase$<$ Vol $>$@{SdBase$<$ Vol $>$}!initErrorPrint@{initErrorPrint}}
+\index{initErrorPrint@{initErrorPrint}!SdBase$<$ Vol $>$@{SdBase$<$ Vol $>$}}
+\doxysubsubsection{\texorpdfstring{initErrorPrint()}{initErrorPrint()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class Vol $>$ \\
+void \mbox{\hyperlink{class_sd_base}{Sd\+Base}}$<$ Vol $>$\+::init\+Error\+Print (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Print error details after \mbox{\hyperlink{class_sd_base_abff5f318cfe072b80119f1938cd591bb}{begin()}} fails. \mbox{\Hypertarget{class_sd_base_a918474d623107f64b7ab9ca88d6fe46f}\label{class_sd_base_a918474d623107f64b7ab9ca88d6fe46f}} 
+\index{SdBase$<$ Vol $>$@{SdBase$<$ Vol $>$}!initErrorPrint@{initErrorPrint}}
+\index{initErrorPrint@{initErrorPrint}!SdBase$<$ Vol $>$@{SdBase$<$ Vol $>$}}
+\doxysubsubsection{\texorpdfstring{initErrorPrint()}{initErrorPrint()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class Vol $>$ \\
+void \mbox{\hyperlink{class_sd_base}{Sd\+Base}}$<$ Vol $>$\+::init\+Error\+Print (\begin{DoxyParamCaption}\item[{Print $\ast$}]{pr }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Print error details after \mbox{\hyperlink{class_sd_base_abff5f318cfe072b80119f1938cd591bb}{begin()}} fails.
+
+
+\begin{DoxyParams}[1]{Parámetros}
+\mbox{\texttt{ in}}  & {\em pr} & Print destination. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_sd_base_a234e80318c39229fe968a182b172148c}\label{class_sd_base_a234e80318c39229fe968a182b172148c}} 
+\index{SdBase$<$ Vol $>$@{SdBase$<$ Vol $>$}!printFatType@{printFatType}}
+\index{printFatType@{printFatType}!SdBase$<$ Vol $>$@{SdBase$<$ Vol $>$}}
+\doxysubsubsection{\texorpdfstring{printFatType()}{printFatType()}}
+{\footnotesize\ttfamily template$<$class Vol $>$ \\
+void \mbox{\hyperlink{class_sd_base}{Sd\+Base}}$<$ Vol $>$\+::print\+Fat\+Type (\begin{DoxyParamCaption}\item[{print\+\_\+t $\ast$}]{pr }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Print volume FAT/ex\+FAT type.
+
+
+\begin{DoxyParams}[1]{Parámetros}
+\mbox{\texttt{ in}}  & {\em pr} & Print destination. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_sd_base_a6a8ba118e754b2b9fa0f34410163e228}\label{class_sd_base_a6a8ba118e754b2b9fa0f34410163e228}} 
+\index{SdBase$<$ Vol $>$@{SdBase$<$ Vol $>$}!printSdError@{printSdError}}
+\index{printSdError@{printSdError}!SdBase$<$ Vol $>$@{SdBase$<$ Vol $>$}}
+\doxysubsubsection{\texorpdfstring{printSdError()}{printSdError()}}
+{\footnotesize\ttfamily template$<$class Vol $>$ \\
+void \mbox{\hyperlink{class_sd_base}{Sd\+Base}}$<$ Vol $>$\+::print\+Sd\+Error (\begin{DoxyParamCaption}\item[{print\+\_\+t $\ast$}]{pr }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Print error info and return.
+
+
+\begin{DoxyParams}[1]{Parámetros}
+\mbox{\texttt{ in}}  & {\em pr} & Print destination. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_sd_base_af2bb8fea732f9272a2e98772fbcc4595}\label{class_sd_base_af2bb8fea732f9272a2e98772fbcc4595}} 
+\index{SdBase$<$ Vol $>$@{SdBase$<$ Vol $>$}!sdErrorCode@{sdErrorCode}}
+\index{sdErrorCode@{sdErrorCode}!SdBase$<$ Vol $>$@{SdBase$<$ Vol $>$}}
+\doxysubsubsection{\texorpdfstring{sdErrorCode()}{sdErrorCode()}}
+{\footnotesize\ttfamily template$<$class Vol $>$ \\
+uint8\+\_\+t \mbox{\hyperlink{class_sd_base}{Sd\+Base}}$<$ Vol $>$\+::sd\+Error\+Code (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\begin{DoxyReturn}{Devuelve}
+SD card error code. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_sd_base_a5f8f363b6c23f1d8bfeb858c946f1994}\label{class_sd_base_a5f8f363b6c23f1d8bfeb858c946f1994}} 
+\index{SdBase$<$ Vol $>$@{SdBase$<$ Vol $>$}!sdErrorData@{sdErrorData}}
+\index{sdErrorData@{sdErrorData}!SdBase$<$ Vol $>$@{SdBase$<$ Vol $>$}}
+\doxysubsubsection{\texorpdfstring{sdErrorData()}{sdErrorData()}}
+{\footnotesize\ttfamily template$<$class Vol $>$ \\
+uint8\+\_\+t \mbox{\hyperlink{class_sd_base}{Sd\+Base}}$<$ Vol $>$\+::sd\+Error\+Data (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\begin{DoxyReturn}{Devuelve}
+SD card error data. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_sd_base_ac527c2821cb72c5373c743c8440b83b6}\label{class_sd_base_ac527c2821cb72c5373c743c8440b83b6}} 
+\index{SdBase$<$ Vol $>$@{SdBase$<$ Vol $>$}!vol@{vol}}
+\index{vol@{vol}!SdBase$<$ Vol $>$@{SdBase$<$ Vol $>$}}
+\doxysubsubsection{\texorpdfstring{vol()}{vol()}}
+{\footnotesize\ttfamily template$<$class Vol $>$ \\
+Vol $\ast$ \mbox{\hyperlink{class_sd_base}{Sd\+Base}}$<$ Vol $>$\+::vol (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\begin{DoxyReturn}{Devuelve}
+pointer to base volume 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_sd_base_a1f1de2aac5384475b67506f86199e4c8}\label{class_sd_base_a1f1de2aac5384475b67506f86199e4c8}} 
+\index{SdBase$<$ Vol $>$@{SdBase$<$ Vol $>$}!volumeBegin@{volumeBegin}}
+\index{volumeBegin@{volumeBegin}!SdBase$<$ Vol $>$@{SdBase$<$ Vol $>$}}
+\doxysubsubsection{\texorpdfstring{volumeBegin()}{volumeBegin()}}
+{\footnotesize\ttfamily template$<$class Vol $>$ \\
+bool \mbox{\hyperlink{class_sd_base}{Sd\+Base}}$<$ Vol $>$\+::volume\+Begin (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Initialize file system after call to card\+Begin.
+
+\begin{DoxyReturn}{Devuelve}
+true for success or false for failure. 
+\end{DoxyReturn}
+
+
+La documentación para esta clase fue generada a partir del siguiente fichero\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{_sd_fat_8h}{Sd\+Fat.\+h}}\end{DoxyCompactItemize}

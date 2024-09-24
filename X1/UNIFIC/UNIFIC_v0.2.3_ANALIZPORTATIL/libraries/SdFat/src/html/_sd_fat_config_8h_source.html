@@ -1,0 +1,281 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.2"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Prueba2Doxygen: Fichero Fuente SdFatConfig.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">Prueba2Doxygen
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generado por Doxygen 1.9.2 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search",'Buscar','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Buscar');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">SdFatConfig.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="_sd_fat_config_8h.html">Ir a la documentación de este archivo.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span> </div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span><span class="preprocessor">#ifndef SdFatConfig_h</span></div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="preprocessor">#define SdFatConfig_h</span></div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span><span class="preprocessor">#include &lt;stdint.h&gt;</span></div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><span class="preprocessor">#ifdef __AVR__</span></div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span><span class="preprocessor">#include &lt;avr/io.h&gt;</span></div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span><span class="preprocessor">#endif  </span><span class="comment">// __AVR__</span></div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span><span class="comment">//</span></div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span><span class="comment">// To try UTF-8 encoded filenames.</span></div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="comment">// #define USE_UTF8_LONG_NAMES 1</span></div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="comment">//</span></div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span><span class="comment">// For minimum flash size use these settings:</span></div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span><span class="comment">// #define USE_FAT_FILE_FLAG_CONTIGUOUS 0</span></div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span><span class="comment">// #define ENABLE_DEDICATED_SPI 0</span></div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span><span class="comment">// #define USE_LONG_FILE_NAMES 0</span></div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span><span class="comment">// #define SDFAT_FILE_TYPE 1</span></div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span><span class="comment">//</span></div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><span class="comment">// Options can be set in a makefile or an IDE like platformIO</span></div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span><span class="comment">// if they are in a #ifndef/#endif block below.</span></div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span><span class="comment">//------------------------------------------------------------------------------</span></div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno"><a class="line" href="_sd_fat_config_8h.html#a9a8c1ea8596f35f7f33a24b642567206">   49</a></span><span class="comment"></span><span class="preprocessor">#define ENABLE_ARDUINO_FEATURES 1</span></div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno"><a class="line" href="_sd_fat_config_8h.html#aa0a95c918e41f5cb3850231fc41fdcd0">   51</a></span><span class="preprocessor">#define ENABLE_ARDUINO_SERIAL 1</span></div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno"><a class="line" href="_sd_fat_config_8h.html#aae353ccb45df7772d8022763a57410d9">   53</a></span><span class="preprocessor">#define ENABLE_ARDUINO_STRING 1</span></div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span><span class="comment">//------------------------------------------------------------------------------</span></div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span><span class="preprocessor">#if ENABLE_ARDUINO_FEATURES</span></div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span><span class="preprocessor">#include &quot;Arduino.h&quot;</span></div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span><span class="preprocessor">#ifdef PLATFORM_ID</span></div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span><span class="comment">// Only defined if a Particle device.</span></div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span><span class="preprocessor">#include &quot;application.h&quot;</span></div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span><span class="preprocessor">#endif  </span><span class="comment">// PLATFORM_ID</span></div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span><span class="preprocessor">#endif  </span><span class="comment">// ENABLE_ARDUINO_FEATURES</span></div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span><span class="comment">//------------------------------------------------------------------------------</span></div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span><span class="comment"></span><span class="preprocessor">#ifndef SDFAT_FILE_TYPE</span></div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span><span class="preprocessor">#if defined(__AVR__) &amp;&amp; FLASHEND &lt; 0X8000</span></div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span><span class="comment">// 32K AVR boards.</span></div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span><span class="preprocessor">#define SDFAT_FILE_TYPE 1</span></div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span><span class="preprocessor">#elif defined(__arm__)</span></div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span><span class="comment">// ARM boards usually have plenty of memory</span></div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span><span class="preprocessor">#define SDFAT_FILE_TYPE 3</span></div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span><span class="preprocessor">#else  </span><span class="comment">// defined(__AVR__) &amp;&amp; FLASHEND &lt; 0X8000</span></div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span><span class="comment">// All other boards.</span></div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno"><a class="line" href="_sd_fat_config_8h.html#acdbec9ae1f12e4154878ac10672103fb">   80</a></span><span class="preprocessor">#define SDFAT_FILE_TYPE 1</span></div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span><span class="preprocessor">#endif  </span><span class="comment">// defined(__AVR__) &amp;&amp; FLASHEND &lt; 0X8000</span></div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span><span class="preprocessor">#endif  </span><span class="comment">// SDFAT_FILE_TYPE</span></div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span><span class="comment">//------------------------------------------------------------------------------</span></div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span><span class="comment"></span><span class="preprocessor">#ifndef USE_FAT_FILE_FLAG_CONTIGUOUS</span></div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno"><a class="line" href="_sd_fat_config_8h.html#ad42a354208ecb245adfc238266a612e5">   89</a></span><span class="preprocessor">#define USE_FAT_FILE_FLAG_CONTIGUOUS 1</span></div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span><span class="preprocessor">#endif  </span><span class="comment">// USE_FAT_FILE_FLAG_CONTIGUOUS</span></div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span><span class="comment">//------------------------------------------------------------------------------</span></div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span><span class="comment"></span><span class="preprocessor">#ifndef ENABLE_DEDICATED_SPI</span></div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span><span class="preprocessor">#if defined(__AVR__) &amp;&amp; FLASHEND &lt; 0X8000</span></div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span><span class="comment">// 32K AVR boards.</span></div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span><span class="preprocessor">#define ENABLE_DEDICATED_SPI 1</span></div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span><span class="preprocessor">#else  </span><span class="comment">// defined(__AVR__) &amp;&amp; FLASHEND &lt; 0X8000</span></div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span><span class="comment">// All other boards.</span></div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno"><a class="line" href="_sd_fat_config_8h.html#a3ceb23f14263a17c56eac40e484cbbbb">  106</a></span><span class="preprocessor">#define ENABLE_DEDICATED_SPI 1</span></div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span><span class="preprocessor">#endif  </span><span class="comment">// defined(__AVR__) &amp;&amp; FLASHEND &lt; 0X8000</span></div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span><span class="preprocessor">#endif  </span><span class="comment">// ENABLE_DEDICATED_SPI</span></div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span><span class="comment">//------------------------------------------------------------------------------</span></div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span><span class="comment">// Driver options</span></div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span><span class="comment"></span><span class="preprocessor">#ifndef SPI_DRIVER_SELECT</span></div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno"><a class="line" href="_sd_fat_config_8h.html#a6761799c8dffafbf5b7dd914772be28c">  124</a></span><span class="preprocessor">#define SPI_DRIVER_SELECT 0</span></div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span><span class="preprocessor">#endif  </span><span class="comment">// SPI_DRIVER_SELECT</span></div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span><span class="comment"></span>#ifndef USE_SPI_ARRAY_TRANSFER</div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno"><a class="line" href="_sd_fat_config_8h.html#a530450ba9acb3bd89b63ac0c390c9807">  133</a></span><span class="preprocessor">#define USE_SPI_ARRAY_TRANSFER 0</span></div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span><span class="preprocessor">#endif  </span><span class="comment">// USE_SPI_ARRAY_TRANSFER</span></div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span><span class="comment"></span>#ifndef SD_MAX_INIT_RATE_KHZ</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno"><a class="line" href="_sd_fat_config_8h.html#adb969469c422c2da5438963623bdfbd3">  139</a></span><span class="preprocessor">#define SD_MAX_INIT_RATE_KHZ 400</span></div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span><span class="preprocessor">#endif  </span><span class="comment">// SD_MAX_INIT_RATE_KHZ</span></div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span><span class="comment"></span>#ifndef USE_BLOCK_DEVICE_INTERFACE</div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno"><a class="line" href="_sd_fat_config_8h.html#ae92cc0fb2a31925cfc5694feb048dca2">  164</a></span><span class="preprocessor">#define USE_BLOCK_DEVICE_INTERFACE 0</span></div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span><span class="preprocessor">#endif  </span><span class="comment">// USE_BLOCK_DEVICE_INTERFACE</span></div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span><span class="comment"></span>#ifndef SD_CHIP_SELECT_MODE</div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno"><a class="line" href="_sd_fat_config_8h.html#ab81c0135853c34b24c8314849950f6ab">  180</a></span><span class="preprocessor">#define SD_CHIP_SELECT_MODE 0</span></div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span><span class="preprocessor">#endif  </span><span class="comment">// SD_CHIP_SELECT_MODE</span></div>
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno"><a class="line" href="_sd_fat_config_8h.html#a7a489fb14a59adf251794342604fc5ea">  183</a></span><span class="comment"></span>typedef uint8_t SdCsPin_t;</div>
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span><span class="comment">//------------------------------------------------------------------------------</span></div>
+<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span><span class="comment"></span><span class="preprocessor">#ifndef USE_LONG_FILE_NAMES</span></div>
+<div class="line"><a id="l00206" name="l00206"></a><span class="lineno"><a class="line" href="_sd_fat_config_8h.html#a2536b194b3b007604a39e8526e108b52">  206</a></span><span class="preprocessor">#define USE_LONG_FILE_NAMES 1</span></div>
+<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span><span class="preprocessor">#endif  </span><span class="comment">// USE_LONG_FILE_NAMES</span></div>
+<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span><span class="comment"></span>#ifndef USE_UTF8_LONG_NAMES</div>
+<div class="line"><a id="l00221" name="l00221"></a><span class="lineno"><a class="line" href="_sd_fat_config_8h.html#a02a722792ca0b003c1b9330f0dee5f11">  221</a></span><span class="preprocessor">#define USE_UTF8_LONG_NAMES 0</span></div>
+<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span><span class="preprocessor">#endif  </span><span class="comment">// USE_UTF8_LONG_NAMES</span></div>
+<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span> </div>
+<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span><span class="preprocessor">#if USE_UTF8_LONG_NAMES &amp;&amp; !USE_LONG_FILE_NAMES</span></div>
+<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span><span class="preprocessor">#error &quot;USE_UTF8_LONG_NAMES requires USE_LONG_FILE_NAMES to be non-zero.&quot;</span></div>
+<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span><span class="preprocessor">#endif  </span><span class="comment">// USE_UTF8_LONG_NAMES &amp;&amp; !USE_LONG_FILE_NAMES</span></div>
+<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span><span class="comment">//------------------------------------------------------------------------------</span></div>
+<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span><span class="comment"></span><span class="preprocessor">#ifndef MAINTAIN_FREE_CLUSTER_COUNT</span></div>
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno"><a class="line" href="_sd_fat_config_8h.html#ac2865dac8fdbb4fff47105db32ddf05b">  234</a></span><span class="preprocessor">#define MAINTAIN_FREE_CLUSTER_COUNT 0</span></div>
+<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span><span class="preprocessor">#endif  </span><span class="comment">// MAINTAIN_FREE_CLUSTER_COUNT</span></div>
+<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span><span class="comment">//------------------------------------------------------------------------------</span></div>
+<div class="line"><a id="l00251" name="l00251"></a><span class="lineno"><a class="line" href="_sd_fat_config_8h.html#af9e38fab77717460deffabaec90ffc9f">  251</a></span><span class="comment"></span><span class="preprocessor">#define FS_DEFAULT_DATE FS_DATE(compileYear(), 1, 1)</span></div>
+<div class="line"><a id="l00253" name="l00253"></a><span class="lineno"><a class="line" href="_sd_fat_config_8h.html#aa881707cd0526be3a1d2e3f214db2d5e">  253</a></span><span class="preprocessor">#define FS_DEFAULT_TIME FS_TIME(0, 0, 0)</span></div>
+<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span><span class="comment">//------------------------------------------------------------------------------</span></div>
+<div class="line"><a id="l00263" name="l00263"></a><span class="lineno">  263</span><span class="comment"></span><span class="preprocessor">#ifndef CHECK_FLASH_PROGRAMMING</span></div>
+<div class="line"><a id="l00264" name="l00264"></a><span class="lineno"><a class="line" href="_sd_fat_config_8h.html#a63747c9ac4e3d78579690cf9eb38c4df">  264</a></span><span class="preprocessor">#define CHECK_FLASH_PROGRAMMING 0</span></div>
+<div class="line"><a id="l00265" name="l00265"></a><span class="lineno">  265</span><span class="preprocessor">#endif  </span><span class="comment">// CHECK_FLASH_PROGRAMMING</span></div>
+<div class="line"><a id="l00266" name="l00266"></a><span class="lineno">  266</span><span class="comment">//------------------------------------------------------------------------------</span></div>
+<div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span><span class="comment"></span><span class="preprocessor">#ifndef USE_SD_CRC</span></div>
+<div class="line"><a id="l00277" name="l00277"></a><span class="lineno"><a class="line" href="_sd_fat_config_8h.html#af2e76ffb2fdb830175abf513dd640fdd">  277</a></span><span class="preprocessor">#define USE_SD_CRC 0</span></div>
+<div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span><span class="preprocessor">#endif  </span><span class="comment">// USE_SD_CRC</span></div>
+<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span><span class="comment">//------------------------------------------------------------------------------</span></div>
+<div class="line"><a id="l00284" name="l00284"></a><span class="lineno">  284</span><span class="comment"></span><span class="preprocessor">#ifndef USE_FCNTL_H</span></div>
+<div class="line"><a id="l00285" name="l00285"></a><span class="lineno">  285</span><span class="preprocessor">#if defined(__AVR__)</span></div>
+<div class="line"><a id="l00286" name="l00286"></a><span class="lineno">  286</span><span class="comment">// AVR fcntl.h does not define open flags.</span></div>
+<div class="line"><a id="l00287" name="l00287"></a><span class="lineno">  287</span><span class="preprocessor">#define USE_FCNTL_H 0</span></div>
+<div class="line"><a id="l00288" name="l00288"></a><span class="lineno">  288</span><span class="preprocessor">#elif defined(PLATFORM_ID)</span></div>
+<div class="line"><a id="l00289" name="l00289"></a><span class="lineno">  289</span><span class="comment">// Particle boards - use fcntl.h.</span></div>
+<div class="line"><a id="l00290" name="l00290"></a><span class="lineno">  290</span><span class="preprocessor">#define USE_FCNTL_H 1</span></div>
+<div class="line"><a id="l00291" name="l00291"></a><span class="lineno">  291</span><span class="preprocessor">#elif defined(__arm__)</span></div>
+<div class="line"><a id="l00292" name="l00292"></a><span class="lineno">  292</span><span class="comment">// ARM gcc defines open flags.</span></div>
+<div class="line"><a id="l00293" name="l00293"></a><span class="lineno">  293</span><span class="preprocessor">#define USE_FCNTL_H 1</span></div>
+<div class="line"><a id="l00294" name="l00294"></a><span class="lineno">  294</span><span class="preprocessor">#elif defined(ESP32)</span></div>
+<div class="line"><a id="l00295" name="l00295"></a><span class="lineno">  295</span><span class="preprocessor">#define USE_FCNTL_H 1</span></div>
+<div class="line"><a id="l00296" name="l00296"></a><span class="lineno">  296</span><span class="preprocessor">#else  </span><span class="comment">// defined(__AVR__)</span></div>
+<div class="line"><a id="l00297" name="l00297"></a><span class="lineno"><a class="line" href="_sd_fat_config_8h.html#ab4b7255422e65730612f1f6af1a26752">  297</a></span><span class="preprocessor">#define USE_FCNTL_H 0</span></div>
+<div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span><span class="preprocessor">#endif  </span><span class="comment">// defined(__AVR__)</span></div>
+<div class="line"><a id="l00299" name="l00299"></a><span class="lineno">  299</span><span class="preprocessor">#endif  </span><span class="comment">// USE_FCNTL_H</span></div>
+<div class="line"><a id="l00300" name="l00300"></a><span class="lineno">  300</span><span class="comment">//------------------------------------------------------------------------------</span></div>
+<div class="line"><a id="l00305" name="l00305"></a><span class="lineno">  305</span><span class="comment"></span><span class="preprocessor">#ifndef INCLUDE_SDIOS</span></div>
+<div class="line"><a id="l00306" name="l00306"></a><span class="lineno"><a class="line" href="_sd_fat_config_8h.html#a7cc6c9647297d65f8e823de70740630b">  306</a></span><span class="preprocessor">#define INCLUDE_SDIOS 0</span></div>
+<div class="line"><a id="l00307" name="l00307"></a><span class="lineno">  307</span><span class="preprocessor">#endif  </span><span class="comment">// INCLUDE_SDIOS</span></div>
+<div class="line"><a id="l00308" name="l00308"></a><span class="lineno">  308</span><span class="comment">//------------------------------------------------------------------------------</span></div>
+<div class="line"><a id="l00313" name="l00313"></a><span class="lineno">  313</span><span class="comment"></span><span class="preprocessor">#ifndef FAT12_SUPPORT</span></div>
+<div class="line"><a id="l00314" name="l00314"></a><span class="lineno"><a class="line" href="_sd_fat_config_8h.html#a28998c5daf4bd038f4f93172698320b1">  314</a></span><span class="preprocessor">#define FAT12_SUPPORT 0</span></div>
+<div class="line"><a id="l00315" name="l00315"></a><span class="lineno">  315</span><span class="preprocessor">#endif  </span><span class="comment">// FAT12_SUPPORT</span></div>
+<div class="line"><a id="l00316" name="l00316"></a><span class="lineno">  316</span><span class="comment">//------------------------------------------------------------------------------</span></div>
+<div class="line"><a id="l00322" name="l00322"></a><span class="lineno">  322</span><span class="comment"></span><span class="preprocessor">#ifndef DESTRUCTOR_CLOSES_FILE</span></div>
+<div class="line"><a id="l00323" name="l00323"></a><span class="lineno"><a class="line" href="_sd_fat_config_8h.html#a9a2b1ca4d91cff876f48deeaacbc33da">  323</a></span><span class="preprocessor">#define DESTRUCTOR_CLOSES_FILE 0</span></div>
+<div class="line"><a id="l00324" name="l00324"></a><span class="lineno">  324</span><span class="preprocessor">#endif  </span><span class="comment">// DESTRUCTOR_CLOSES_FILE</span></div>
+<div class="line"><a id="l00325" name="l00325"></a><span class="lineno">  325</span><span class="comment">//------------------------------------------------------------------------------</span></div>
+<div class="line"><a id="l00343" name="l00343"></a><span class="lineno">  343</span><span class="comment"></span><span class="preprocessor">#ifndef ENDL_CALLS_FLUSH</span></div>
+<div class="line"><a id="l00344" name="l00344"></a><span class="lineno"><a class="line" href="_sd_fat_config_8h.html#a270eefdaec4778f2a491658f34f61b17">  344</a></span><span class="preprocessor">#define ENDL_CALLS_FLUSH 0</span></div>
+<div class="line"><a id="l00345" name="l00345"></a><span class="lineno">  345</span><span class="preprocessor">#endif  </span><span class="comment">// ENDL_CALLS_FLUSH</span></div>
+<div class="line"><a id="l00346" name="l00346"></a><span class="lineno">  346</span><span class="comment">//------------------------------------------------------------------------------</span></div>
+<div class="line"><a id="l00353" name="l00353"></a><span class="lineno">  353</span><span class="comment"></span><span class="preprocessor">#if defined(PLATFORM_ID) || defined(ESP8266)</span></div>
+<div class="line"><a id="l00354" name="l00354"></a><span class="lineno">  354</span><span class="comment">// If Particle device or ESP8266 call yield.</span></div>
+<div class="line"><a id="l00355" name="l00355"></a><span class="lineno">  355</span><span class="preprocessor">#define WDT_YIELD_TIME_MILLIS 100</span></div>
+<div class="line"><a id="l00356" name="l00356"></a><span class="lineno">  356</span><span class="preprocessor">#else  </span><span class="comment">// defined(PLATFORM_ID) || defined(ESP8266)</span></div>
+<div class="line"><a id="l00357" name="l00357"></a><span class="lineno"><a class="line" href="_sd_fat_config_8h.html#a03b3cad4ee9ca6915330f41b2924bca1">  357</a></span><span class="preprocessor">#define WDT_YIELD_TIME_MILLIS 0</span></div>
+<div class="line"><a id="l00358" name="l00358"></a><span class="lineno">  358</span><span class="preprocessor">#endif  </span><span class="comment">// defined(PLATFORM_ID) || defined(ESP8266)</span></div>
+<div class="line"><a id="l00359" name="l00359"></a><span class="lineno">  359</span><span class="comment">//------------------------------------------------------------------------------</span></div>
+<div class="line"><a id="l00364" name="l00364"></a><span class="lineno">  364</span><span class="comment"></span><span class="preprocessor">#if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__\</span></div>
+<div class="line"><a id="l00365" name="l00365"></a><span class="lineno">  365</span><span class="preprocessor">  &amp;&amp; (defined(__AVR__) || defined(__ARM_FEATURE_UNALIGNED))</span></div>
+<div class="line"><a id="l00366" name="l00366"></a><span class="lineno">  366</span><span class="preprocessor">#define USE_SIMPLE_LITTLE_ENDIAN 1</span></div>
+<div class="line"><a id="l00367" name="l00367"></a><span class="lineno">  367</span><span class="preprocessor">#else  </span><span class="comment">// __BYTE_ORDER_</span></div>
+<div class="line"><a id="l00368" name="l00368"></a><span class="lineno"><a class="line" href="_sd_fat_config_8h.html#a9d4fac424e31b4383a10211f0489d93b">  368</a></span><span class="preprocessor">#define USE_SIMPLE_LITTLE_ENDIAN 0</span></div>
+<div class="line"><a id="l00369" name="l00369"></a><span class="lineno">  369</span><span class="preprocessor">#endif  </span><span class="comment">// __BYTE_ORDER_</span></div>
+<div class="line"><a id="l00370" name="l00370"></a><span class="lineno">  370</span><span class="comment">//------------------------------------------------------------------------------</span></div>
+<div class="line"><a id="l00376" name="l00376"></a><span class="lineno">  376</span><span class="comment"></span><span class="preprocessor">#ifdef __arm__</span></div>
+<div class="line"><a id="l00377" name="l00377"></a><span class="lineno">  377</span><span class="preprocessor">#define USE_SEPARATE_FAT_CACHE 1</span></div>
+<div class="line"><a id="l00378" name="l00378"></a><span class="lineno">  378</span><span class="preprocessor">#else  </span><span class="comment">// __arm__</span></div>
+<div class="line"><a id="l00379" name="l00379"></a><span class="lineno"><a class="line" href="_sd_fat_config_8h.html#a23f662882413dcb017ebd8107473b8c3">  379</a></span><span class="preprocessor">#define USE_SEPARATE_FAT_CACHE 0</span></div>
+<div class="line"><a id="l00380" name="l00380"></a><span class="lineno">  380</span><span class="preprocessor">#endif  </span><span class="comment">// __arm__</span></div>
+<div class="line"><a id="l00381" name="l00381"></a><span class="lineno">  381</span><span class="comment">//------------------------------------------------------------------------------</span></div>
+<div class="line"><a id="l00387" name="l00387"></a><span class="lineno">  387</span><span class="comment"></span><span class="preprocessor">#ifdef __arm__</span></div>
+<div class="line"><a id="l00388" name="l00388"></a><span class="lineno">  388</span><span class="preprocessor">#define USE_EXFAT_BITMAP_CACHE 1</span></div>
+<div class="line"><a id="l00389" name="l00389"></a><span class="lineno">  389</span><span class="preprocessor">#else  </span><span class="comment">// __arm__</span></div>
+<div class="line"><a id="l00390" name="l00390"></a><span class="lineno"><a class="line" href="_sd_fat_config_8h.html#a8d3fca2607182c1ba389dd61c283a3e2">  390</a></span><span class="preprocessor">#define USE_EXFAT_BITMAP_CACHE 0</span></div>
+<div class="line"><a id="l00391" name="l00391"></a><span class="lineno">  391</span><span class="preprocessor">#endif  </span><span class="comment">// __arm__</span></div>
+<div class="line"><a id="l00392" name="l00392"></a><span class="lineno">  392</span><span class="comment">//------------------------------------------------------------------------------</span></div>
+<div class="line"><a id="l00398" name="l00398"></a><span class="lineno">  398</span><span class="comment"></span><span class="preprocessor">#if defined(RAMEND) &amp;&amp; RAMEND &lt; 3000</span></div>
+<div class="line"><a id="l00399" name="l00399"></a><span class="lineno">  399</span><span class="preprocessor">#define USE_MULTI_SECTOR_IO 0</span></div>
+<div class="line"><a id="l00400" name="l00400"></a><span class="lineno">  400</span><span class="preprocessor">#else  </span><span class="comment">// RAMEND</span></div>
+<div class="line"><a id="l00401" name="l00401"></a><span class="lineno"><a class="line" href="_sd_fat_config_8h.html#ae477a983188d4370faff32b07a5cfacb">  401</a></span><span class="preprocessor">#define USE_MULTI_SECTOR_IO 1</span></div>
+<div class="line"><a id="l00402" name="l00402"></a><span class="lineno">  402</span><span class="preprocessor">#endif  </span><span class="comment">// RAMEND</span></div>
+<div class="line"><a id="l00403" name="l00403"></a><span class="lineno">  403</span><span class="comment">//------------------------------------------------------------------------------</span></div>
+<div class="line"><a id="l00405" name="l00405"></a><span class="lineno">  405</span><span class="comment"></span><span class="preprocessor">#if defined(__MK64FX512__) || defined(__MK66FX1M0__)</span></div>
+<div class="line"><a id="l00406" name="l00406"></a><span class="lineno">  406</span><span class="comment">// Pseudo pin select for SDIO.</span></div>
+<div class="line"><a id="l00407" name="l00407"></a><span class="lineno">  407</span><span class="preprocessor">#ifndef BUILTIN_SDCARD</span></div>
+<div class="line"><a id="l00408" name="l00408"></a><span class="lineno">  408</span><span class="preprocessor">#define BUILTIN_SDCARD 254</span></div>
+<div class="line"><a id="l00409" name="l00409"></a><span class="lineno">  409</span><span class="preprocessor">#endif  </span><span class="comment">// BUILTIN_SDCARD</span></div>
+<div class="line"><a id="l00410" name="l00410"></a><span class="lineno">  410</span><span class="comment">// SPI for built-in card.</span></div>
+<div class="line"><a id="l00411" name="l00411"></a><span class="lineno">  411</span><span class="preprocessor">#ifndef SDCARD_SPI</span></div>
+<div class="line"><a id="l00412" name="l00412"></a><span class="lineno">  412</span><span class="preprocessor">#define SDCARD_SPI      SPI1</span></div>
+<div class="line"><a id="l00413" name="l00413"></a><span class="lineno">  413</span><span class="preprocessor">#define SDCARD_MISO_PIN 59</span></div>
+<div class="line"><a id="l00414" name="l00414"></a><span class="lineno">  414</span><span class="preprocessor">#define SDCARD_MOSI_PIN 61</span></div>
+<div class="line"><a id="l00415" name="l00415"></a><span class="lineno">  415</span><span class="preprocessor">#define SDCARD_SCK_PIN  60</span></div>
+<div class="line"><a id="l00416" name="l00416"></a><span class="lineno">  416</span><span class="preprocessor">#define SDCARD_SS_PIN   62</span></div>
+<div class="line"><a id="l00417" name="l00417"></a><span class="lineno">  417</span><span class="preprocessor">#endif  </span><span class="comment">// SDCARD_SPI</span></div>
+<div class="line"><a id="l00418" name="l00418"></a><span class="lineno">  418</span><span class="preprocessor">#define HAS_SDIO_CLASS 1</span></div>
+<div class="line"><a id="l00419" name="l00419"></a><span class="lineno">  419</span><span class="preprocessor">#endif  </span><span class="comment">// defined(__MK64FX512__) || defined(__MK66FX1M0__)</span></div>
+<div class="line"><a id="l00420" name="l00420"></a><span class="lineno">  420</span><span class="preprocessor">#if defined(__IMXRT1062__)</span></div>
+<div class="line"><a id="l00421" name="l00421"></a><span class="lineno">  421</span><span class="preprocessor">#define HAS_SDIO_CLASS 1</span></div>
+<div class="line"><a id="l00422" name="l00422"></a><span class="lineno">  422</span><span class="preprocessor">#endif  </span><span class="comment">// defined(__IMXRT1062__)</span></div>
+<div class="line"><a id="l00423" name="l00423"></a><span class="lineno">  423</span><span class="comment">//------------------------------------------------------------------------------</span></div>
+<div class="line"><a id="l00427" name="l00427"></a><span class="lineno">  427</span><span class="comment"></span><span class="preprocessor">#if defined(ARDUINO_ARCH_APOLLO3)\</span></div>
+<div class="line"><a id="l00428" name="l00428"></a><span class="lineno">  428</span><span class="preprocessor">  || (defined(__AVR__) &amp;&amp; defined(SPDR) &amp;&amp; defined(SPSR) &amp;&amp; defined(SPIF))\</span></div>
+<div class="line"><a id="l00429" name="l00429"></a><span class="lineno">  429</span><span class="preprocessor">  || (defined(__AVR__) &amp;&amp; defined(SPI0) &amp;&amp; defined(SPI_RXCIF_bm))\</span></div>
+<div class="line"><a id="l00430" name="l00430"></a><span class="lineno">  430</span><span class="preprocessor">  || defined(ESP8266) || defined(ESP32)\</span></div>
+<div class="line"><a id="l00431" name="l00431"></a><span class="lineno">  431</span><span class="preprocessor">  || defined(PLATFORM_ID)\</span></div>
+<div class="line"><a id="l00432" name="l00432"></a><span class="lineno">  432</span><span class="preprocessor">  || defined(ARDUINO_SAM_DUE)\</span></div>
+<div class="line"><a id="l00433" name="l00433"></a><span class="lineno">  433</span><span class="preprocessor">  || defined(STM32_CORE_VERSION)\</span></div>
+<div class="line"><a id="l00434" name="l00434"></a><span class="lineno">  434</span><span class="preprocessor">  || defined(__STM32F1__) || defined(__STM32F4__)\</span></div>
+<div class="line"><a id="l00435" name="l00435"></a><span class="lineno">  435</span><span class="preprocessor">  || (defined(CORE_TEENSY) &amp;&amp; defined(__arm__))</span></div>
+<div class="line"><a id="l00436" name="l00436"></a><span class="lineno">  436</span><span class="preprocessor">#define SD_HAS_CUSTOM_SPI 1</span></div>
+<div class="line"><a id="l00437" name="l00437"></a><span class="lineno">  437</span><span class="preprocessor">#else  </span><span class="comment">// SD_HAS_CUSTOM_SPI</span></div>
+<div class="line"><a id="l00438" name="l00438"></a><span class="lineno">  438</span><span class="comment">// Use standard SPI library.</span></div>
+<div class="line"><a id="l00439" name="l00439"></a><span class="lineno"><a class="line" href="_sd_fat_config_8h.html#a838861a01379e94361148d22e62b1977">  439</a></span><span class="preprocessor">#define SD_HAS_CUSTOM_SPI 0</span></div>
+<div class="line"><a id="l00440" name="l00440"></a><span class="lineno">  440</span><span class="preprocessor">#endif  </span><span class="comment">// SD_HAS_CUSTOM_SPI</span></div>
+<div class="line"><a id="l00441" name="l00441"></a><span class="lineno">  441</span><span class="comment">//------------------------------------------------------------------------------</span></div>
+<div class="line"><a id="l00442" name="l00442"></a><span class="lineno">  442</span><span class="preprocessor">#ifndef HAS_SDIO_CLASS</span></div>
+<div class="line"><a id="l00444" name="l00444"></a><span class="lineno"><a class="line" href="_sd_fat_config_8h.html#a356309f8e0bad852d7a07ad0b9326a27">  444</a></span><span class="preprocessor">#define HAS_SDIO_CLASS 0</span></div>
+<div class="line"><a id="l00445" name="l00445"></a><span class="lineno">  445</span><span class="preprocessor">#endif  </span><span class="comment">// HAS_SDIO_CLASS</span></div>
+<div class="line"><a id="l00446" name="l00446"></a><span class="lineno">  446</span> </div>
+<div class="line"><a id="l00447" name="l00447"></a><span class="lineno">  447</span><span class="preprocessor">#endif  </span><span class="comment">// SdFatConfig_h</span></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Generado por&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2
+</small></address>
+</body>
+</html>

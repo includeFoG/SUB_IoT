@@ -1,0 +1,91 @@
+\hypertarget{_sd_fat_8h}{}\doxysection{Referencia del Archivo Sd\+Fat.\+h}
+\label{_sd_fat_8h}\index{SdFat.h@{SdFat.h}}
+
+
+main \mbox{\hyperlink{class_sd_fs}{Sd\+Fs}} include file.  
+
+
+{\ttfamily \#include \char`\"{}common/\+Sys\+Call.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Sd\+Card/\+Sd\+Card.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Ex\+Fat\+Lib/\+Ex\+Fat\+Lib.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Fat\+Lib/\+Fat\+Lib.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Fs\+Lib/\+Fs\+Lib.\+h\char`\"{}}\newline
+\doxysubsection*{Clases}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{class_sd_base}{Sd\+Base$<$ Vol $>$}}
+\begin{DoxyCompactList}\small\item\em base SD file system template class. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{class_sd_fat32}{Sd\+Fat32}}
+\begin{DoxyCompactList}\small\item\em SD file system class for FAT volumes. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{class_sd_ex_fat}{Sd\+Ex\+Fat}}
+\begin{DoxyCompactList}\small\item\em SD file system class for ex\+FAT volumes. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{class_sd_fs}{Sd\+Fs}}
+\begin{DoxyCompactList}\small\item\em SD file system class for FAT16, FAT32, and ex\+FAT volumes. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{class_sd_file}{Sd\+File}}
+\begin{DoxyCompactList}\small\item\em FAT16/\+FAT32 file with Print. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{defines}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{_sd_fat_8h_aca25ecce379f446043bdee2c55304210}{SD\+\_\+\+FAT\+\_\+\+VERSION}}~20100
+\item 
+\#define \mbox{\hyperlink{_sd_fat_8h_a9b77ef0822c5e9d27a1f83d4578ea47b}{SD\+\_\+\+FAT\+\_\+\+VERSION\+\_\+\+STR}}~\char`\"{}2.\+1.\+0\char`\"{}
+\end{DoxyCompactItemize}
+\doxysubsection*{typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef \mbox{\hyperlink{class_sd_fat32}{Sd\+Fat32}} \mbox{\hyperlink{_sd_fat_8h_a6e295d38f798fdc044c3282818cdb064}{Sd\+Fat}}
+\item 
+typedef Fat\+File \mbox{\hyperlink{_sd_fat_8h_a3991b0f70199d1a17dbb837bb041e89c}{Sd\+Base\+File}}
+\item 
+typedef File32 \mbox{\hyperlink{_sd_fat_8h_aa0ffd23c3e43af0bcbd2fb4d62f3286d}{File}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Descripción detallada}
+main \mbox{\hyperlink{class_sd_fs}{Sd\+Fs}} include file. 
+
+Copyright (c) 2011-\/2020 Bill Greiman This file is part of the Sd\+Fat library for SD memory cards.
+
+MIT License
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \char`\"{}\+Software\char`\"{}), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions\+:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED \char`\"{}\+AS IS\char`\"{}, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
+
+\doxysubsection{Documentación de los \textquotesingle{}defines\textquotesingle{}}
+\mbox{\Hypertarget{_sd_fat_8h_aca25ecce379f446043bdee2c55304210}\label{_sd_fat_8h_aca25ecce379f446043bdee2c55304210}} 
+\index{SdFat.h@{SdFat.h}!SD\_FAT\_VERSION@{SD\_FAT\_VERSION}}
+\index{SD\_FAT\_VERSION@{SD\_FAT\_VERSION}!SdFat.h@{SdFat.h}}
+\doxysubsubsection{\texorpdfstring{SD\_FAT\_VERSION}{SD\_FAT\_VERSION}}
+{\footnotesize\ttfamily \#define SD\+\_\+\+FAT\+\_\+\+VERSION~20100}
+
+Sd\+Fat version for cpp use. \mbox{\Hypertarget{_sd_fat_8h_a9b77ef0822c5e9d27a1f83d4578ea47b}\label{_sd_fat_8h_a9b77ef0822c5e9d27a1f83d4578ea47b}} 
+\index{SdFat.h@{SdFat.h}!SD\_FAT\_VERSION\_STR@{SD\_FAT\_VERSION\_STR}}
+\index{SD\_FAT\_VERSION\_STR@{SD\_FAT\_VERSION\_STR}!SdFat.h@{SdFat.h}}
+\doxysubsubsection{\texorpdfstring{SD\_FAT\_VERSION\_STR}{SD\_FAT\_VERSION\_STR}}
+{\footnotesize\ttfamily \#define SD\+\_\+\+FAT\+\_\+\+VERSION\+\_\+\+STR~\char`\"{}2.\+1.\+0\char`\"{}}
+
+Sd\+Fat version as string. 
+
+\doxysubsection{Documentación de los \textquotesingle{}typedefs\textquotesingle{}}
+\mbox{\Hypertarget{_sd_fat_8h_aa0ffd23c3e43af0bcbd2fb4d62f3286d}\label{_sd_fat_8h_aa0ffd23c3e43af0bcbd2fb4d62f3286d}} 
+\index{SdFat.h@{SdFat.h}!File@{File}}
+\index{File@{File}!SdFat.h@{SdFat.h}}
+\doxysubsubsection{\texorpdfstring{File}{File}}
+{\footnotesize\ttfamily typedef File32 \mbox{\hyperlink{_sd_fat_8h_aa0ffd23c3e43af0bcbd2fb4d62f3286d}{File}}}
+
+Select type for File. \mbox{\Hypertarget{_sd_fat_8h_a3991b0f70199d1a17dbb837bb041e89c}\label{_sd_fat_8h_a3991b0f70199d1a17dbb837bb041e89c}} 
+\index{SdFat.h@{SdFat.h}!SdBaseFile@{SdBaseFile}}
+\index{SdBaseFile@{SdBaseFile}!SdFat.h@{SdFat.h}}
+\doxysubsubsection{\texorpdfstring{SdBaseFile}{SdBaseFile}}
+{\footnotesize\ttfamily typedef Fat\+File \mbox{\hyperlink{_sd_fat_8h_a3991b0f70199d1a17dbb837bb041e89c}{Sd\+Base\+File}}}
+
+Select type for Sd\+Base\+File. \mbox{\Hypertarget{_sd_fat_8h_a6e295d38f798fdc044c3282818cdb064}\label{_sd_fat_8h_a6e295d38f798fdc044c3282818cdb064}} 
+\index{SdFat.h@{SdFat.h}!SdFat@{SdFat}}
+\index{SdFat@{SdFat}!SdFat.h@{SdFat.h}}
+\doxysubsubsection{\texorpdfstring{SdFat}{SdFat}}
+{\footnotesize\ttfamily typedef \mbox{\hyperlink{class_sd_fat32}{Sd\+Fat32}} \mbox{\hyperlink{_sd_fat_8h_a6e295d38f798fdc044c3282818cdb064}{Sd\+Fat}}}
+
+Select type for Sd\+Fat. 

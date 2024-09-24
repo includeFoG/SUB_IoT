@@ -1,0 +1,287 @@
+\hypertarget{_sd_fat_8h_source}{}\doxysection{Sd\+Fat.\+h}
+\mbox{\hyperlink{_sd_fat_8h}{Ir a la documentación de este archivo.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 }
+\DoxyCodeLine{25 \textcolor{preprocessor}{\#ifndef SdFat\_h}}
+\DoxyCodeLine{26 \textcolor{preprocessor}{\#define SdFat\_h}}
+\DoxyCodeLine{31 \textcolor{preprocessor}{\#include "{}common/SysCall.h"{}}}
+\DoxyCodeLine{32 \textcolor{preprocessor}{\#include "{}SdCard/SdCard.h"{}}}
+\DoxyCodeLine{33 \textcolor{preprocessor}{\#include "{}ExFatLib/ExFatLib.h"{}}}
+\DoxyCodeLine{34 \textcolor{preprocessor}{\#include "{}FatLib/FatLib.h"{}}}
+\DoxyCodeLine{35 \textcolor{preprocessor}{\#include "{}FsLib/FsLib.h"{}}}
+\DoxyCodeLine{36 \textcolor{preprocessor}{\#if INCLUDE\_SDIOS}}
+\DoxyCodeLine{37 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{sdios_8h}{sdios.h}}"{}}}
+\DoxyCodeLine{38 \textcolor{preprocessor}{\#endif  }\textcolor{comment}{// INCLUDE\_SDIOS}}
+\DoxyCodeLine{39 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{41 \textcolor{comment}{}\textcolor{preprocessor}{\#define SD\_FAT\_VERSION 20100}}
+\DoxyCodeLine{43 \textcolor{preprocessor}{\#define SD\_FAT\_VERSION\_STR "{}2.1.0"{}}}
+\DoxyCodeLine{44 \textcolor{comment}{//==============================================================================}}
+\DoxyCodeLine{49 \textcolor{comment}{}\textcolor{keyword}{template} <\textcolor{keyword}{class} Vol>}
+\DoxyCodeLine{50 \textcolor{keyword}{class }\mbox{\hyperlink{class_sd_base}{SdBase}} : \textcolor{keyword}{public} Vol \{}
+\DoxyCodeLine{51  \textcolor{keyword}{public}:}
+\DoxyCodeLine{52   \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{58 \textcolor{comment}{}  \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_sd_base_abff5f318cfe072b80119f1938cd591bb}{begin}}(\mbox{\hyperlink{_sd_fat_config_8h_a7a489fb14a59adf251794342604fc5ea}{SdCsPin\_t}} csPin = SS) \{}
+\DoxyCodeLine{59 \textcolor{preprocessor}{\#ifdef BUILTIN\_SDCARD}}
+\DoxyCodeLine{60     \textcolor{keywordflow}{if} (csPin == BUILTIN\_SDCARD) \{}
+\DoxyCodeLine{61       \textcolor{keywordflow}{return} \mbox{\hyperlink{class_sd_base_abff5f318cfe072b80119f1938cd591bb}{begin}}(SdioConfig(FIFO\_SDIO));}
+\DoxyCodeLine{62     \}}
+\DoxyCodeLine{63 \textcolor{preprocessor}{\#endif  }\textcolor{comment}{// BUILTIN\_SDCARD}}
+\DoxyCodeLine{64     \textcolor{keywordflow}{return} \mbox{\hyperlink{class_sd_base_abff5f318cfe072b80119f1938cd591bb}{begin}}(SdSpiConfig(csPin, SHARED\_SPI));}
+\DoxyCodeLine{65   \}}
+\DoxyCodeLine{66   \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{73 \textcolor{comment}{}  \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_sd_base_a94081827e77063eacf6fa035143cfde1}{begin}}(\mbox{\hyperlink{_sd_fat_config_8h_a7a489fb14a59adf251794342604fc5ea}{SdCsPin\_t}} csPin, uint32\_t maxSck) \{}
+\DoxyCodeLine{74     \textcolor{keywordflow}{return} \mbox{\hyperlink{class_sd_base_abff5f318cfe072b80119f1938cd591bb}{begin}}(SdSpiConfig(csPin, SHARED\_SPI, maxSck));}
+\DoxyCodeLine{75   \}}
+\DoxyCodeLine{76   \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{82 \textcolor{comment}{}  \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_sd_base_a5748f43d73a4272ec8dc302fb0213556}{begin}}(SdSpiConfig spiConfig) \{}
+\DoxyCodeLine{83     \textcolor{keywordflow}{return} \mbox{\hyperlink{class_sd_base_a7a5e3b08f6cdd94cfaa19a1b43df6ed9}{cardBegin}}(spiConfig) \&\& Vol::begin(m\_card);}
+\DoxyCodeLine{84   \}}
+\DoxyCodeLine{85   \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{91 \textcolor{comment}{}  \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_sd_base_ab6343925e4605897d4a1c39be6705760}{begin}}(SdioConfig sdioConfig) \{}
+\DoxyCodeLine{92     \textcolor{keywordflow}{return} \mbox{\hyperlink{class_sd_base_a7a5e3b08f6cdd94cfaa19a1b43df6ed9}{cardBegin}}(sdioConfig) \&\& Vol::begin(m\_card);}
+\DoxyCodeLine{93   \}}
+\DoxyCodeLine{94   \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{96 \textcolor{comment}{}  SdCard* \mbox{\hyperlink{class_sd_base_ac54cd93a01fc44d2916dde21a57b2a2a}{card}}() \{\textcolor{keywordflow}{return} m\_card;\}}
+\DoxyCodeLine{97   \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{103 \textcolor{comment}{}  \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_sd_base_a7a5e3b08f6cdd94cfaa19a1b43df6ed9}{cardBegin}}(SdSpiConfig spiConfig) \{}
+\DoxyCodeLine{104     m\_card = m\_cardFactory.newCard(spiConfig);}
+\DoxyCodeLine{105     \textcolor{keywordflow}{return} m\_card \&\& !m\_card-\/>errorCode();}
+\DoxyCodeLine{106   \}}
+\DoxyCodeLine{107   \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{113 \textcolor{comment}{}  \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_sd_base_a64cd10a3ce5ee342d0fd31738f385362}{cardBegin}}(SdioConfig sdioConfig) \{}
+\DoxyCodeLine{114     m\_card = m\_cardFactory.newCard(sdioConfig);}
+\DoxyCodeLine{115     \textcolor{keywordflow}{return} m\_card \&\& !m\_card-\/>errorCode();}
+\DoxyCodeLine{116   \}}
+\DoxyCodeLine{117   \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{122 \textcolor{comment}{}  \textcolor{keywordtype}{void} \mbox{\hyperlink{class_sd_base_ac9d239810a48c90bd0f3a3e9c4c606a9}{errorHalt}}(print\_t* pr) \{}
+\DoxyCodeLine{123     \textcolor{keywordflow}{if} (\mbox{\hyperlink{class_sd_base_af2bb8fea732f9272a2e98772fbcc4595}{sdErrorCode}}()) \{}
+\DoxyCodeLine{124       pr-\/>print(F(\textcolor{stringliteral}{"{}SdError: 0X"{}}));}
+\DoxyCodeLine{125       pr-\/>print(\mbox{\hyperlink{class_sd_base_af2bb8fea732f9272a2e98772fbcc4595}{sdErrorCode}}(), HEX);}
+\DoxyCodeLine{126       pr-\/>print(F(\textcolor{stringliteral}{"{},0X"{}}));}
+\DoxyCodeLine{127       pr-\/>println(\mbox{\hyperlink{class_sd_base_a5f8f363b6c23f1d8bfeb858c946f1994}{sdErrorData}}(), HEX);}
+\DoxyCodeLine{128     \} \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (!Vol::fatType()) \{}
+\DoxyCodeLine{129       pr-\/>println(F(\textcolor{stringliteral}{"{}Check SD format."{}}));}
+\DoxyCodeLine{130     \}}
+\DoxyCodeLine{131     SysCall::halt();}
+\DoxyCodeLine{132   \}}
+\DoxyCodeLine{133   \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{139 \textcolor{comment}{}  \textcolor{keywordtype}{void} \mbox{\hyperlink{class_sd_base_a1691b7a85fc11851a6942de035d73772}{errorHalt}}(print\_t* pr, \textcolor{keyword}{const} \textcolor{keywordtype}{char}* msg) \{}
+\DoxyCodeLine{140     pr-\/>print(F(\textcolor{stringliteral}{"{}error: "{}}));}
+\DoxyCodeLine{141     pr-\/>println(msg);}
+\DoxyCodeLine{142     \mbox{\hyperlink{class_sd_base_a841a42d2ddc34c21dfb208b9a377c777}{errorHalt}}(pr);}
+\DoxyCodeLine{143   \}}
+\DoxyCodeLine{144   \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{150 \textcolor{comment}{}  \textcolor{keywordtype}{void} \mbox{\hyperlink{class_sd_base_ac530fe041855d994a53d2e1b9c33f22d}{errorHalt}}(print\_t* pr, \textcolor{keyword}{const} \_\_FlashStringHelper* msg) \{}
+\DoxyCodeLine{151     pr-\/>print(F(\textcolor{stringliteral}{"{}error: "{}}));}
+\DoxyCodeLine{152     pr-\/>println(msg);}
+\DoxyCodeLine{153     \mbox{\hyperlink{class_sd_base_a841a42d2ddc34c21dfb208b9a377c777}{errorHalt}}(pr);}
+\DoxyCodeLine{154   \}}
+\DoxyCodeLine{155   \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{160 \textcolor{comment}{}  \textcolor{keywordtype}{void} \mbox{\hyperlink{class_sd_base_acb8180faf22cf72d97ec81330a700b05}{initErrorHalt}}(print\_t* pr) \{}
+\DoxyCodeLine{161     \mbox{\hyperlink{class_sd_base_abe8d75ba435b4decd6b2079b4272d0e5}{initErrorPrint}}(pr);}
+\DoxyCodeLine{162     SysCall::halt();}
+\DoxyCodeLine{163   \}}
+\DoxyCodeLine{164   \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{170 \textcolor{comment}{}  \textcolor{keywordtype}{void} \mbox{\hyperlink{class_sd_base_aef6fd47c67b9b8498c1398e58422f169}{initErrorHalt}}(print\_t* pr, \textcolor{keyword}{const} \textcolor{keywordtype}{char}* msg) \{}
+\DoxyCodeLine{171     pr-\/>println(msg);}
+\DoxyCodeLine{172     \mbox{\hyperlink{class_sd_base_a5901169e4d6ae992b348df518da68a76}{initErrorHalt}}(pr);}
+\DoxyCodeLine{173   \}}
+\DoxyCodeLine{174   \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{180 \textcolor{comment}{}  \textcolor{keywordtype}{void} \mbox{\hyperlink{class_sd_base_a8a249b866a4b24ac0a0753f966aab299}{initErrorHalt}}(Print* pr, \textcolor{keyword}{const} \_\_FlashStringHelper* msg) \{}
+\DoxyCodeLine{181     pr-\/>println(msg);}
+\DoxyCodeLine{182     \mbox{\hyperlink{class_sd_base_a5901169e4d6ae992b348df518da68a76}{initErrorHalt}}(pr);}
+\DoxyCodeLine{183   \}}
+\DoxyCodeLine{184   \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{189 \textcolor{comment}{}  \textcolor{keywordtype}{void} \mbox{\hyperlink{class_sd_base_a918474d623107f64b7ab9ca88d6fe46f}{initErrorPrint}}(Print* pr) \{}
+\DoxyCodeLine{190     pr-\/>println(F(\textcolor{stringliteral}{"{}begin() failed"{}}));}
+\DoxyCodeLine{191     \textcolor{keywordflow}{if} (\mbox{\hyperlink{class_sd_base_af2bb8fea732f9272a2e98772fbcc4595}{sdErrorCode}}()) \{}
+\DoxyCodeLine{192       pr-\/>println(F(\textcolor{stringliteral}{"{}Do not reformat the SD."{}}));}
+\DoxyCodeLine{193       \textcolor{keywordflow}{if} (\mbox{\hyperlink{class_sd_base_af2bb8fea732f9272a2e98772fbcc4595}{sdErrorCode}}() == SD\_CARD\_ERROR\_CMD0) \{}
+\DoxyCodeLine{194         pr-\/>println(F(\textcolor{stringliteral}{"{}No card, wrong chip select pin, or wiring error?"{}}));}
+\DoxyCodeLine{195       \}}
+\DoxyCodeLine{196     \}}
+\DoxyCodeLine{197     \mbox{\hyperlink{class_sd_base_a22d184b3266ae7cb31ab47b7203e91ac}{errorPrint}}(pr);}
+\DoxyCodeLine{198   \}}
+\DoxyCodeLine{199   \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{204 \textcolor{comment}{}  \textcolor{keywordtype}{void} \mbox{\hyperlink{class_sd_base_a234e80318c39229fe968a182b172148c}{printFatType}}(print\_t* pr) \{}
+\DoxyCodeLine{205     \textcolor{keywordflow}{if} (Vol::fatType() == FAT\_TYPE\_EXFAT) \{}
+\DoxyCodeLine{206       pr-\/>print(F(\textcolor{stringliteral}{"{}exFAT"{}}));}
+\DoxyCodeLine{207     \} \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{208       pr-\/>print(F(\textcolor{stringliteral}{"{}FAT"{}}));}
+\DoxyCodeLine{209       pr-\/>print(Vol::fatType());}
+\DoxyCodeLine{210     \}}
+\DoxyCodeLine{211   \}}
+\DoxyCodeLine{212   \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{217 \textcolor{comment}{}  \textcolor{keywordtype}{void} \mbox{\hyperlink{class_sd_base_a22d184b3266ae7cb31ab47b7203e91ac}{errorPrint}}(print\_t* pr) \{}
+\DoxyCodeLine{218     \textcolor{keywordflow}{if} (\mbox{\hyperlink{class_sd_base_af2bb8fea732f9272a2e98772fbcc4595}{sdErrorCode}}()) \{}
+\DoxyCodeLine{219       pr-\/>print(F(\textcolor{stringliteral}{"{}SdError: 0X"{}}));}
+\DoxyCodeLine{220       pr-\/>print(\mbox{\hyperlink{class_sd_base_af2bb8fea732f9272a2e98772fbcc4595}{sdErrorCode}}(), HEX);}
+\DoxyCodeLine{221       pr-\/>print(F(\textcolor{stringliteral}{"{},0X"{}}));}
+\DoxyCodeLine{222       pr-\/>println(\mbox{\hyperlink{class_sd_base_a5f8f363b6c23f1d8bfeb858c946f1994}{sdErrorData}}(), HEX);}
+\DoxyCodeLine{223     \} \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (!Vol::fatType()) \{}
+\DoxyCodeLine{224       pr-\/>println(F(\textcolor{stringliteral}{"{}Check SD format."{}}));}
+\DoxyCodeLine{225     \}}
+\DoxyCodeLine{226   \}}
+\DoxyCodeLine{227   \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{233 \textcolor{comment}{}  \textcolor{keywordtype}{void} \mbox{\hyperlink{class_sd_base_a7d119e8ae896cc4caa073e9f54823f3e}{errorPrint}}(print\_t* pr, \textcolor{keywordtype}{char} \textcolor{keyword}{const}* msg) \{}
+\DoxyCodeLine{234     pr-\/>print(F(\textcolor{stringliteral}{"{}error: "{}}));}
+\DoxyCodeLine{235     pr-\/>println(msg);}
+\DoxyCodeLine{236     \mbox{\hyperlink{class_sd_base_a22d184b3266ae7cb31ab47b7203e91ac}{errorPrint}}(pr);}
+\DoxyCodeLine{237   \}}
+\DoxyCodeLine{238 }
+\DoxyCodeLine{244   \textcolor{keywordtype}{void} \mbox{\hyperlink{class_sd_base_a6793653198ce4c570ae92d2f9436dca9}{errorPrint}}(Print* pr, \textcolor{keyword}{const} \_\_FlashStringHelper* msg) \{}
+\DoxyCodeLine{245     pr-\/>print(F(\textcolor{stringliteral}{"{}error: "{}}));}
+\DoxyCodeLine{246     pr-\/>println(msg);}
+\DoxyCodeLine{247     \mbox{\hyperlink{class_sd_base_a22d184b3266ae7cb31ab47b7203e91ac}{errorPrint}}(pr);}
+\DoxyCodeLine{248   \}}
+\DoxyCodeLine{249   \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{254 \textcolor{comment}{}  \textcolor{keywordtype}{void} \mbox{\hyperlink{class_sd_base_a6a8ba118e754b2b9fa0f34410163e228}{printSdError}}(print\_t* pr) \{}
+\DoxyCodeLine{255     \textcolor{keywordflow}{if} (\mbox{\hyperlink{class_sd_base_af2bb8fea732f9272a2e98772fbcc4595}{sdErrorCode}}()) \{}
+\DoxyCodeLine{256       \textcolor{keywordflow}{if} (\mbox{\hyperlink{class_sd_base_af2bb8fea732f9272a2e98772fbcc4595}{sdErrorCode}}() == SD\_CARD\_ERROR\_CMD0) \{}
+\DoxyCodeLine{257         pr-\/>println(F(\textcolor{stringliteral}{"{}No card, wrong chip select pin, or wiring error?"{}}));}
+\DoxyCodeLine{258       \}}
+\DoxyCodeLine{259       pr-\/>print(F(\textcolor{stringliteral}{"{}SD error: "{}}));}
+\DoxyCodeLine{260       printSdErrorSymbol(pr, \mbox{\hyperlink{class_sd_base_af2bb8fea732f9272a2e98772fbcc4595}{sdErrorCode}}());}
+\DoxyCodeLine{261       pr-\/>print(F(\textcolor{stringliteral}{"{} = 0x"{}}));}
+\DoxyCodeLine{262       pr-\/>print(\mbox{\hyperlink{class_sd_base_af2bb8fea732f9272a2e98772fbcc4595}{sdErrorCode}}(), HEX);}
+\DoxyCodeLine{263       pr-\/>print(F(\textcolor{stringliteral}{"{},0x"{}}));}
+\DoxyCodeLine{264       pr-\/>println(\mbox{\hyperlink{class_sd_base_a5f8f363b6c23f1d8bfeb858c946f1994}{sdErrorData}}(), HEX);}
+\DoxyCodeLine{265     \} \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (!Vol::fatType()) \{}
+\DoxyCodeLine{266       pr-\/>println(F(\textcolor{stringliteral}{"{}Check SD format."{}}));}
+\DoxyCodeLine{267     \}}
+\DoxyCodeLine{268   \}}
+\DoxyCodeLine{269   \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{271 \textcolor{comment}{}  uint8\_t \mbox{\hyperlink{class_sd_base_af2bb8fea732f9272a2e98772fbcc4595}{sdErrorCode}}() \{}
+\DoxyCodeLine{272     \textcolor{keywordflow}{if} (m\_card) \{}
+\DoxyCodeLine{273       \textcolor{keywordflow}{return} m\_card-\/>errorCode();}
+\DoxyCodeLine{274     \}}
+\DoxyCodeLine{275     \textcolor{keywordflow}{return} SD\_CARD\_ERROR\_INVALID\_CARD\_CONFIG;}
+\DoxyCodeLine{276   \}}
+\DoxyCodeLine{277   \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{279 \textcolor{comment}{}  uint8\_t \mbox{\hyperlink{class_sd_base_a5f8f363b6c23f1d8bfeb858c946f1994}{sdErrorData}}() \{\textcolor{keywordflow}{return} m\_card ? m\_card-\/>errorData() : 0;\}}
+\DoxyCodeLine{280   \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{282 \textcolor{comment}{}  Vol* \mbox{\hyperlink{class_sd_base_ac527c2821cb72c5373c743c8440b83b6}{vol}}() \{\textcolor{keywordflow}{return} \textcolor{keyword}{reinterpret\_cast<}Vol*\textcolor{keyword}{>}(\textcolor{keyword}{this});\}}
+\DoxyCodeLine{283   \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{288 \textcolor{comment}{}  \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_sd_base_a1f1de2aac5384475b67506f86199e4c8}{volumeBegin}}() \{}
+\DoxyCodeLine{289      \textcolor{keywordflow}{return} Vol::begin(m\_card);}
+\DoxyCodeLine{290   \}}
+\DoxyCodeLine{291 \textcolor{preprocessor}{\#if ENABLE\_ARDUINO\_SERIAL}}
+\DoxyCodeLine{293   \textcolor{keywordtype}{void} \mbox{\hyperlink{class_sd_base_abe8d75ba435b4decd6b2079b4272d0e5}{initErrorPrint}}() \{}
+\DoxyCodeLine{294     \mbox{\hyperlink{class_sd_base_abe8d75ba435b4decd6b2079b4272d0e5}{initErrorPrint}}(\&Serial);}
+\DoxyCodeLine{295   \}}
+\DoxyCodeLine{296   \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{301 \textcolor{comment}{}  \textcolor{keywordtype}{void} \mbox{\hyperlink{class_sd_base_a3a0d626662aa29c5b942442d0f6ee0ff}{errorHalt}}(\textcolor{keyword}{const} \_\_FlashStringHelper* msg) \{}
+\DoxyCodeLine{302     \mbox{\hyperlink{class_sd_base_a841a42d2ddc34c21dfb208b9a377c777}{errorHalt}}(\&Serial, msg);}
+\DoxyCodeLine{303   \}}
+\DoxyCodeLine{304   \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{306 \textcolor{comment}{}  \textcolor{keywordtype}{void} \mbox{\hyperlink{class_sd_base_a841a42d2ddc34c21dfb208b9a377c777}{errorHalt}}() \{\mbox{\hyperlink{class_sd_base_a841a42d2ddc34c21dfb208b9a377c777}{errorHalt}}(\&Serial);\}}
+\DoxyCodeLine{307   \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{312 \textcolor{comment}{}  \textcolor{keywordtype}{void} \mbox{\hyperlink{class_sd_base_a65aab6f19ed26777c2b3a149bbed39b5}{errorHalt}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* msg) \{\mbox{\hyperlink{class_sd_base_a65aab6f19ed26777c2b3a149bbed39b5}{errorHalt}}(\&Serial, msg);\}}
+\DoxyCodeLine{313   \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{315 \textcolor{comment}{}  \textcolor{keywordtype}{void} \mbox{\hyperlink{class_sd_base_a5901169e4d6ae992b348df518da68a76}{initErrorHalt}}() \{\mbox{\hyperlink{class_sd_base_a5901169e4d6ae992b348df518da68a76}{initErrorHalt}}(\&Serial);\}}
+\DoxyCodeLine{316   \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{321 \textcolor{comment}{}  \textcolor{keywordtype}{void} \mbox{\hyperlink{class_sd_base_ab4d5db510feb64a9cd487defe5bb62d9}{errorPrint}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* msg) \{\mbox{\hyperlink{class_sd_base_ab4d5db510feb64a9cd487defe5bb62d9}{errorPrint}}(\&Serial, msg);\}}
+\DoxyCodeLine{326   \textcolor{keywordtype}{void} \mbox{\hyperlink{class_sd_base_afebeeb8af2027f1c9a0b4f1106be9c2a}{errorPrint}}(\textcolor{keyword}{const} \_\_FlashStringHelper* msg) \{\mbox{\hyperlink{class_sd_base_afebeeb8af2027f1c9a0b4f1106be9c2a}{errorPrint}}(\&Serial, msg);\}}
+\DoxyCodeLine{327   \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{332 \textcolor{comment}{}  \textcolor{keywordtype}{void} \mbox{\hyperlink{class_sd_base_a9b6c279ebcd8fa95d6b409d099986931}{initErrorHalt}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* msg) \{\mbox{\hyperlink{class_sd_base_a9b6c279ebcd8fa95d6b409d099986931}{initErrorHalt}}(\&Serial, msg);\}}
+\DoxyCodeLine{333   \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{338 \textcolor{comment}{}  \textcolor{keywordtype}{void} \mbox{\hyperlink{class_sd_base_a557ac64877bdd851cd27bf0a00f380c2}{initErrorHalt}}(\textcolor{keyword}{const} \_\_FlashStringHelper* msg) \{}
+\DoxyCodeLine{339     \mbox{\hyperlink{class_sd_base_a5901169e4d6ae992b348df518da68a76}{initErrorHalt}}(\&Serial, msg);}
+\DoxyCodeLine{340   \}}
+\DoxyCodeLine{341 \textcolor{preprocessor}{\#endif  }\textcolor{comment}{// ENABLE\_ARDUINO\_SERIAL}}
+\DoxyCodeLine{342   \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{343  \textcolor{keyword}{private}:}
+\DoxyCodeLine{344   SdCard* m\_card;}
+\DoxyCodeLine{345   SdCardFactory m\_cardFactory;}
+\DoxyCodeLine{346 \};}
+\DoxyCodeLine{347 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{352 \textcolor{comment}{}\textcolor{keyword}{class }\mbox{\hyperlink{class_sd_fat32}{SdFat32}} : \textcolor{keyword}{public} \mbox{\hyperlink{class_sd_base}{SdBase}}<FatVolume> \{}
+\DoxyCodeLine{353  \textcolor{keyword}{public}:}
+\DoxyCodeLine{359   \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_sd_fat32_a72078745c89047a6349b5f120654cf9a}{format}}(print\_t* pr = \textcolor{keyword}{nullptr}) \{}
+\DoxyCodeLine{360     FatFormatter fmt;}
+\DoxyCodeLine{361     uint8\_t* cache = cacheClear();}
+\DoxyCodeLine{362     \textcolor{keywordflow}{if} (!cache) \{}
+\DoxyCodeLine{363       \textcolor{keywordflow}{return} \textcolor{keyword}{false};}
+\DoxyCodeLine{364     \}}
+\DoxyCodeLine{365     \textcolor{keywordflow}{return} fmt.format(\mbox{\hyperlink{class_sd_base_ac54cd93a01fc44d2916dde21a57b2a2a}{card}}(), cache, pr);}
+\DoxyCodeLine{366   \}}
+\DoxyCodeLine{367 \};}
+\DoxyCodeLine{368 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{373 \textcolor{comment}{}\textcolor{keyword}{class }\mbox{\hyperlink{class_sd_ex_fat}{SdExFat}} : \textcolor{keyword}{public} \mbox{\hyperlink{class_sd_base}{SdBase}}<ExFatVolume> \{}
+\DoxyCodeLine{374  \textcolor{keyword}{public}:}
+\DoxyCodeLine{380   \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_sd_ex_fat_ad97b4029db8352c9e98d498988f89296}{format}}(print\_t* pr = \textcolor{keyword}{nullptr}) \{}
+\DoxyCodeLine{381     ExFatFormatter fmt;}
+\DoxyCodeLine{382     uint8\_t* cache = cacheClear();}
+\DoxyCodeLine{383     \textcolor{keywordflow}{if} (!cache) \{}
+\DoxyCodeLine{384       \textcolor{keywordflow}{return} \textcolor{keyword}{false};}
+\DoxyCodeLine{385     \}}
+\DoxyCodeLine{386     \textcolor{keywordflow}{return} fmt.format(\mbox{\hyperlink{class_sd_base_ac54cd93a01fc44d2916dde21a57b2a2a}{card}}(), cache, pr);}
+\DoxyCodeLine{387   \}}
+\DoxyCodeLine{388 \};}
+\DoxyCodeLine{389 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{394 \textcolor{comment}{}\textcolor{keyword}{class }\mbox{\hyperlink{class_sd_fs}{SdFs}} : \textcolor{keyword}{public} \mbox{\hyperlink{class_sd_base}{SdBase}}<FsVolume> \{}
+\DoxyCodeLine{395  \textcolor{keyword}{public}:}
+\DoxyCodeLine{401   \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_sd_fs_a51c936b9da312eb1e1b54cb4e73d35f6}{format}}(print\_t* pr = \textcolor{keyword}{nullptr}) \{}
+\DoxyCodeLine{402     \textcolor{keyword}{static\_assert}(\textcolor{keyword}{sizeof}(m\_volMem) >= 512, \textcolor{stringliteral}{"{}m\_volMem too small"{}});}
+\DoxyCodeLine{403     uint32\_t sectorCount = \mbox{\hyperlink{class_sd_base_ac54cd93a01fc44d2916dde21a57b2a2a}{card}}()-\/>sectorCount();}
+\DoxyCodeLine{404     \textcolor{keywordflow}{if} (sectorCount == 0) \{}
+\DoxyCodeLine{405       \textcolor{keywordflow}{return} \textcolor{keyword}{false};}
+\DoxyCodeLine{406     \}}
+\DoxyCodeLine{407     end();}
+\DoxyCodeLine{408     \textcolor{keywordflow}{if} (sectorCount > 67108864) \{}
+\DoxyCodeLine{409       ExFatFormatter fmt;}
+\DoxyCodeLine{410       \textcolor{keywordflow}{return} fmt.format(\mbox{\hyperlink{class_sd_base_ac54cd93a01fc44d2916dde21a57b2a2a}{card}}(), \textcolor{keyword}{reinterpret\_cast<}uint8\_t*\textcolor{keyword}{>}(m\_volMem), pr);}
+\DoxyCodeLine{411     \} \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{412       FatFormatter fmt;}
+\DoxyCodeLine{413       \textcolor{keywordflow}{return} fmt.format(\mbox{\hyperlink{class_sd_base_ac54cd93a01fc44d2916dde21a57b2a2a}{card}}(), \textcolor{keyword}{reinterpret\_cast<}uint8\_t*\textcolor{keyword}{>}(m\_volMem), pr);}
+\DoxyCodeLine{414     \}}
+\DoxyCodeLine{415   \}}
+\DoxyCodeLine{416 \};}
+\DoxyCodeLine{417 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{418 \textcolor{preprocessor}{\#if SDFAT\_FILE\_TYPE == 1}}
+\DoxyCodeLine{420 \textcolor{keyword}{typedef} \mbox{\hyperlink{class_sd_fat32}{SdFat32}} \mbox{\hyperlink{_sd_fat_8h_a6e295d38f798fdc044c3282818cdb064}{SdFat}};}
+\DoxyCodeLine{422 \textcolor{keyword}{typedef} FatFile \mbox{\hyperlink{_sd_fat_8h_a3991b0f70199d1a17dbb837bb041e89c}{SdBaseFile}};}
+\DoxyCodeLine{423 \textcolor{preprocessor}{\#elif SDFAT\_FILE\_TYPE == 2}}
+\DoxyCodeLine{424 \textcolor{keyword}{typedef} \mbox{\hyperlink{class_sd_ex_fat}{SdExFat}} \mbox{\hyperlink{_sd_fat_8h_a6e295d38f798fdc044c3282818cdb064}{SdFat}};}
+\DoxyCodeLine{425 \textcolor{keyword}{typedef} ExFatFile \mbox{\hyperlink{_sd_fat_8h_a3991b0f70199d1a17dbb837bb041e89c}{SdBaseFile}};}
+\DoxyCodeLine{426 \textcolor{preprocessor}{\#elif SDFAT\_FILE\_TYPE == 3}}
+\DoxyCodeLine{427 \textcolor{keyword}{typedef} \mbox{\hyperlink{class_sd_fs}{SdFs}} \mbox{\hyperlink{_sd_fat_8h_a6e295d38f798fdc044c3282818cdb064}{SdFat}};}
+\DoxyCodeLine{428 \textcolor{keyword}{typedef} FsBaseFile \mbox{\hyperlink{_sd_fat_8h_a3991b0f70199d1a17dbb837bb041e89c}{SdBaseFile}};}
+\DoxyCodeLine{429 \textcolor{preprocessor}{\#else  }\textcolor{comment}{// SDFAT\_FILE\_TYPE}}
+\DoxyCodeLine{430 \textcolor{preprocessor}{\#error Invalid SDFAT\_FILE\_TYPE}}
+\DoxyCodeLine{431 \textcolor{preprocessor}{\#endif  }\textcolor{comment}{// SDFAT\_FILE\_TYPE}}
+\DoxyCodeLine{432 \textcolor{comment}{//}}
+\DoxyCodeLine{433 \textcolor{comment}{// Only define File if FS.h is not included.}}
+\DoxyCodeLine{434 \textcolor{comment}{// Line with test for \_\_has\_include must not have operators or parentheses.}}
+\DoxyCodeLine{435 \textcolor{preprocessor}{\#if defined \_\_has\_include}}
+\DoxyCodeLine{436 \textcolor{preprocessor}{\#if \_\_has\_include(<FS.h>)}}
+\DoxyCodeLine{437 \textcolor{preprocessor}{\#define HAS\_INCLUDE\_FS\_H}}
+\DoxyCodeLine{438 \textcolor{preprocessor}{\#warning File not defined because \_\_has\_\_include(FS.h)}}
+\DoxyCodeLine{439 \textcolor{preprocessor}{\#endif  }\textcolor{comment}{// \_\_has\_include(<FS.h>)}}
+\DoxyCodeLine{440 \textcolor{preprocessor}{\#endif  }\textcolor{comment}{// defined \_\_has\_include}}
+\DoxyCodeLine{441 \textcolor{preprocessor}{\#ifndef HAS\_INCLUDE\_FS\_H}}
+\DoxyCodeLine{442 \textcolor{preprocessor}{\#if SDFAT\_FILE\_TYPE == 1}}
+\DoxyCodeLine{444 \textcolor{keyword}{typedef} File32 \mbox{\hyperlink{_sd_fat_8h_aa0ffd23c3e43af0bcbd2fb4d62f3286d}{File}};}
+\DoxyCodeLine{445 \textcolor{preprocessor}{\#elif SDFAT\_FILE\_TYPE == 2}}
+\DoxyCodeLine{446 \textcolor{keyword}{typedef} ExFile \mbox{\hyperlink{_sd_fat_8h_aa0ffd23c3e43af0bcbd2fb4d62f3286d}{File}};}
+\DoxyCodeLine{447 \textcolor{preprocessor}{\#elif SDFAT\_FILE\_TYPE == 3}}
+\DoxyCodeLine{448 \textcolor{keyword}{typedef} FsFile \mbox{\hyperlink{_sd_fat_8h_aa0ffd23c3e43af0bcbd2fb4d62f3286d}{File}};}
+\DoxyCodeLine{449 \textcolor{preprocessor}{\#endif  }\textcolor{comment}{// SDFAT\_FILE\_TYPE}}
+\DoxyCodeLine{450 \textcolor{preprocessor}{\#endif  }\textcolor{comment}{// HAS\_INCLUDE\_FS\_H}}
+\DoxyCodeLine{455 \textcolor{comment}{}class SdFile : public PrintFile<SdBaseFile> \{}
+\DoxyCodeLine{456  \textcolor{keyword}{public}:}
+\DoxyCodeLine{457   \mbox{\hyperlink{class_sd_file_afe0d4370c9edf39cf04a29362704ba5a}{SdFile}}() \{\}}
+\DoxyCodeLine{462   \mbox{\hyperlink{class_sd_file_ad05be3a1fb635448d15a154424b6c33f}{SdFile}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* path, oflag\_t oflag) \{}
+\DoxyCodeLine{463     open(path, oflag);}
+\DoxyCodeLine{464   \}}
+\DoxyCodeLine{491   \textcolor{keyword}{static} \textcolor{keywordtype}{void} \mbox{\hyperlink{class_sd_file_a2d78e6a8cedbf8ce545af68457b43bf1}{dateTimeCallback}}(}
+\DoxyCodeLine{492     \textcolor{keywordtype}{void} (*dateTime)(uint16\_t* date, uint16\_t* time)) \{}
+\DoxyCodeLine{493     FsDateTime::setCallback(dateTime);}
+\DoxyCodeLine{494   \}}
+\DoxyCodeLine{496   \textcolor{keyword}{static} \textcolor{keywordtype}{void} \mbox{\hyperlink{class_sd_file_ad266770d0a779d1a528a3997aee5142d}{dateTimeCallbackCancel}}() \{}
+\DoxyCodeLine{497     FsDateTime::clearCallback();}
+\DoxyCodeLine{498   \}}
+\DoxyCodeLine{499 \};}
+\DoxyCodeLine{500 \textcolor{preprocessor}{\#endif  }\textcolor{comment}{// SdFat\_h}}
+
+\end{DoxyCode}

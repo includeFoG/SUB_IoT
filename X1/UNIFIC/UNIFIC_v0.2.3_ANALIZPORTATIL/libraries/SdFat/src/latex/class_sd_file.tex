@@ -1,0 +1,101 @@
+\hypertarget{class_sd_file}{}\doxysection{Referencia de la Clase Sd\+File}
+\label{class_sd_file}\index{SdFile@{SdFile}}
+
+
+FAT16/\+FAT32 file with Print.  
+
+
+
+
+{\ttfamily \#include $<$Sd\+Fat.\+h$>$}
+
+Diagrama de herencias de Sd\+File\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_sd_file}
+\end{center}
+\end{figure}
+\doxysubsection*{Métodos públicos}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_sd_file_afe0d4370c9edf39cf04a29362704ba5a}{Sd\+File}} ()
+\item 
+\mbox{\hyperlink{class_sd_file_ad05be3a1fb635448d15a154424b6c33f}{Sd\+File}} (const char $\ast$path, oflag\+\_\+t oflag)
+\end{DoxyCompactItemize}
+\doxysubsection*{Métodos públicos estáticos}
+\begin{DoxyCompactItemize}
+\item 
+static void \mbox{\hyperlink{class_sd_file_a2d78e6a8cedbf8ce545af68457b43bf1}{date\+Time\+Callback}} (void($\ast$date\+Time)(uint16\+\_\+t $\ast$date, uint16\+\_\+t $\ast$time))
+\item 
+static void \mbox{\hyperlink{class_sd_file_ad266770d0a779d1a528a3997aee5142d}{date\+Time\+Callback\+Cancel}} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Descripción detallada}
+FAT16/\+FAT32 file with Print. 
+
+\doxysubsection{Documentación del constructor y destructor}
+\mbox{\Hypertarget{class_sd_file_afe0d4370c9edf39cf04a29362704ba5a}\label{class_sd_file_afe0d4370c9edf39cf04a29362704ba5a}} 
+\index{SdFile@{SdFile}!SdFile@{SdFile}}
+\index{SdFile@{SdFile}!SdFile@{SdFile}}
+\doxysubsubsection{\texorpdfstring{SdFile()}{SdFile()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily Sd\+File\+::\+Sd\+File (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{class_sd_file_ad05be3a1fb635448d15a154424b6c33f}\label{class_sd_file_ad05be3a1fb635448d15a154424b6c33f}} 
+\index{SdFile@{SdFile}!SdFile@{SdFile}}
+\index{SdFile@{SdFile}!SdFile@{SdFile}}
+\doxysubsubsection{\texorpdfstring{SdFile()}{SdFile()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily Sd\+File\+::\+Sd\+File (\begin{DoxyParamCaption}\item[{const char $\ast$}]{path,  }\item[{oflag\+\_\+t}]{oflag }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Create an open \mbox{\hyperlink{class_sd_file}{Sd\+File}}. 
+\begin{DoxyParams}[1]{Parámetros}
+\mbox{\texttt{ in}}  & {\em path} & path for file. \\
+\hline
+\mbox{\texttt{ in}}  & {\em oflag} & open flags. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Documentación de las funciones miembro}
+\mbox{\Hypertarget{class_sd_file_a2d78e6a8cedbf8ce545af68457b43bf1}\label{class_sd_file_a2d78e6a8cedbf8ce545af68457b43bf1}} 
+\index{SdFile@{SdFile}!dateTimeCallback@{dateTimeCallback}}
+\index{dateTimeCallback@{dateTimeCallback}!SdFile@{SdFile}}
+\doxysubsubsection{\texorpdfstring{dateTimeCallback()}{dateTimeCallback()}}
+{\footnotesize\ttfamily static void Sd\+File\+::date\+Time\+Callback (\begin{DoxyParamCaption}\item[{void($\ast$)(uint16\+\_\+t $\ast$date, uint16\+\_\+t $\ast$time)}]{date\+Time }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+Set the date/time callback function
+
+
+\begin{DoxyParams}[1]{Parámetros}
+\mbox{\texttt{ in}}  & {\em date\+Time} & The user\textquotesingle{}s call back function. The callback function is of the form\+:\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keywordtype}{void} dateTime(uint16\_t* date, uint16\_t* time) \{}
+\DoxyCodeLine{  uint16\_t year;}
+\DoxyCodeLine{  uint8\_t month, day, hour, minute, second;}
+\DoxyCodeLine{}
+\DoxyCodeLine{  \textcolor{comment}{// User gets date and time from GPS or real-\/time clock here}}
+\DoxyCodeLine{}
+\DoxyCodeLine{  \textcolor{comment}{// return date using FS\_DATE macro to format fields}}
+\DoxyCodeLine{  *date = FS\_DATE(year, month, day);}
+\DoxyCodeLine{}
+\DoxyCodeLine{  \textcolor{comment}{// return time using FS\_TIME macro to format fields}}
+\DoxyCodeLine{  *time = FS\_TIME(hour, minute, second);}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+Sets the function that is called when a file is created or when a file\textquotesingle{}s directory entry is modified by sync(). All timestamps, access, creation, and modify, are set when a file is created. sync() maintains the last access date and last modify date/time. \mbox{\Hypertarget{class_sd_file_ad266770d0a779d1a528a3997aee5142d}\label{class_sd_file_ad266770d0a779d1a528a3997aee5142d}} 
+\index{SdFile@{SdFile}!dateTimeCallbackCancel@{dateTimeCallbackCancel}}
+\index{dateTimeCallbackCancel@{dateTimeCallbackCancel}!SdFile@{SdFile}}
+\doxysubsubsection{\texorpdfstring{dateTimeCallbackCancel()}{dateTimeCallbackCancel()}}
+{\footnotesize\ttfamily static void Sd\+File\+::date\+Time\+Callback\+Cancel (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+Cancel the date/time callback function. 
+
+La documentación para esta clase fue generada a partir del siguiente fichero\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{_sd_fat_8h}{Sd\+Fat.\+h}}\end{DoxyCompactItemize}

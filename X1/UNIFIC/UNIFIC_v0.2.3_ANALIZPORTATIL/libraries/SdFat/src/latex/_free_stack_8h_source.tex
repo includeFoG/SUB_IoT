@@ -1,0 +1,56 @@
+\hypertarget{_free_stack_8h_source}{}\doxysection{Free\+Stack.\+h}
+\mbox{\hyperlink{_free_stack_8h}{Ir a la documentación de este archivo.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 }
+\DoxyCodeLine{25 \textcolor{preprocessor}{\#ifndef FreeStack\_h}}
+\DoxyCodeLine{26 \textcolor{preprocessor}{\#define FreeStack\_h}}
+\DoxyCodeLine{31 \textcolor{preprocessor}{\#include <stdint.h>}}
+\DoxyCodeLine{32 \textcolor{preprocessor}{\#if defined(\_\_AVR\_\_) || defined(DOXYGEN)}}
+\DoxyCodeLine{33 \textcolor{preprocessor}{\#include <avr/io.h>}}
+\DoxyCodeLine{35 \textcolor{preprocessor}{\#define HAS\_UNUSED\_STACK 1}}
+\DoxyCodeLine{37 \textcolor{keyword}{extern} \textcolor{keywordtype}{char} *\_\_brkval;}
+\DoxyCodeLine{39 \textcolor{keyword}{extern} \textcolor{keywordtype}{char} \_\_bss\_end;}
+\DoxyCodeLine{43 \textcolor{keyword}{inline} \textcolor{keywordtype}{int} \mbox{\hyperlink{_free_stack_8h_a86da1fd0aa8dcc6a981803373bc8839d}{FreeStack}}() \{}
+\DoxyCodeLine{44   \textcolor{keywordtype}{char}* sp = \textcolor{keyword}{reinterpret\_cast<}\textcolor{keywordtype}{char}*\textcolor{keyword}{>}(SP);}
+\DoxyCodeLine{45   \textcolor{keywordflow}{return} \_\_brkval ? sp -\/ \_\_brkval : sp -\/ \&\_\_bss\_end;}
+\DoxyCodeLine{46 \}}
+\DoxyCodeLine{47 \textcolor{preprocessor}{\#elif defined(ARDUINO\_ARCH\_APOLLO3)}}
+\DoxyCodeLine{48 \textcolor{preprocessor}{\#define HAS\_UNUSED\_STACK 0}}
+\DoxyCodeLine{49 \textcolor{preprocessor}{\#elif defined(PLATFORM\_ID)  }\textcolor{comment}{// Particle board}}
+\DoxyCodeLine{50 \textcolor{preprocessor}{\#include "{}Arduino.h"{}}}
+\DoxyCodeLine{51 \textcolor{keyword}{inline} \textcolor{keywordtype}{int} \mbox{\hyperlink{_free_stack_8h_a86da1fd0aa8dcc6a981803373bc8839d}{FreeStack}}() \{}
+\DoxyCodeLine{52   \textcolor{keywordflow}{return} System.freeMemory();}
+\DoxyCodeLine{53 \}}
+\DoxyCodeLine{54 \textcolor{preprocessor}{\#elif defined(\_\_IMXRT1062\_\_)}}
+\DoxyCodeLine{55 \textcolor{preprocessor}{\#define HAS\_UNUSED\_STACK 1}}
+\DoxyCodeLine{56 \textcolor{keyword}{extern} uint8\_t \_ebss;}
+\DoxyCodeLine{57 \textcolor{keyword}{inline} \textcolor{keywordtype}{int} \mbox{\hyperlink{_free_stack_8h_a86da1fd0aa8dcc6a981803373bc8839d}{FreeStack}}() \{}
+\DoxyCodeLine{58   \textcolor{keyword}{register} uint32\_t sp \textcolor{keyword}{asm}(\textcolor{stringliteral}{"{}sp"{}});}
+\DoxyCodeLine{59   \textcolor{keywordflow}{return} \textcolor{keyword}{reinterpret\_cast<}\textcolor{keywordtype}{char}*\textcolor{keyword}{>}(sp) -\/ \textcolor{keyword}{reinterpret\_cast<}\textcolor{keywordtype}{char}*\textcolor{keyword}{>}(\&\_ebss);}
+\DoxyCodeLine{60 \}}
+\DoxyCodeLine{61 \textcolor{preprocessor}{\#elif defined(\_\_arm\_\_)}}
+\DoxyCodeLine{62 \textcolor{preprocessor}{\#define HAS\_UNUSED\_STACK 1}}
+\DoxyCodeLine{63 \textcolor{keyword}{extern} \textcolor{stringliteral}{"{}C"{}} \textcolor{keywordtype}{char}* sbrk(\textcolor{keywordtype}{int} incr);}
+\DoxyCodeLine{64 \textcolor{keyword}{inline} \textcolor{keywordtype}{int} \mbox{\hyperlink{_free_stack_8h_a86da1fd0aa8dcc6a981803373bc8839d}{FreeStack}}() \{}
+\DoxyCodeLine{65   \textcolor{keyword}{register} uint32\_t sp \textcolor{keyword}{asm}(\textcolor{stringliteral}{"{}sp"{}});}
+\DoxyCodeLine{66   \textcolor{keywordflow}{return} \textcolor{keyword}{reinterpret\_cast<}\textcolor{keywordtype}{char}*\textcolor{keyword}{>}(sp) -\/ \textcolor{keyword}{reinterpret\_cast<}\textcolor{keywordtype}{char}*\textcolor{keyword}{>}(sbrk(0));}
+\DoxyCodeLine{67 \}}
+\DoxyCodeLine{68 \textcolor{preprocessor}{\#else  }\textcolor{comment}{// defined(\_\_AVR\_\_) || defined(DOXYGEN)}}
+\DoxyCodeLine{69 \textcolor{preprocessor}{\#ifndef FREE\_STACK\_CPP}}
+\DoxyCodeLine{70 \textcolor{preprocessor}{\#warning FreeStack is not defined for this system.}}
+\DoxyCodeLine{71 \textcolor{preprocessor}{\#endif  }\textcolor{comment}{// FREE\_STACK\_CPP}}
+\DoxyCodeLine{72 \textcolor{keyword}{inline} \textcolor{keywordtype}{int} \mbox{\hyperlink{_free_stack_8h_a86da1fd0aa8dcc6a981803373bc8839d}{FreeStack}}() \{}
+\DoxyCodeLine{73   \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{74 \}}
+\DoxyCodeLine{75 \textcolor{preprocessor}{\#endif  }\textcolor{comment}{// defined(\_\_AVR\_\_) || defined(DOXYGEN)}}
+\DoxyCodeLine{76 \textcolor{preprocessor}{\#if defined(HAS\_UNUSED\_STACK) || defined(DOXYGEN)}}
+\DoxyCodeLine{78 \textcolor{keywordtype}{void} \mbox{\hyperlink{_free_stack_8h_a534f4eab46987296c6951fc35a2f9a7f}{FillStack}}();}
+\DoxyCodeLine{88 \textcolor{keywordtype}{int} \mbox{\hyperlink{_free_stack_8h_a0a6400cf785c9647c0bacb76b15851de}{UnusedStack}}();}
+\DoxyCodeLine{89 \textcolor{preprocessor}{\#else  }\textcolor{comment}{// HAS\_UNUSED\_STACK}}
+\DoxyCodeLine{90 \textcolor{preprocessor}{\#define HAS\_UNUSED\_STACK 0}}
+\DoxyCodeLine{91 \textcolor{keyword}{inline} \textcolor{keywordtype}{void} \mbox{\hyperlink{_free_stack_8h_a534f4eab46987296c6951fc35a2f9a7f}{FillStack}}() \{\}}
+\DoxyCodeLine{92 \textcolor{keyword}{inline} \textcolor{keywordtype}{int} \mbox{\hyperlink{_free_stack_8h_a0a6400cf785c9647c0bacb76b15851de}{UnusedStack}}() \{\textcolor{keywordflow}{return} 0;\}}
+\DoxyCodeLine{93 \textcolor{preprocessor}{\#endif  }\textcolor{comment}{// defined(HAS\_UNUSED\_STACK)}}
+\DoxyCodeLine{94 \textcolor{preprocessor}{\#endif  }\textcolor{comment}{// FreeStack\_h}}
+
+\end{DoxyCode}

@@ -1,0 +1,162 @@
+\hypertarget{_buffered_print_8h_source}{}\doxysection{Buffered\+Print.\+h}
+\mbox{\hyperlink{_buffered_print_8h}{Ir a la documentación de este archivo.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 }
+\DoxyCodeLine{25 \textcolor{preprocessor}{\#ifndef BufferedPrint\_h}}
+\DoxyCodeLine{26 \textcolor{preprocessor}{\#define BufferedPrint\_h}}
+\DoxyCodeLine{31 \textcolor{preprocessor}{\#include "{}common/FmtNumber.h"{}}}
+\DoxyCodeLine{36 \textcolor{keyword}{template}<\textcolor{keyword}{typename} WriteClass, u\textcolor{keywordtype}{int}8\_t BUF\_DIM>}
+\DoxyCodeLine{37 \textcolor{keyword}{class }\mbox{\hyperlink{class_buffered_print}{BufferedPrint}} \{}
+\DoxyCodeLine{38  \textcolor{keyword}{public}:}
+\DoxyCodeLine{39   \mbox{\hyperlink{class_buffered_print_a24d3d1f8f6ca21e2ff950b17892386e2}{BufferedPrint}}() : m\_wr(nullptr), m\_in(0) \{\}}
+\DoxyCodeLine{43   \textcolor{keyword}{explicit} \mbox{\hyperlink{class_buffered_print_af879eab3e69cfd9d15768451e091c6a2}{BufferedPrint}}(WriteClass* wr) : m\_wr(wr), m\_in(0) \{\}}
+\DoxyCodeLine{47   \textcolor{keywordtype}{void} \mbox{\hyperlink{class_buffered_print_a1382e2cedf67d12aa3ba056b0e7b10d3}{begin}}(WriteClass* wr) \{}
+\DoxyCodeLine{48     m\_wr = wr;}
+\DoxyCodeLine{49     m\_in = 0;}
+\DoxyCodeLine{50   \}}
+\DoxyCodeLine{52   \textcolor{keywordtype}{void} \mbox{\hyperlink{class_buffered_print_a3fcb4970129a6fbfbd125ed8f2869d9b}{flush}}() \{\mbox{\hyperlink{class_buffered_print_a2253d1e7f231b94b18eab1281c123a49}{sync}}();\}}
+\DoxyCodeLine{58   \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{class_buffered_print_a69ea9541fb854448b9fe3aff44583975}{printField}}(\textcolor{keywordtype}{char} c, \textcolor{keywordtype}{char} term) \{}
+\DoxyCodeLine{59     \textcolor{keywordtype}{char} buf[3];}
+\DoxyCodeLine{60     \textcolor{keywordtype}{char}* str = buf + \textcolor{keyword}{sizeof}(buf);}
+\DoxyCodeLine{61     \textcolor{keywordflow}{if} (term) \{}
+\DoxyCodeLine{62       *-\/-\/str = term;}
+\DoxyCodeLine{63       \textcolor{keywordflow}{if} (term == \textcolor{charliteral}{'\(\backslash\)n'}) \{}
+\DoxyCodeLine{64         *-\/-\/str = \textcolor{charliteral}{'\(\backslash\)r'};}
+\DoxyCodeLine{65       \}}
+\DoxyCodeLine{66     \}}
+\DoxyCodeLine{67     *-\/-\/str = c;}
+\DoxyCodeLine{68     \textcolor{keywordflow}{return} \mbox{\hyperlink{class_buffered_print_ab41de6eca77a04a49a6fc965b1950fc5}{write}}(str, buf + \textcolor{keyword}{sizeof}(buf) -\/ str);}
+\DoxyCodeLine{69   \}}
+\DoxyCodeLine{75   \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{class_buffered_print_ac18cc8c86b73b073a28db85075215f4f}{printField}}(\textcolor{keyword}{const} \_\_FlashStringHelper *fsh, \textcolor{keywordtype}{char} term) \{}
+\DoxyCodeLine{76 \textcolor{preprocessor}{\#ifdef \_\_AVR\_\_}}
+\DoxyCodeLine{77     \textcolor{keywordtype}{size\_t} rtn = 0;}
+\DoxyCodeLine{78     PGM\_P p = \textcolor{keyword}{reinterpret\_cast<}PGM\_P\textcolor{keyword}{>}(fsh);}
+\DoxyCodeLine{79     \textcolor{keywordtype}{char} c;}
+\DoxyCodeLine{80     \textcolor{keywordflow}{while} ((c = pgm\_read\_byte(p++))) \{}
+\DoxyCodeLine{81       \textcolor{keywordflow}{if} (!\mbox{\hyperlink{class_buffered_print_ab41de6eca77a04a49a6fc965b1950fc5}{write}}(\&c, 1)) \{}
+\DoxyCodeLine{82         \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{83       \}}
+\DoxyCodeLine{84       rtn++;}
+\DoxyCodeLine{85     \}}
+\DoxyCodeLine{86     \textcolor{keywordflow}{if} (term) \{}
+\DoxyCodeLine{87       \textcolor{keywordtype}{char} buf[2];}
+\DoxyCodeLine{88       \textcolor{keywordtype}{char}* str = buf + \textcolor{keyword}{sizeof}(buf);}
+\DoxyCodeLine{89       *-\/-\/str = term;}
+\DoxyCodeLine{90       \textcolor{keywordflow}{if} (term == \textcolor{charliteral}{'\(\backslash\)n'}) \{}
+\DoxyCodeLine{91         *-\/-\/str = \textcolor{charliteral}{'\(\backslash\)r'};}
+\DoxyCodeLine{92       \}}
+\DoxyCodeLine{93       rtn += \mbox{\hyperlink{class_buffered_print_ab41de6eca77a04a49a6fc965b1950fc5}{write}}(str, buf + \textcolor{keyword}{sizeof}(buf) -\/ str);}
+\DoxyCodeLine{94     \}}
+\DoxyCodeLine{95     \textcolor{keywordflow}{return} rtn;}
+\DoxyCodeLine{96 \textcolor{preprocessor}{\#else  }\textcolor{comment}{// \_\_AVR\_\_}}
+\DoxyCodeLine{97     \textcolor{keywordflow}{return} \mbox{\hyperlink{class_buffered_print_a69ea9541fb854448b9fe3aff44583975}{printField}}(\textcolor{keyword}{reinterpret\_cast<}\textcolor{keyword}{const }\textcolor{keywordtype}{char} *\textcolor{keyword}{>}(fsh), term);}
+\DoxyCodeLine{98 \textcolor{preprocessor}{\#endif  }\textcolor{comment}{// \_\_AVR\_\_}}
+\DoxyCodeLine{99   \}}
+\DoxyCodeLine{105   \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{class_buffered_print_ac49d0beb5fdad68e82f741bbaad4bb1b}{printField}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* str, \textcolor{keywordtype}{char} term) \{}
+\DoxyCodeLine{106     \textcolor{keywordtype}{size\_t} rtn = \mbox{\hyperlink{class_buffered_print_ab41de6eca77a04a49a6fc965b1950fc5}{write}}(str, strlen(str));}
+\DoxyCodeLine{107     \textcolor{keywordflow}{if} (term) \{}
+\DoxyCodeLine{108       \textcolor{keywordtype}{char} buf[2];}
+\DoxyCodeLine{109       \textcolor{keywordtype}{char}* ptr = buf + \textcolor{keyword}{sizeof}(buf);}
+\DoxyCodeLine{110       *-\/-\/ptr = term;}
+\DoxyCodeLine{111       \textcolor{keywordflow}{if} (term == \textcolor{charliteral}{'\(\backslash\)n'}) \{}
+\DoxyCodeLine{112         *-\/-\/ptr = \textcolor{charliteral}{'\(\backslash\)r'};}
+\DoxyCodeLine{113       \}}
+\DoxyCodeLine{114       rtn += \mbox{\hyperlink{class_buffered_print_ab41de6eca77a04a49a6fc965b1950fc5}{write}}(ptr, buf + \textcolor{keyword}{sizeof}(buf) -\/ ptr);}
+\DoxyCodeLine{115     \}}
+\DoxyCodeLine{116     \textcolor{keywordflow}{return} rtn;}
+\DoxyCodeLine{117   \}}
+\DoxyCodeLine{124   \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{class_buffered_print_a5b5b11f01adf91a1854a44b131886219}{printField}}(\textcolor{keywordtype}{double} d, \textcolor{keywordtype}{char} term, uint8\_t prec = 2) \{}
+\DoxyCodeLine{125     \textcolor{keywordtype}{char} buf[24];}
+\DoxyCodeLine{126     \textcolor{keywordtype}{char}* str = buf + \textcolor{keyword}{sizeof}(buf);}
+\DoxyCodeLine{127     \textcolor{keywordflow}{if} (term) \{}
+\DoxyCodeLine{128       *-\/-\/str = term;}
+\DoxyCodeLine{129       \textcolor{keywordflow}{if} (term == \textcolor{charliteral}{'\(\backslash\)n'}) \{}
+\DoxyCodeLine{130         *-\/-\/str = \textcolor{charliteral}{'\(\backslash\)r'};}
+\DoxyCodeLine{131       \}}
+\DoxyCodeLine{132     \}}
+\DoxyCodeLine{133     str = fmtDouble(str, d, prec, \textcolor{keyword}{false});}
+\DoxyCodeLine{134     \textcolor{keywordflow}{return} \mbox{\hyperlink{class_buffered_print_ab41de6eca77a04a49a6fc965b1950fc5}{write}}(str, buf + \textcolor{keyword}{sizeof}(buf) -\/ str);}
+\DoxyCodeLine{135   \}}
+\DoxyCodeLine{142   \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{class_buffered_print_a93369fc042366488ef40426f9fd3286d}{printField}}(\textcolor{keywordtype}{float} f, \textcolor{keywordtype}{char} term,  uint8\_t prec = 2) \{}
+\DoxyCodeLine{143     \textcolor{keywordflow}{return} \mbox{\hyperlink{class_buffered_print_a69ea9541fb854448b9fe3aff44583975}{printField}}(\textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{double}\textcolor{keyword}{>}(f), term, prec);}
+\DoxyCodeLine{144   \}}
+\DoxyCodeLine{150   \textcolor{keyword}{template}<\textcolor{keyword}{typename} Type>}
+\DoxyCodeLine{151   \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{class_buffered_print_af680cf36170347287d20ed92ae5f6c9b}{printField}}(Type n, \textcolor{keywordtype}{char} term) \{}
+\DoxyCodeLine{152     \textcolor{keyword}{const} uint8\_t DIM = \textcolor{keyword}{sizeof}(Type) <= 2 ? 8 : 13;}
+\DoxyCodeLine{153     \textcolor{keywordtype}{char} buf[DIM];}
+\DoxyCodeLine{154     \textcolor{keywordtype}{char}* str = buf + \textcolor{keyword}{sizeof}(buf);}
+\DoxyCodeLine{155 }
+\DoxyCodeLine{156     \textcolor{keywordflow}{if} (term) \{}
+\DoxyCodeLine{157       *-\/-\/str = term;}
+\DoxyCodeLine{158       \textcolor{keywordflow}{if} (term == \textcolor{charliteral}{'\(\backslash\)n'}) \{}
+\DoxyCodeLine{159         *-\/-\/str = \textcolor{charliteral}{'\(\backslash\)r'};}
+\DoxyCodeLine{160       \}}
+\DoxyCodeLine{161     \}}
+\DoxyCodeLine{162     Type p = n < 0 ? -\/n : n;}
+\DoxyCodeLine{163     \textcolor{keywordflow}{if} (\textcolor{keyword}{sizeof}(Type) <= 2) \{}
+\DoxyCodeLine{164       str = fmtBase10(str, (uint16\_t)p);}
+\DoxyCodeLine{165     \} \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{166       str = fmtBase10(str, (uint32\_t)p);}
+\DoxyCodeLine{167     \}}
+\DoxyCodeLine{168     \textcolor{keywordflow}{if} (n < 0) \{}
+\DoxyCodeLine{169       *-\/-\/str = \textcolor{charliteral}{'-\/'};}
+\DoxyCodeLine{170     \}}
+\DoxyCodeLine{171     \textcolor{keywordflow}{return} \mbox{\hyperlink{class_buffered_print_ab41de6eca77a04a49a6fc965b1950fc5}{write}}(str, buf + \textcolor{keyword}{sizeof}(buf) -\/ str);}
+\DoxyCodeLine{172   \}}
+\DoxyCodeLine{176   \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{class_buffered_print_a7bd188ccc8b38b83cf44b96164a1d816}{println}}() \{}
+\DoxyCodeLine{177     \textcolor{keywordtype}{char} buf[2];}
+\DoxyCodeLine{178     buf[0] = \textcolor{charliteral}{'\(\backslash\)r'};}
+\DoxyCodeLine{179     buf[1] = \textcolor{charliteral}{'\(\backslash\)n'};}
+\DoxyCodeLine{180     \textcolor{keywordflow}{return} \mbox{\hyperlink{class_buffered_print_ab41de6eca77a04a49a6fc965b1950fc5}{write}}(buf, 2);}
+\DoxyCodeLine{181   \}}
+\DoxyCodeLine{187   \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{class_buffered_print_a95f984c4702b0e20d781efd9d1ea8f27}{print}}(\textcolor{keywordtype}{double} d, uint8\_t prec = 2) \{}
+\DoxyCodeLine{188     \textcolor{keywordflow}{return} \mbox{\hyperlink{class_buffered_print_a69ea9541fb854448b9fe3aff44583975}{printField}}(d, 0, prec);}
+\DoxyCodeLine{189   \}}
+\DoxyCodeLine{195   \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{class_buffered_print_aaeaceb452361377ce73db0041edbcdff}{println}}(\textcolor{keywordtype}{double} d, uint8\_t prec = 2) \{}
+\DoxyCodeLine{196     \textcolor{keywordflow}{return} \mbox{\hyperlink{class_buffered_print_a69ea9541fb854448b9fe3aff44583975}{printField}}(d, \textcolor{charliteral}{'\(\backslash\)n'}, prec);}
+\DoxyCodeLine{197   \}}
+\DoxyCodeLine{203   \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{class_buffered_print_aeed86ef2ea320cd8ff47ee871663a8ce}{print}}(\textcolor{keywordtype}{float} f, uint8\_t prec = 2) \{}
+\DoxyCodeLine{204     \textcolor{keywordflow}{return} \mbox{\hyperlink{class_buffered_print_a69ea9541fb854448b9fe3aff44583975}{printField}}(\textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{double}\textcolor{keyword}{>}(f), 0, prec);}
+\DoxyCodeLine{205   \}}
+\DoxyCodeLine{211   \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{class_buffered_print_afc449966c5c7357fde925c6888669698}{println}}(\textcolor{keywordtype}{float} f, uint8\_t prec) \{}
+\DoxyCodeLine{212     \textcolor{keywordflow}{return} \mbox{\hyperlink{class_buffered_print_a69ea9541fb854448b9fe3aff44583975}{printField}}(\textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{double}\textcolor{keyword}{>}(f), \textcolor{charliteral}{'\(\backslash\)n'}, prec);}
+\DoxyCodeLine{213   \}}
+\DoxyCodeLine{218   \textcolor{keyword}{template}<\textcolor{keyword}{typename} Type>}
+\DoxyCodeLine{219   \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{class_buffered_print_ae9472f3acd3f7d3187500e60754963bb}{print}}(Type v) \{}
+\DoxyCodeLine{220     \textcolor{keywordflow}{return} \mbox{\hyperlink{class_buffered_print_a69ea9541fb854448b9fe3aff44583975}{printField}}(v, 0);}
+\DoxyCodeLine{221   \}}
+\DoxyCodeLine{226   \textcolor{keyword}{template}<\textcolor{keyword}{typename} Type>}
+\DoxyCodeLine{227   \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{class_buffered_print_a0945ed373bd17a309bb6661faad3be9c}{println}}(Type v) \{}
+\DoxyCodeLine{228     \textcolor{keywordflow}{return} \mbox{\hyperlink{class_buffered_print_a69ea9541fb854448b9fe3aff44583975}{printField}}(v, \textcolor{charliteral}{'\(\backslash\)n'});}
+\DoxyCodeLine{229   \}}
+\DoxyCodeLine{230 }
+\DoxyCodeLine{234   \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_buffered_print_a2253d1e7f231b94b18eab1281c123a49}{sync}}() \{}
+\DoxyCodeLine{235     \textcolor{keywordflow}{if} (!m\_wr || m\_wr-\/>write(m\_buf, m\_in) != m\_in) \{}
+\DoxyCodeLine{236       \textcolor{keywordflow}{return} \textcolor{keyword}{false};}
+\DoxyCodeLine{237     \}}
+\DoxyCodeLine{238     m\_in = 0;}
+\DoxyCodeLine{239     \textcolor{keywordflow}{return} \textcolor{keyword}{true};}
+\DoxyCodeLine{240   \}}
+\DoxyCodeLine{249   \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{class_buffered_print_ab41de6eca77a04a49a6fc965b1950fc5}{write}}(\textcolor{keyword}{const} \textcolor{keywordtype}{void}* src, \textcolor{keywordtype}{size\_t} n) \{}
+\DoxyCodeLine{250     \textcolor{keywordflow}{if} ((m\_in + n) > \textcolor{keyword}{sizeof}(m\_buf)) \{}
+\DoxyCodeLine{251       \textcolor{keywordflow}{if} (!\mbox{\hyperlink{class_buffered_print_a2253d1e7f231b94b18eab1281c123a49}{sync}}()) \{}
+\DoxyCodeLine{252         \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{253       \}}
+\DoxyCodeLine{254       \textcolor{keywordflow}{if} (n >= \textcolor{keyword}{sizeof}(m\_buf)) \{}
+\DoxyCodeLine{255         \textcolor{keywordflow}{return} n == m\_wr-\/>write((\textcolor{keyword}{const} uint8\_t*)src, n) ? n : 0;}
+\DoxyCodeLine{256       \}}
+\DoxyCodeLine{257     \}}
+\DoxyCodeLine{258     memcpy(m\_buf + m\_in, src, n);}
+\DoxyCodeLine{259     m\_in += n;}
+\DoxyCodeLine{260     \textcolor{keywordflow}{return} n;}
+\DoxyCodeLine{261   \}}
+\DoxyCodeLine{262 }
+\DoxyCodeLine{263  \textcolor{keyword}{private}:}
+\DoxyCodeLine{264   WriteClass* m\_wr;}
+\DoxyCodeLine{265   uint8\_t m\_in;}
+\DoxyCodeLine{266   \textcolor{comment}{// Insure room for double.}}
+\DoxyCodeLine{267   uint8\_t m\_buf[BUF\_DIM < 24 ? 24 : BUF\_DIM];  \textcolor{comment}{// NOLINT}}
+\DoxyCodeLine{268 \};}
+\DoxyCodeLine{269 \textcolor{preprocessor}{\#endif  }\textcolor{comment}{// BufferedPrint\_h}}
+
+\end{DoxyCode}

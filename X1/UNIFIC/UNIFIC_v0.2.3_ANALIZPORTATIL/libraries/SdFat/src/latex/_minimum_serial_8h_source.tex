@@ -1,0 +1,21 @@
+\hypertarget{_minimum_serial_8h_source}{}\doxysection{Minimum\+Serial.\+h}
+\mbox{\hyperlink{_minimum_serial_8h}{Ir a la documentación de este archivo.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 }
+\DoxyCodeLine{29 \textcolor{preprocessor}{\#ifndef MinimumSerial\_h}}
+\DoxyCodeLine{30 \textcolor{preprocessor}{\#define MinimumSerial\_h}}
+\DoxyCodeLine{31 \textcolor{preprocessor}{\#include "{}common/SysCall.h"{}}}
+\DoxyCodeLine{32 \textcolor{comment}{//==============================================================================}}
+\DoxyCodeLine{37 \textcolor{comment}{}\textcolor{keyword}{class }\mbox{\hyperlink{class_minimum_serial}{MinimumSerial}} : \textcolor{keyword}{public} print\_t \{}
+\DoxyCodeLine{38  \textcolor{keyword}{public}:}
+\DoxyCodeLine{40   \textcolor{keyword}{operator} bool() \{\textcolor{keywordflow}{return} \textcolor{keyword}{true};\}}
+\DoxyCodeLine{44   \textcolor{keywordtype}{int} \mbox{\hyperlink{class_minimum_serial_a2abe4370989968938b5dc4872d51c3df}{available}}();}
+\DoxyCodeLine{50   \textcolor{keywordtype}{void} \mbox{\hyperlink{class_minimum_serial_a5c56beb3472bb97f949defeecacda52c}{begin}}(uint32\_t baud);}
+\DoxyCodeLine{52   \textcolor{keywordtype}{void} \mbox{\hyperlink{class_minimum_serial_a872f0ff70f0e256352004f83d13fff28}{flush}}();}
+\DoxyCodeLine{57   \textcolor{keywordtype}{int} \mbox{\hyperlink{class_minimum_serial_a4890dd60f2ffb61eba0821cc80d411ad}{read}}();}
+\DoxyCodeLine{64   \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{class_minimum_serial_a0ca1d9631fe5f2f00878bd481dbbd3aa}{write}}(uint8\_t b);}
+\DoxyCodeLine{65   \textcolor{keyword}{using} print\_t::write;}
+\DoxyCodeLine{66 \};}
+\DoxyCodeLine{67 \textcolor{preprocessor}{\#endif  }\textcolor{comment}{// MinimumSerial\_h}}
+
+\end{DoxyCode}

@@ -1,0 +1,214 @@
+\hypertarget{_ring_buf_8h_source}{}\doxysection{Ring\+Buf.\+h}
+\mbox{\hyperlink{_ring_buf_8h}{Ir a la documentación de este archivo.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 }
+\DoxyCodeLine{25 \textcolor{preprocessor}{\#ifndef RingBuf\_h}}
+\DoxyCodeLine{26 \textcolor{preprocessor}{\#define RingBuf\_h}}
+\DoxyCodeLine{31 \textcolor{preprocessor}{\#include "{}common/SysCall.h"{}}}
+\DoxyCodeLine{32 \textcolor{preprocessor}{\#include "{}common/FmtNumber.h"{}}}
+\DoxyCodeLine{33 }
+\DoxyCodeLine{34 \textcolor{preprocessor}{\#ifndef DOXYGEN\_SHOULD\_SKIP\_THIS}}
+\DoxyCodeLine{35 \textcolor{comment}{//  Teensy 3.5/3.6 has hard fault at 0x20000000 for unaligned memcpy.}}
+\DoxyCodeLine{36 \textcolor{preprocessor}{\#if defined(\_\_MK64FX512\_\_) || defined(\_\_MK66FX1M0\_\_)}}
+\DoxyCodeLine{37 \textcolor{keyword}{inline} \textcolor{keywordtype}{bool} is\_aligned(\textcolor{keyword}{const} \textcolor{keywordtype}{void}* ptr, uintptr\_t alignment) \{}
+\DoxyCodeLine{38     \textcolor{keyword}{auto} iptr = \textcolor{keyword}{reinterpret\_cast<}uintptr\_t\textcolor{keyword}{>}(ptr);}
+\DoxyCodeLine{39     \textcolor{keywordflow}{return} !(iptr \% alignment);}
+\DoxyCodeLine{40 \}}
+\DoxyCodeLine{41 \textcolor{keyword}{inline} \textcolor{keywordtype}{void} \mbox{\hyperlink{_ring_buf_8h_a8112ba67de4780dcde4812be345dd6bb}{memcpyBuf}}(\textcolor{keywordtype}{void}* dst, \textcolor{keyword}{const} \textcolor{keywordtype}{void}* src, \textcolor{keywordtype}{size\_t} len) \{}
+\DoxyCodeLine{42   \textcolor{keyword}{const} uint8\_t* b = \textcolor{keyword}{reinterpret\_cast<}\textcolor{keyword}{const }uint8\_t*\textcolor{keyword}{>}(0X20000000UL);}
+\DoxyCodeLine{43   uint8\_t* d = \textcolor{keyword}{reinterpret\_cast<}uint8\_t*\textcolor{keyword}{>}(dst);}
+\DoxyCodeLine{44   \textcolor{keyword}{const} uint8\_t *s = \textcolor{keyword}{reinterpret\_cast<}\textcolor{keyword}{const }uint8\_t*\textcolor{keyword}{>}(src);}
+\DoxyCodeLine{45   \textcolor{keywordflow}{if} ((is\_aligned(d, 4) \&\& is\_aligned(s, 4) \&\& (len \& 3) == 0) ||}
+\DoxyCodeLine{46     !((d < b \&\& b <= (d + len)) || (s < b \&\& b <= (s + len)))) \{}
+\DoxyCodeLine{47     memcpy(dst, src, len);}
+\DoxyCodeLine{48   \} \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{49     \textcolor{keywordflow}{while} (len-\/-\/) \{}
+\DoxyCodeLine{50       *d++ = *s++;}
+\DoxyCodeLine{51     \}}
+\DoxyCodeLine{52   \}}
+\DoxyCodeLine{53 \}}
+\DoxyCodeLine{54 \textcolor{preprocessor}{\#else  }\textcolor{comment}{// defined(\_\_MK64FX512\_\_) || defined(\_\_MK66FX1M0\_\_)}}
+\DoxyCodeLine{55 \textcolor{keyword}{inline} \textcolor{keywordtype}{void} \mbox{\hyperlink{_ring_buf_8h_a8112ba67de4780dcde4812be345dd6bb}{memcpyBuf}}(\textcolor{keywordtype}{void}* dst, \textcolor{keyword}{const} \textcolor{keywordtype}{void}* src, \textcolor{keywordtype}{size\_t} len) \{}
+\DoxyCodeLine{56   memcpy(dst, src, len);}
+\DoxyCodeLine{57 \}}
+\DoxyCodeLine{58 \textcolor{preprocessor}{\#endif  }\textcolor{comment}{// defined(\_\_MK64FX512\_\_) || defined(\_\_MK66FX1M0\_\_)}}
+\DoxyCodeLine{59 \textcolor{preprocessor}{\#endif  }\textcolor{comment}{// DOXYGEN\_SHOULD\_SKIP\_THIS}}
+\DoxyCodeLine{72 \textcolor{comment}{}template<class F, size\_t Size>}
+\DoxyCodeLine{73 \textcolor{keyword}{class }\mbox{\hyperlink{class_ring_buf}{RingBuf}} : \textcolor{keyword}{public} Print \{}
+\DoxyCodeLine{74  \textcolor{keyword}{public}:}
+\DoxyCodeLine{78   \mbox{\hyperlink{class_ring_buf_a14b9db2bed2601d116a442812cee5078}{RingBuf}}() \{\}}
+\DoxyCodeLine{83   \textcolor{keywordtype}{void} \mbox{\hyperlink{class_ring_buf_a07f7d1c7c8a9c1390a7f697aabd11432}{begin}}(F* file) \{}
+\DoxyCodeLine{84     m\_file = file;}
+\DoxyCodeLine{85     m\_count = 0;}
+\DoxyCodeLine{86     m\_head = 0;}
+\DoxyCodeLine{87     m\_tail = 0;}
+\DoxyCodeLine{88     clearWriteError();}
+\DoxyCodeLine{89   \}}
+\DoxyCodeLine{94   \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{class_ring_buf_a51ad572d21641613eb0204d7b0e5321c}{bytesFree}}()\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{95     \textcolor{keywordtype}{size\_t} count;}
+\DoxyCodeLine{96     noInterrupts();}
+\DoxyCodeLine{97     count = m\_count;}
+\DoxyCodeLine{98     interrupts();}
+\DoxyCodeLine{99     \textcolor{keywordflow}{return} Size -\/ count;}
+\DoxyCodeLine{100   \}}
+\DoxyCodeLine{104   \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{class_ring_buf_af24035c0a756431c8c73b624fb6df303}{bytesFreeIsr}}()\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{105     \textcolor{keywordflow}{return} Size -\/ m\_count;}
+\DoxyCodeLine{106   \}}
+\DoxyCodeLine{110   \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{class_ring_buf_aadad4bc85a76ff249db61b123a512a16}{bytesUsed}}()\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{111     \textcolor{keywordtype}{size\_t} count;}
+\DoxyCodeLine{112     noInterrupts();}
+\DoxyCodeLine{113     count = m\_count;}
+\DoxyCodeLine{114     interrupts();}
+\DoxyCodeLine{115     \textcolor{keywordflow}{return} count;}
+\DoxyCodeLine{116   \}}
+\DoxyCodeLine{120   \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{class_ring_buf_a759455d54cc9fc3903247d00c28897f5}{bytesUsedIsr}}()\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{121     \textcolor{keywordflow}{return} m\_count;}
+\DoxyCodeLine{122   \}}
+\DoxyCodeLine{135   \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{class_ring_buf_a07398e3e35c726583550c15c8485d643}{memcpyIn}}(\textcolor{keyword}{const} \textcolor{keywordtype}{void}* buf, \textcolor{keywordtype}{size\_t} count) \{}
+\DoxyCodeLine{136     \textcolor{keyword}{const} uint8\_t* src = (\textcolor{keyword}{const} uint8\_t*)buf;}
+\DoxyCodeLine{137     \textcolor{keywordtype}{size\_t} n = Size -\/ m\_count;}
+\DoxyCodeLine{138     \textcolor{keywordflow}{if} (count > n) \{}
+\DoxyCodeLine{139       count = n;}
+\DoxyCodeLine{140     \}}
+\DoxyCodeLine{141     \textcolor{keywordtype}{size\_t} nread = 0;}
+\DoxyCodeLine{142     \textcolor{keywordflow}{while} (nread != count) \{}
+\DoxyCodeLine{143         n = minSize(Size -\/ m\_head, count -\/ nread);}
+\DoxyCodeLine{144         \mbox{\hyperlink{_ring_buf_8h_a8112ba67de4780dcde4812be345dd6bb}{memcpyBuf}}(m\_buf + m\_head, src + nread, n);}
+\DoxyCodeLine{145         m\_head = advance(m\_head, n);}
+\DoxyCodeLine{146         nread += n;}
+\DoxyCodeLine{147     \}}
+\DoxyCodeLine{148     m\_count += nread;}
+\DoxyCodeLine{149     \textcolor{keywordflow}{return} nread;}
+\DoxyCodeLine{150   \}}
+\DoxyCodeLine{163   \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{class_ring_buf_ab37dd9f3cec4713e561f6f9057a73770}{memcpyOut}}(\textcolor{keywordtype}{void}* buf, \textcolor{keywordtype}{size\_t} count) \{}
+\DoxyCodeLine{164     uint8\_t* dst = \textcolor{keyword}{reinterpret\_cast<}uint8\_t*\textcolor{keyword}{>}(buf);}
+\DoxyCodeLine{165     \textcolor{keywordtype}{size\_t} nwrite = 0;}
+\DoxyCodeLine{166     \textcolor{keywordtype}{size\_t} n = m\_count;}
+\DoxyCodeLine{167     \textcolor{keywordflow}{if} (count > n) \{}
+\DoxyCodeLine{168       count = n;}
+\DoxyCodeLine{169     \}}
+\DoxyCodeLine{170     \textcolor{keywordflow}{while} (nwrite != count) \{}
+\DoxyCodeLine{171       n = minSize(Size -\/ m\_tail, count -\/ nwrite);}
+\DoxyCodeLine{172       \mbox{\hyperlink{_ring_buf_8h_a8112ba67de4780dcde4812be345dd6bb}{memcpyBuf}}(dst + nwrite, m\_buf + m\_tail, n);}
+\DoxyCodeLine{173       m\_tail = advance(m\_tail, n);}
+\DoxyCodeLine{174       nwrite += n;}
+\DoxyCodeLine{175     \}}
+\DoxyCodeLine{176     m\_count -\/= nwrite;}
+\DoxyCodeLine{177     \textcolor{keywordflow}{return} nwrite;}
+\DoxyCodeLine{178   \}}
+\DoxyCodeLine{185   \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{class_ring_buf_a9d8e7b608007ec4c83a829039595b64c}{printField}}(\textcolor{keywordtype}{double} value, \textcolor{keywordtype}{char} term, uint8\_t prec = 2) \{}
+\DoxyCodeLine{186     \textcolor{keywordtype}{char} buf[24];}
+\DoxyCodeLine{187     \textcolor{keywordtype}{char}* str = buf + \textcolor{keyword}{sizeof}(buf);}
+\DoxyCodeLine{188     \textcolor{keywordflow}{if} (term) \{}
+\DoxyCodeLine{189       *-\/-\/str = term;}
+\DoxyCodeLine{190       \textcolor{keywordflow}{if} (term == \textcolor{charliteral}{'\(\backslash\)n'}) \{}
+\DoxyCodeLine{191         *-\/-\/str = \textcolor{charliteral}{'\(\backslash\)r'};}
+\DoxyCodeLine{192       \}}
+\DoxyCodeLine{193     \}}
+\DoxyCodeLine{194     str = fmtDouble(str, value, prec, \textcolor{keyword}{false});}
+\DoxyCodeLine{195     \textcolor{keywordflow}{return} \mbox{\hyperlink{class_ring_buf_a631795a0a58d0ae556bb45d985e36efa}{write}}(str, buf + \textcolor{keyword}{sizeof}(buf) -\/ str);}
+\DoxyCodeLine{196   \}}
+\DoxyCodeLine{203   \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{class_ring_buf_a87b5e4498705642d88412f11bf1ef5dd}{printField}}(\textcolor{keywordtype}{float} value, \textcolor{keywordtype}{char} term, uint8\_t prec = 2) \{}
+\DoxyCodeLine{204     \textcolor{keywordflow}{return} \mbox{\hyperlink{class_ring_buf_a9d8e7b608007ec4c83a829039595b64c}{printField}}(\textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{double}\textcolor{keyword}{>}(value), term, prec);}
+\DoxyCodeLine{205   \}}
+\DoxyCodeLine{211   \textcolor{keyword}{template} <\textcolor{keyword}{typename} Type>}
+\DoxyCodeLine{212   \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{class_ring_buf_a7a5552ac6361cebb8b911df2e5cdcff5}{printField}}(Type value, \textcolor{keywordtype}{char} term) \{}
+\DoxyCodeLine{213     \textcolor{keywordtype}{char} sign = 0;}
+\DoxyCodeLine{214     \textcolor{keywordtype}{char} buf[3*\textcolor{keyword}{sizeof}(Type) + 3];}
+\DoxyCodeLine{215     \textcolor{keywordtype}{char}* str = buf + \textcolor{keyword}{sizeof}(buf);}
+\DoxyCodeLine{216 }
+\DoxyCodeLine{217     \textcolor{keywordflow}{if} (term) \{}
+\DoxyCodeLine{218       *-\/-\/str = term;}
+\DoxyCodeLine{219       \textcolor{keywordflow}{if} (term == \textcolor{charliteral}{'\(\backslash\)n'}) \{}
+\DoxyCodeLine{220         *-\/-\/str = \textcolor{charliteral}{'\(\backslash\)r'};}
+\DoxyCodeLine{221       \}}
+\DoxyCodeLine{222     \}}
+\DoxyCodeLine{223     \textcolor{keywordflow}{if} (value < 0) \{}
+\DoxyCodeLine{224       value = -\/value;}
+\DoxyCodeLine{225       sign = \textcolor{charliteral}{'-\/'};}
+\DoxyCodeLine{226     \}}
+\DoxyCodeLine{227     \textcolor{keywordflow}{if} (\textcolor{keyword}{sizeof}(Type) < 4) \{}
+\DoxyCodeLine{228       str = fmtBase10(str, (uint16\_t)value);}
+\DoxyCodeLine{229     \} \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{230       str = fmtBase10(str, (uint32\_t)value);}
+\DoxyCodeLine{231     \}}
+\DoxyCodeLine{232     \textcolor{keywordflow}{if} (sign) \{}
+\DoxyCodeLine{233       *-\/-\/str = sign;}
+\DoxyCodeLine{234     \}}
+\DoxyCodeLine{235     \textcolor{keywordflow}{return} \mbox{\hyperlink{class_ring_buf_a631795a0a58d0ae556bb45d985e36efa}{write}}((\textcolor{keyword}{const} uint8\_t*)str, \&buf[\textcolor{keyword}{sizeof}(buf)] -\/ str);}
+\DoxyCodeLine{236   \}}
+\DoxyCodeLine{248   \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{class_ring_buf_a60f4cd44371930a700dbb82aba025557}{readIn}}(\textcolor{keywordtype}{size\_t} count) \{}
+\DoxyCodeLine{249     \textcolor{keywordtype}{size\_t} nread = 0;}
+\DoxyCodeLine{250     \textcolor{keywordtype}{size\_t} n = \mbox{\hyperlink{class_ring_buf_a51ad572d21641613eb0204d7b0e5321c}{bytesFree}}();  \textcolor{comment}{// Protected from interrupts.}}
+\DoxyCodeLine{251     \textcolor{keywordflow}{if} (count > n) \{}
+\DoxyCodeLine{252       count = n;}
+\DoxyCodeLine{253     \}}
+\DoxyCodeLine{254     \textcolor{keywordflow}{while} (nread != count) \{}
+\DoxyCodeLine{255         n = minSize(Size -\/ m\_head, count -\/ nread);}
+\DoxyCodeLine{256         \textcolor{keywordflow}{if} ((\textcolor{keywordtype}{size\_t})m\_file-\/>read(m\_buf + m\_head, n) != n) \{}
+\DoxyCodeLine{257           \textcolor{keywordflow}{return} nread;}
+\DoxyCodeLine{258         \}}
+\DoxyCodeLine{259         m\_head = advance(m\_head, n);}
+\DoxyCodeLine{260         nread += n;}
+\DoxyCodeLine{261     \}}
+\DoxyCodeLine{262     noInterrupts();}
+\DoxyCodeLine{263     m\_count += nread;}
+\DoxyCodeLine{264     interrupts();}
+\DoxyCodeLine{265     \textcolor{keywordflow}{return} nread;}
+\DoxyCodeLine{266   \}}
+\DoxyCodeLine{271   \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_ring_buf_ac5b3197c6fe27f0336373098ade09d5e}{sync}}() \{}
+\DoxyCodeLine{272     \textcolor{keywordtype}{size\_t} n = \mbox{\hyperlink{class_ring_buf_aadad4bc85a76ff249db61b123a512a16}{bytesUsed}}();}
+\DoxyCodeLine{273     \textcolor{keywordflow}{return} \mbox{\hyperlink{class_ring_buf_a3ab8d4f4b7bc833018fe4db182660051}{writeOut}}(n) == n;}
+\DoxyCodeLine{274   \}}
+\DoxyCodeLine{287   \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{class_ring_buf_a631795a0a58d0ae556bb45d985e36efa}{write}}(\textcolor{keyword}{const} \textcolor{keywordtype}{void}* buf, \textcolor{keywordtype}{size\_t} count) \{}
+\DoxyCodeLine{288     \textcolor{keywordflow}{if} (count > \mbox{\hyperlink{class_ring_buf_a51ad572d21641613eb0204d7b0e5321c}{bytesFree}}()) \{}
+\DoxyCodeLine{289       setWriteError();}
+\DoxyCodeLine{290     \}}
+\DoxyCodeLine{291     \textcolor{keywordflow}{return} \mbox{\hyperlink{class_ring_buf_a07398e3e35c726583550c15c8485d643}{memcpyIn}}(buf, count);}
+\DoxyCodeLine{292   \}}
+\DoxyCodeLine{299   \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{class_ring_buf_a24d6943e888ad04e73d462a5c3b4513b}{write}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* str) \{}
+\DoxyCodeLine{300     \textcolor{keywordflow}{return} Print::write(str);}
+\DoxyCodeLine{301   \}}
+\DoxyCodeLine{309   \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{class_ring_buf_af0f1eb780920d4c32c500ad0f6a6ed05}{write}}(\textcolor{keyword}{const} uint8\_t* buf, \textcolor{keywordtype}{size\_t} count)\textcolor{keyword}{ override }\{}
+\DoxyCodeLine{310     \textcolor{keywordflow}{return} \mbox{\hyperlink{class_ring_buf_a631795a0a58d0ae556bb45d985e36efa}{write}}((\textcolor{keyword}{const} \textcolor{keywordtype}{void}*)buf, count);}
+\DoxyCodeLine{311   \}}
+\DoxyCodeLine{317   \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{class_ring_buf_a58cebcaf9ad897942e9e7416f0957849}{write}}(uint8\_t data)\textcolor{keyword}{ override }\{}
+\DoxyCodeLine{318     \textcolor{keywordflow}{return} \mbox{\hyperlink{class_ring_buf_a631795a0a58d0ae556bb45d985e36efa}{write}}(\&data, 1);}
+\DoxyCodeLine{319   \}}
+\DoxyCodeLine{332   \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{class_ring_buf_a3ab8d4f4b7bc833018fe4db182660051}{writeOut}}(\textcolor{keywordtype}{size\_t} count) \{}
+\DoxyCodeLine{333     \textcolor{keywordtype}{size\_t} n = \mbox{\hyperlink{class_ring_buf_aadad4bc85a76ff249db61b123a512a16}{bytesUsed}}();  \textcolor{comment}{// Protected from interrupts;}}
+\DoxyCodeLine{334      \textcolor{keywordflow}{if} (count > n) \{}
+\DoxyCodeLine{335       count = n;}
+\DoxyCodeLine{336     \}}
+\DoxyCodeLine{337     \textcolor{keywordtype}{size\_t} nwrite = 0;}
+\DoxyCodeLine{338     \textcolor{keywordflow}{while} (nwrite != count) \{}
+\DoxyCodeLine{339       n = minSize(Size -\/ m\_tail, count -\/ nwrite);}
+\DoxyCodeLine{340       \textcolor{keywordflow}{if} (m\_file-\/>write(m\_buf + m\_tail, n) != n) \{}
+\DoxyCodeLine{341         \textcolor{keywordflow}{break};}
+\DoxyCodeLine{342       \}}
+\DoxyCodeLine{343       m\_tail = advance(m\_tail, n);}
+\DoxyCodeLine{344       nwrite += n;}
+\DoxyCodeLine{345     \}}
+\DoxyCodeLine{346     noInterrupts();}
+\DoxyCodeLine{347     m\_count -\/= nwrite;}
+\DoxyCodeLine{348     interrupts();}
+\DoxyCodeLine{349     \textcolor{keywordflow}{return} nwrite;}
+\DoxyCodeLine{350   \}}
+\DoxyCodeLine{351 }
+\DoxyCodeLine{352  \textcolor{keyword}{private}:}
+\DoxyCodeLine{353   uint8\_t \_\_attribute\_\_((aligned(4))) m\_buf[Size];}
+\DoxyCodeLine{354   F* m\_file = \textcolor{keywordtype}{nullptr};}
+\DoxyCodeLine{355   volatile \textcolor{keywordtype}{size\_t} m\_count;}
+\DoxyCodeLine{356   \textcolor{keywordtype}{size\_t} m\_head;}
+\DoxyCodeLine{357   \textcolor{keywordtype}{size\_t} m\_tail;}
+\DoxyCodeLine{358 }
+\DoxyCodeLine{359   \textcolor{keywordtype}{size\_t} advance(\textcolor{keywordtype}{size\_t} index, \textcolor{keywordtype}{size\_t} n) \{}
+\DoxyCodeLine{360     index += n;}
+\DoxyCodeLine{361     \textcolor{keywordflow}{return} index < Size ? index : index -\/ Size;}
+\DoxyCodeLine{362   \}}
+\DoxyCodeLine{363   \textcolor{comment}{// avoid macro MIN}}
+\DoxyCodeLine{364   \textcolor{keywordtype}{size\_t} minSize(\textcolor{keywordtype}{size\_t} a, \textcolor{keywordtype}{size\_t} b) \{\textcolor{keywordflow}{return} a < b ? a : b;\}}
+\DoxyCodeLine{365 \};}
+\DoxyCodeLine{366 \textcolor{preprocessor}{\#endif  }\textcolor{comment}{// RingBuf\_h}}
+
+\end{DoxyCode}

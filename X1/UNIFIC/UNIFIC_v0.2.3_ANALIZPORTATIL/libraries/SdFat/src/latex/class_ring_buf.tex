@@ -1,0 +1,353 @@
+\hypertarget{class_ring_buf}{}\doxysection{Referencia de la plantilla de la Clase Ring\+Buf\texorpdfstring{$<$}{<} F, Size \texorpdfstring{$>$}{>}}
+\label{class_ring_buf}\index{RingBuf$<$ F, Size $>$@{RingBuf$<$ F, Size $>$}}
+
+
+Ring buffer for data loggers.  
+
+
+
+
+{\ttfamily \#include $<$Ring\+Buf.\+h$>$}
+
+Diagrama de herencias de Ring\+Buf\texorpdfstring{$<$}{<} F, Size \texorpdfstring{$>$}{>}\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_ring_buf}
+\end{center}
+\end{figure}
+\doxysubsection*{Métodos públicos}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_ring_buf_a14b9db2bed2601d116a442812cee5078}{Ring\+Buf}} ()
+\item 
+void \mbox{\hyperlink{class_ring_buf_a07f7d1c7c8a9c1390a7f697aabd11432}{begin}} (F $\ast$file)
+\item 
+size\+\_\+t \mbox{\hyperlink{class_ring_buf_a51ad572d21641613eb0204d7b0e5321c}{bytes\+Free}} () const
+\item 
+size\+\_\+t \mbox{\hyperlink{class_ring_buf_af24035c0a756431c8c73b624fb6df303}{bytes\+Free\+Isr}} () const
+\item 
+size\+\_\+t \mbox{\hyperlink{class_ring_buf_aadad4bc85a76ff249db61b123a512a16}{bytes\+Used}} () const
+\item 
+size\+\_\+t \mbox{\hyperlink{class_ring_buf_a759455d54cc9fc3903247d00c28897f5}{bytes\+Used\+Isr}} () const
+\item 
+size\+\_\+t \mbox{\hyperlink{class_ring_buf_a07398e3e35c726583550c15c8485d643}{memcpy\+In}} (const void $\ast$buf, size\+\_\+t count)
+\item 
+size\+\_\+t \mbox{\hyperlink{class_ring_buf_ab37dd9f3cec4713e561f6f9057a73770}{memcpy\+Out}} (void $\ast$buf, size\+\_\+t count)
+\item 
+size\+\_\+t \mbox{\hyperlink{class_ring_buf_a9d8e7b608007ec4c83a829039595b64c}{print\+Field}} (double value, char term, uint8\+\_\+t prec=2)
+\item 
+size\+\_\+t \mbox{\hyperlink{class_ring_buf_a87b5e4498705642d88412f11bf1ef5dd}{print\+Field}} (float value, char term, uint8\+\_\+t prec=2)
+\item 
+{\footnotesize template$<$typename Type $>$ }\\size\+\_\+t \mbox{\hyperlink{class_ring_buf_a7a5552ac6361cebb8b911df2e5cdcff5}{print\+Field}} (Type value, char term)
+\item 
+size\+\_\+t \mbox{\hyperlink{class_ring_buf_a60f4cd44371930a700dbb82aba025557}{read\+In}} (size\+\_\+t count)
+\item 
+bool \mbox{\hyperlink{class_ring_buf_ac5b3197c6fe27f0336373098ade09d5e}{sync}} ()
+\item 
+size\+\_\+t \mbox{\hyperlink{class_ring_buf_a631795a0a58d0ae556bb45d985e36efa}{write}} (const void $\ast$buf, size\+\_\+t count)
+\item 
+size\+\_\+t \mbox{\hyperlink{class_ring_buf_a24d6943e888ad04e73d462a5c3b4513b}{write}} (const char $\ast$str)
+\item 
+size\+\_\+t \mbox{\hyperlink{class_ring_buf_af0f1eb780920d4c32c500ad0f6a6ed05}{write}} (const uint8\+\_\+t $\ast$buf, size\+\_\+t count) override
+\item 
+size\+\_\+t \mbox{\hyperlink{class_ring_buf_a58cebcaf9ad897942e9e7416f0957849}{write}} (uint8\+\_\+t data) override
+\item 
+size\+\_\+t \mbox{\hyperlink{class_ring_buf_a3ab8d4f4b7bc833018fe4db182660051}{write\+Out}} (size\+\_\+t count)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Descripción detallada}
+\subsubsection*{template$<$class F, size\+\_\+t Size$>$\newline
+class Ring\+Buf$<$ F, Size $>$}
+Ring buffer for data loggers. 
+
+This ring buffer may be used in ISRs. \mbox{\hyperlink{class_ring_buf_af24035c0a756431c8c73b624fb6df303}{bytes\+Free\+Isr()}}, \mbox{\hyperlink{class_ring_buf_a759455d54cc9fc3903247d00c28897f5}{bytes\+Used\+Isr()}}, memcopy\+In(), and memcopy\+Out() are ISR callable. For ISR use call memcopy\+In() in the ISR and use \mbox{\hyperlink{class_ring_buf_a3ab8d4f4b7bc833018fe4db182660051}{write\+Out()}} in non-\/interrupt code to write data to a file. \mbox{\hyperlink{class_ring_buf_a60f4cd44371930a700dbb82aba025557}{read\+In()}} and memcopy\+Out can be use in a similar way to provide file data to an ISR.
+
+Print into a \mbox{\hyperlink{class_ring_buf}{Ring\+Buf}} in an ISR should also work but has not been verified. 
+
+\doxysubsection{Documentación del constructor y destructor}
+\mbox{\Hypertarget{class_ring_buf_a14b9db2bed2601d116a442812cee5078}\label{class_ring_buf_a14b9db2bed2601d116a442812cee5078}} 
+\index{RingBuf$<$ F, Size $>$@{RingBuf$<$ F, Size $>$}!RingBuf@{RingBuf}}
+\index{RingBuf@{RingBuf}!RingBuf$<$ F, Size $>$@{RingBuf$<$ F, Size $>$}}
+\doxysubsubsection{\texorpdfstring{RingBuf()}{RingBuf()}}
+{\footnotesize\ttfamily template$<$class F , size\+\_\+t Size$>$ \\
+\mbox{\hyperlink{class_ring_buf}{Ring\+Buf}}$<$ F, Size $>$\+::\mbox{\hyperlink{class_ring_buf}{Ring\+Buf}} (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\hyperlink{class_ring_buf}{Ring\+Buf}} Constructor. 
+
+\doxysubsection{Documentación de las funciones miembro}
+\mbox{\Hypertarget{class_ring_buf_a07f7d1c7c8a9c1390a7f697aabd11432}\label{class_ring_buf_a07f7d1c7c8a9c1390a7f697aabd11432}} 
+\index{RingBuf$<$ F, Size $>$@{RingBuf$<$ F, Size $>$}!begin@{begin}}
+\index{begin@{begin}!RingBuf$<$ F, Size $>$@{RingBuf$<$ F, Size $>$}}
+\doxysubsubsection{\texorpdfstring{begin()}{begin()}}
+{\footnotesize\ttfamily template$<$class F , size\+\_\+t Size$>$ \\
+void \mbox{\hyperlink{class_ring_buf}{Ring\+Buf}}$<$ F, Size $>$\+::begin (\begin{DoxyParamCaption}\item[{F $\ast$}]{file }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Initialize \mbox{\hyperlink{class_ring_buf}{Ring\+Buf}}. 
+\begin{DoxyParams}[1]{Parámetros}
+\mbox{\texttt{ in}}  & {\em file} & Underlying file. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_ring_buf_a51ad572d21641613eb0204d7b0e5321c}\label{class_ring_buf_a51ad572d21641613eb0204d7b0e5321c}} 
+\index{RingBuf$<$ F, Size $>$@{RingBuf$<$ F, Size $>$}!bytesFree@{bytesFree}}
+\index{bytesFree@{bytesFree}!RingBuf$<$ F, Size $>$@{RingBuf$<$ F, Size $>$}}
+\doxysubsubsection{\texorpdfstring{bytesFree()}{bytesFree()}}
+{\footnotesize\ttfamily template$<$class F , size\+\_\+t Size$>$ \\
+size\+\_\+t \mbox{\hyperlink{class_ring_buf}{Ring\+Buf}}$<$ F, Size $>$\+::bytes\+Free (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\begin{DoxyReturn}{Devuelve}
+the \mbox{\hyperlink{class_ring_buf}{Ring\+Buf}} free space in bytes. Not ISR callable. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_ring_buf_af24035c0a756431c8c73b624fb6df303}\label{class_ring_buf_af24035c0a756431c8c73b624fb6df303}} 
+\index{RingBuf$<$ F, Size $>$@{RingBuf$<$ F, Size $>$}!bytesFreeIsr@{bytesFreeIsr}}
+\index{bytesFreeIsr@{bytesFreeIsr}!RingBuf$<$ F, Size $>$@{RingBuf$<$ F, Size $>$}}
+\doxysubsubsection{\texorpdfstring{bytesFreeIsr()}{bytesFreeIsr()}}
+{\footnotesize\ttfamily template$<$class F , size\+\_\+t Size$>$ \\
+size\+\_\+t \mbox{\hyperlink{class_ring_buf}{Ring\+Buf}}$<$ F, Size $>$\+::bytes\+Free\+Isr (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\begin{DoxyReturn}{Devuelve}
+the \mbox{\hyperlink{class_ring_buf}{Ring\+Buf}} free space in bytes. ISR callable. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_ring_buf_aadad4bc85a76ff249db61b123a512a16}\label{class_ring_buf_aadad4bc85a76ff249db61b123a512a16}} 
+\index{RingBuf$<$ F, Size $>$@{RingBuf$<$ F, Size $>$}!bytesUsed@{bytesUsed}}
+\index{bytesUsed@{bytesUsed}!RingBuf$<$ F, Size $>$@{RingBuf$<$ F, Size $>$}}
+\doxysubsubsection{\texorpdfstring{bytesUsed()}{bytesUsed()}}
+{\footnotesize\ttfamily template$<$class F , size\+\_\+t Size$>$ \\
+size\+\_\+t \mbox{\hyperlink{class_ring_buf}{Ring\+Buf}}$<$ F, Size $>$\+::bytes\+Used (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\begin{DoxyReturn}{Devuelve}
+the \mbox{\hyperlink{class_ring_buf}{Ring\+Buf}} used space in bytes. Not ISR callable. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_ring_buf_a759455d54cc9fc3903247d00c28897f5}\label{class_ring_buf_a759455d54cc9fc3903247d00c28897f5}} 
+\index{RingBuf$<$ F, Size $>$@{RingBuf$<$ F, Size $>$}!bytesUsedIsr@{bytesUsedIsr}}
+\index{bytesUsedIsr@{bytesUsedIsr}!RingBuf$<$ F, Size $>$@{RingBuf$<$ F, Size $>$}}
+\doxysubsubsection{\texorpdfstring{bytesUsedIsr()}{bytesUsedIsr()}}
+{\footnotesize\ttfamily template$<$class F , size\+\_\+t Size$>$ \\
+size\+\_\+t \mbox{\hyperlink{class_ring_buf}{Ring\+Buf}}$<$ F, Size $>$\+::bytes\+Used\+Isr (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\begin{DoxyReturn}{Devuelve}
+the \mbox{\hyperlink{class_ring_buf}{Ring\+Buf}} used space in bytes. ISR callable. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_ring_buf_a07398e3e35c726583550c15c8485d643}\label{class_ring_buf_a07398e3e35c726583550c15c8485d643}} 
+\index{RingBuf$<$ F, Size $>$@{RingBuf$<$ F, Size $>$}!memcpyIn@{memcpyIn}}
+\index{memcpyIn@{memcpyIn}!RingBuf$<$ F, Size $>$@{RingBuf$<$ F, Size $>$}}
+\doxysubsubsection{\texorpdfstring{memcpyIn()}{memcpyIn()}}
+{\footnotesize\ttfamily template$<$class F , size\+\_\+t Size$>$ \\
+size\+\_\+t \mbox{\hyperlink{class_ring_buf}{Ring\+Buf}}$<$ F, Size $>$\+::memcpy\+In (\begin{DoxyParamCaption}\item[{const void $\ast$}]{buf,  }\item[{size\+\_\+t}]{count }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Copy data to the \mbox{\hyperlink{class_ring_buf}{Ring\+Buf}} from buf. The number of bytes copied may be less than count if count is greater than bytes\+Free.
+
+This function may be used in an ISR with \mbox{\hyperlink{class_ring_buf_a3ab8d4f4b7bc833018fe4db182660051}{write\+Out()}} in non-\/interrupt code.
+
+
+\begin{DoxyParams}[1]{Parámetros}
+\mbox{\texttt{ in}}  & {\em buf} & Location of data to be copied. \\
+\hline
+\mbox{\texttt{ in}}  & {\em count} & number of bytes to be copied. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Devuelve}
+Number of bytes actually copied. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_ring_buf_ab37dd9f3cec4713e561f6f9057a73770}\label{class_ring_buf_ab37dd9f3cec4713e561f6f9057a73770}} 
+\index{RingBuf$<$ F, Size $>$@{RingBuf$<$ F, Size $>$}!memcpyOut@{memcpyOut}}
+\index{memcpyOut@{memcpyOut}!RingBuf$<$ F, Size $>$@{RingBuf$<$ F, Size $>$}}
+\doxysubsubsection{\texorpdfstring{memcpyOut()}{memcpyOut()}}
+{\footnotesize\ttfamily template$<$class F , size\+\_\+t Size$>$ \\
+size\+\_\+t \mbox{\hyperlink{class_ring_buf}{Ring\+Buf}}$<$ F, Size $>$\+::memcpy\+Out (\begin{DoxyParamCaption}\item[{void $\ast$}]{buf,  }\item[{size\+\_\+t}]{count }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Copy date from the \mbox{\hyperlink{class_ring_buf}{Ring\+Buf}} to buf. The number of bytes copied may be less than count if bytes\+Used is less than count.
+
+This function may be used in an ISR with \mbox{\hyperlink{class_ring_buf_a60f4cd44371930a700dbb82aba025557}{read\+In()}} in non-\/interrupt code.
+
+
+\begin{DoxyParams}[1]{Parámetros}
+\mbox{\texttt{ out}}  & {\em buf} & Location to receive the data. \\
+\hline
+\mbox{\texttt{ in}}  & {\em count} & number of bytes to be copied. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Devuelve}
+Number of bytes actually copied. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_ring_buf_a9d8e7b608007ec4c83a829039595b64c}\label{class_ring_buf_a9d8e7b608007ec4c83a829039595b64c}} 
+\index{RingBuf$<$ F, Size $>$@{RingBuf$<$ F, Size $>$}!printField@{printField}}
+\index{printField@{printField}!RingBuf$<$ F, Size $>$@{RingBuf$<$ F, Size $>$}}
+\doxysubsubsection{\texorpdfstring{printField()}{printField()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily template$<$class F , size\+\_\+t Size$>$ \\
+size\+\_\+t \mbox{\hyperlink{class_ring_buf}{Ring\+Buf}}$<$ F, Size $>$\+::print\+Field (\begin{DoxyParamCaption}\item[{double}]{value,  }\item[{char}]{term,  }\item[{uint8\+\_\+t}]{prec = {\ttfamily 2} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Print a number followed by a field terminator. 
+\begin{DoxyParams}[1]{Parámetros}
+\mbox{\texttt{ in}}  & {\em value} & The number to be printed. \\
+\hline
+\mbox{\texttt{ in}}  & {\em term} & The field terminator. Use \textquotesingle{}\textbackslash{}n\textquotesingle{} for CR LF. \\
+\hline
+\mbox{\texttt{ in}}  & {\em prec} & Number of digits after decimal point. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Devuelve}
+The number of bytes written. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_ring_buf_a87b5e4498705642d88412f11bf1ef5dd}\label{class_ring_buf_a87b5e4498705642d88412f11bf1ef5dd}} 
+\index{RingBuf$<$ F, Size $>$@{RingBuf$<$ F, Size $>$}!printField@{printField}}
+\index{printField@{printField}!RingBuf$<$ F, Size $>$@{RingBuf$<$ F, Size $>$}}
+\doxysubsubsection{\texorpdfstring{printField()}{printField()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily template$<$class F , size\+\_\+t Size$>$ \\
+size\+\_\+t \mbox{\hyperlink{class_ring_buf}{Ring\+Buf}}$<$ F, Size $>$\+::print\+Field (\begin{DoxyParamCaption}\item[{float}]{value,  }\item[{char}]{term,  }\item[{uint8\+\_\+t}]{prec = {\ttfamily 2} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Print a number followed by a field terminator. 
+\begin{DoxyParams}[1]{Parámetros}
+\mbox{\texttt{ in}}  & {\em value} & The number to be printed. \\
+\hline
+\mbox{\texttt{ in}}  & {\em term} & The field terminator. Use \textquotesingle{}\textbackslash{}n\textquotesingle{} for CR LF. \\
+\hline
+\mbox{\texttt{ in}}  & {\em prec} & Number of digits after decimal point. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Devuelve}
+The number of bytes written or -\/1 if an error occurs. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_ring_buf_a7a5552ac6361cebb8b911df2e5cdcff5}\label{class_ring_buf_a7a5552ac6361cebb8b911df2e5cdcff5}} 
+\index{RingBuf$<$ F, Size $>$@{RingBuf$<$ F, Size $>$}!printField@{printField}}
+\index{printField@{printField}!RingBuf$<$ F, Size $>$@{RingBuf$<$ F, Size $>$}}
+\doxysubsubsection{\texorpdfstring{printField()}{printField()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily template$<$class F , size\+\_\+t Size$>$ \\
+template$<$typename Type $>$ \\
+size\+\_\+t \mbox{\hyperlink{class_ring_buf}{Ring\+Buf}}$<$ F, Size $>$\+::print\+Field (\begin{DoxyParamCaption}\item[{Type}]{value,  }\item[{char}]{term }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Print a number followed by a field terminator. 
+\begin{DoxyParams}[1]{Parámetros}
+\mbox{\texttt{ in}}  & {\em value} & The number to be printed. \\
+\hline
+\mbox{\texttt{ in}}  & {\em term} & The field terminator. Use \textquotesingle{}\textbackslash{}n\textquotesingle{} for CR LF. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Devuelve}
+The number of bytes written or -\/1 if an error occurs. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_ring_buf_a60f4cd44371930a700dbb82aba025557}\label{class_ring_buf_a60f4cd44371930a700dbb82aba025557}} 
+\index{RingBuf$<$ F, Size $>$@{RingBuf$<$ F, Size $>$}!readIn@{readIn}}
+\index{readIn@{readIn}!RingBuf$<$ F, Size $>$@{RingBuf$<$ F, Size $>$}}
+\doxysubsubsection{\texorpdfstring{readIn()}{readIn()}}
+{\footnotesize\ttfamily template$<$class F , size\+\_\+t Size$>$ \\
+size\+\_\+t \mbox{\hyperlink{class_ring_buf}{Ring\+Buf}}$<$ F, Size $>$\+::read\+In (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{count }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Read data into the \mbox{\hyperlink{class_ring_buf}{Ring\+Buf}} from the underlying file. the number of bytes read may be less than count if bytes\+Free is less than count.
+
+This function may be used in non-\/interrupt code with memcopy\+Out() in an ISR.
+
+
+\begin{DoxyParams}[1]{Parámetros}
+\mbox{\texttt{ in}}  & {\em count} & number of bytes to be read. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Devuelve}
+Number of bytes actually read. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_ring_buf_ac5b3197c6fe27f0336373098ade09d5e}\label{class_ring_buf_ac5b3197c6fe27f0336373098ade09d5e}} 
+\index{RingBuf$<$ F, Size $>$@{RingBuf$<$ F, Size $>$}!sync@{sync}}
+\index{sync@{sync}!RingBuf$<$ F, Size $>$@{RingBuf$<$ F, Size $>$}}
+\doxysubsubsection{\texorpdfstring{sync()}{sync()}}
+{\footnotesize\ttfamily template$<$class F , size\+\_\+t Size$>$ \\
+bool \mbox{\hyperlink{class_ring_buf}{Ring\+Buf}}$<$ F, Size $>$\+::sync (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Write all data in the \mbox{\hyperlink{class_ring_buf}{Ring\+Buf}} to the underlying file. \begin{DoxyReturn}{Devuelve}
+true for success. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_ring_buf_a24d6943e888ad04e73d462a5c3b4513b}\label{class_ring_buf_a24d6943e888ad04e73d462a5c3b4513b}} 
+\index{RingBuf$<$ F, Size $>$@{RingBuf$<$ F, Size $>$}!write@{write}}
+\index{write@{write}!RingBuf$<$ F, Size $>$@{RingBuf$<$ F, Size $>$}}
+\doxysubsubsection{\texorpdfstring{write()}{write()}\hspace{0.1cm}{\footnotesize\ttfamily [1/4]}}
+{\footnotesize\ttfamily template$<$class F , size\+\_\+t Size$>$ \\
+size\+\_\+t \mbox{\hyperlink{class_ring_buf}{Ring\+Buf}}$<$ F, Size $>$\+::write (\begin{DoxyParamCaption}\item[{const char $\ast$}]{str }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Copy str to \mbox{\hyperlink{class_ring_buf}{Ring\+Buf}}.
+
+
+\begin{DoxyParams}[1]{Parámetros}
+\mbox{\texttt{ in}}  & {\em str} & Location of data to be written. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Devuelve}
+Number of bytes actually written. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_ring_buf_af0f1eb780920d4c32c500ad0f6a6ed05}\label{class_ring_buf_af0f1eb780920d4c32c500ad0f6a6ed05}} 
+\index{RingBuf$<$ F, Size $>$@{RingBuf$<$ F, Size $>$}!write@{write}}
+\index{write@{write}!RingBuf$<$ F, Size $>$@{RingBuf$<$ F, Size $>$}}
+\doxysubsubsection{\texorpdfstring{write()}{write()}\hspace{0.1cm}{\footnotesize\ttfamily [2/4]}}
+{\footnotesize\ttfamily template$<$class F , size\+\_\+t Size$>$ \\
+size\+\_\+t \mbox{\hyperlink{class_ring_buf}{Ring\+Buf}}$<$ F, Size $>$\+::write (\begin{DoxyParamCaption}\item[{const uint8\+\_\+t $\ast$}]{buf,  }\item[{size\+\_\+t}]{count }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}}
+
+Override virtual function in Print for efficiency.
+
+
+\begin{DoxyParams}[1]{Parámetros}
+\mbox{\texttt{ in}}  & {\em buf} & Location of data to be written. \\
+\hline
+\mbox{\texttt{ in}}  & {\em count} & number of bytes to be written. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Devuelve}
+Number of bytes actually written. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_ring_buf_a631795a0a58d0ae556bb45d985e36efa}\label{class_ring_buf_a631795a0a58d0ae556bb45d985e36efa}} 
+\index{RingBuf$<$ F, Size $>$@{RingBuf$<$ F, Size $>$}!write@{write}}
+\index{write@{write}!RingBuf$<$ F, Size $>$@{RingBuf$<$ F, Size $>$}}
+\doxysubsubsection{\texorpdfstring{write()}{write()}\hspace{0.1cm}{\footnotesize\ttfamily [3/4]}}
+{\footnotesize\ttfamily template$<$class F , size\+\_\+t Size$>$ \\
+size\+\_\+t \mbox{\hyperlink{class_ring_buf}{Ring\+Buf}}$<$ F, Size $>$\+::write (\begin{DoxyParamCaption}\item[{const void $\ast$}]{buf,  }\item[{size\+\_\+t}]{count }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Copy data to the \mbox{\hyperlink{class_ring_buf}{Ring\+Buf}} from buf.
+
+The number of bytes copied may be less than count if count is greater than bytes\+Free. Use get\+Write\+Error() to check for print errors and clear\+Write\+Error() to clear error.
+
+
+\begin{DoxyParams}[1]{Parámetros}
+\mbox{\texttt{ in}}  & {\em buf} & Location of data to be written. \\
+\hline
+\mbox{\texttt{ in}}  & {\em count} & number of bytes to be written. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Devuelve}
+Number of bytes actually written. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_ring_buf_a58cebcaf9ad897942e9e7416f0957849}\label{class_ring_buf_a58cebcaf9ad897942e9e7416f0957849}} 
+\index{RingBuf$<$ F, Size $>$@{RingBuf$<$ F, Size $>$}!write@{write}}
+\index{write@{write}!RingBuf$<$ F, Size $>$@{RingBuf$<$ F, Size $>$}}
+\doxysubsubsection{\texorpdfstring{write()}{write()}\hspace{0.1cm}{\footnotesize\ttfamily [4/4]}}
+{\footnotesize\ttfamily template$<$class F , size\+\_\+t Size$>$ \\
+size\+\_\+t \mbox{\hyperlink{class_ring_buf}{Ring\+Buf}}$<$ F, Size $>$\+::write (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{data }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}}
+
+Required function for Print. 
+\begin{DoxyParams}[1]{Parámetros}
+\mbox{\texttt{ in}}  & {\em data} & Byte to be written. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Devuelve}
+Number of bytes actually written. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_ring_buf_a3ab8d4f4b7bc833018fe4db182660051}\label{class_ring_buf_a3ab8d4f4b7bc833018fe4db182660051}} 
+\index{RingBuf$<$ F, Size $>$@{RingBuf$<$ F, Size $>$}!writeOut@{writeOut}}
+\index{writeOut@{writeOut}!RingBuf$<$ F, Size $>$@{RingBuf$<$ F, Size $>$}}
+\doxysubsubsection{\texorpdfstring{writeOut()}{writeOut()}}
+{\footnotesize\ttfamily template$<$class F , size\+\_\+t Size$>$ \\
+size\+\_\+t \mbox{\hyperlink{class_ring_buf}{Ring\+Buf}}$<$ F, Size $>$\+::write\+Out (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{count }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Write data to file from \mbox{\hyperlink{class_ring_buf}{Ring\+Buf}} buffer. 
+\begin{DoxyParams}[1]{Parámetros}
+\mbox{\texttt{ in}}  & {\em count} & number of bytes to be written.\\
+\hline
+\end{DoxyParams}
+The number of bytes written may be less than count if bytes\+Used is less than count or if an error occurs.
+
+This function may be used in non-\/interrupt code with memcopy\+In() in an ISR.
+
+\begin{DoxyReturn}{Devuelve}
+Number of bytes actually written. 
+\end{DoxyReturn}
+
+
+La documentación para esta clase fue generada a partir del siguiente fichero\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{_ring_buf_8h}{Ring\+Buf.\+h}}\end{DoxyCompactItemize}
