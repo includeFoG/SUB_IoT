@@ -6,8 +6,8 @@
 //IOQU
 String commandMenu = "*******************************************************************************************************\n"
                      "** NP -> Medida Analog 1     NP -> AlimentoAna 2      NP -> ApagoAna   3         NP -> Alimento RS485 4  **\n"
-                     "** NP -> Mido Estacion 5     NP -> Apago estacion 6   NP -> PwrEntrada 7         NP -> Apago todo 8      **\n"
-                     "** I  -> leeAnalizSch 9      NP -> ListaArchivos 10   NP -> LecturaArchivo 11    NP -> TemperaturaPCB 12 **\n"
+                     "** NP -> Mido Estacion 5     NP -> Apago estacion 6    G -> PwrEntrada 7          H -> Apago todo 8      **\n"
+                     "** I  -> leeAnalizSch 9      NP -> ListaArchivos 10   NP -> LecturaArchivo 11     L -> TemperaturaPCB 12 **\n"
                      "** NP -> Forecast 13         NP -> BorrarArchivo 14   O  -> connexion Inet 15    NP -> Send analog 16    **\n"
                      "** Q  -> Send 485 17         NP -> EnviaAnalizPM 18   S  -> conexion close 19    T  -> Gestion tiempo 20 **\n"
                      "** U  -> Wait(iddle) 21      NP -> Log data 22        W  -> PrintMenu 23         X -> ReadConfig  24    **\n"

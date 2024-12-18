@@ -33,6 +33,7 @@ void insertarComando(String _cmd,unsigned int _index,String &_programa){
     _programa+= _cmd;
   }
   Serial.println(_programa);
+  Serial.println("a_sendTime: "+String(a_sendTime));
 }
 
 void EnableMIKRO()
@@ -69,8 +70,8 @@ String printTime() {
 }
 
 void initRTC(String fechaHora) {
-
-  const byte year = ((fechaHora.substring(2, 4)).toInt());
+ 
+  const int year = ((fechaHora.substring(0, 4)).toInt());
   const byte month = ((fechaHora.substring(5, 7)).toInt());
   const byte day = ((fechaHora.substring(8, 10)).toInt());
 
@@ -86,9 +87,8 @@ void initRTC(String fechaHora) {
   Serial.print (String(minutes) + ":");
   Serial.println (String(seconds));
 
-  rtc.setTime(seconds, minutes, hours, day, month, year);
+  rtc.setTime(seconds, minutes, hours, day, month, year); //el rtc del ESP32Time toma año completo (2025)
 
 
   printTime();
-
 }

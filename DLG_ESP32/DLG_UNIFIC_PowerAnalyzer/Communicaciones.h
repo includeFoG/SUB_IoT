@@ -1,6 +1,6 @@
 #define TINY_GSM_MODEM_BC95G
 
-#define MAX_RETRAY        3
+#define MAX_RETRAY        1
 
 
 #include <TinyGsmClient.h>
@@ -52,14 +52,20 @@ String finalTopic = "";
 
 
 
-void IRAM_ATTR a_TimeSend() {
+void ARDUINO_ISR_ATTR timeSend() {
   a_sendTime = true;
-  Serial.println("ALARMA DE TIEMPO DE ENVIO, estado cambiado a: " + String(a_sendTime));
+  //Serial.println("ALARMA DE TIEMPO DE ENVIO, estado cambiado a: " + String(a_sendTime));
 }
 
 hw_timer_t *alarmTimer = NULL;
 
 void createSendAlarm() {  //configuración de alarma de RTC que avisa de cuándo se cumple el tiempo entre envíos. fija una alrma en el tiempo actual
+  if (alarmTimer) {
+    // Stop and free timer
+    timerEnd(alarmTimer);
+    alarmTimer = NULL;
+  }
+    
   uint8_t wait_hora = localConfig.waitTime / 3600;
   uint8_t wait_min  =  ((localConfig.waitTime - (wait_hora * 3600)) / 60);
   uint8_t wait_seg = (localConfig.waitTime - (wait_hora * 3600 + wait_min * 60));
@@ -87,14 +93,14 @@ void createSendAlarm() {  //configuración de alarma de RTC que avisa de cuándo
   /*
     rtc.setAlarmTime(a_hora, a_min, a_seg);
     rtc.enableAlarm(rtc.MATCH_HHMMSS);
-    rtc.attachInterrupt(a_TimeSend);*/
-  alarmTimer = timerBegin(80000000);
-  timerAttachInterrupt(alarmTimer, &a_TimeSend);  // Adjuntar la ISR
-  timerAlarm(alarmTimer, localConfig.waitTime * 1000000, false,0);  // Configura la alarma para el tiempo de espera microsegundos
-  //TIMERWRITE?
-  //timerAlarmEnable(timer);  // Habilitar la alarma del timer
+    rtc.attachInterrupt(timeSend);*/
+  long alarmMicroseconds = localConfig.waitTime * 1000000;
+  alarmTimer = timerBegin(1000000);  //seteamos frecuencia del timer 1Mhz
+  timerAttachInterrupt(alarmTimer, &timeSend);  // Adjuntar la ISR
+  timerAlarm(alarmTimer, alarmMicroseconds, false, 0); // Configura la alarma para el tiempo de espera microsegundos
 
   Serial.println();
+  Serial.println("estableciendo tiempo de alarma (microsegundos): "+ String(alarmMicroseconds));
   Serial.print("Alarma de tiempo de envío fijada a las: " + String(a_hora) + ":" + String(a_min) + ":" + String(a_seg));
   Serial.print("    Hora actual:" + String(hour(current_timestamp)) + ":" + String(minute(current_timestamp)) + ":" + String(second(current_timestamp)));
   Serial.println();
@@ -183,6 +189,8 @@ int EnviaMQTT(String MessageToSend)
   finalTopic = DefTopic(localConfigMQTT.topic1 , localConfigMQTT.topic2 , localConfigMQTT.topic3, localConfigMQTT.topic4);
 
   Serial.println("Enviando mensaje al broker");
+
+  //MessageToSend = "TEST: "+String(millis());
 
   if (modem.mqttSend(finalTopic.c_str(), MessageToSend.c_str()))
   {

@@ -18,6 +18,8 @@
  * 
  * https://espressif.github.io/arduino-esp32/package_esp32_index.json
  * board ESP32 driver version: 3.0.5  C++20
+ * 
+ * shrPrta modificada para <<singleton>>
 */
 
 
@@ -34,5 +36,11 @@
    *    UMRX pin 24
    *    UMTX pin 25
    *  
+   * 
+   */
+
+  /*PENDIENTE:
+   *  -Gestionar la destrucción de objetos
+   * 
    * 
    */

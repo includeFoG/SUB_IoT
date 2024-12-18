@@ -10,7 +10,7 @@
 #include <SPI.h>
 
 #include <ESP32Time.h>
-ESP32Time rtc(3600); //offset in seconds GMT
+ESP32Time rtc(0); //offset in seconds GMT SE LE HA QUITADO
 
 #define SerialM1 Serial1
 #define SerialMux Serial2
@@ -75,7 +75,7 @@ void loop() {
     _configLoaded = true;
   } else {
     programa = localConfig.programa;
-    Serial.println("CONFIGURADO");
+    //Serial.println("CONFIGURADO");
     if (contFallos > NUM_FALLOS_MAX) {
       programa = "Z";  //reinicio
     }
@@ -160,7 +160,11 @@ void loop() {
 
         break;
 
-
+ /*********************************************************************************************************************
+                                                     [12] 'O' TemperaturaPCB
+      *********************************************************************************************************************/
+      case 12: //'L' conecta modem
+      s_ValJSON[takeParam("xh")] = localConfig.sensorID;
       /*********************************************************************************************************************
                                                      [15] 'O' conecta modem
       *********************************************************************************************************************/
@@ -174,10 +178,8 @@ void loop() {
 
         esp_task_wdt_reset();
 
-        current_timestamp = rtc.getEpoch();
-        sum_SecAct = ((hour(current_timestamp) * 3600) + (minute(current_timestamp) * 60) + second(current_timestamp));
-
-
+        //current_timestamp = rtc.getEpoch();
+        //sum_SecAct = ((hour(current_timestamp) * 3600) + (minute(current_timestamp) * 60) + second(current_timestamp));
         //if (sum_SecAct - SendTime >= _sendTime) {
         if (a_sendTime) {
           EnableMIKRO();
@@ -259,7 +261,7 @@ void loop() {
           }
         } else retry_send = 0;
         if (err_com == 99) //ANTES 4
-          Serial.println("Envío suspendido hasta cumplir tiempo");
+          Serial.println("Envío suspendido");
         else
           Serial.print("Retry send RS: "); Serial.println(retry_send);
 
@@ -450,6 +452,7 @@ void loop() {
 int selectState(char c) {
   switch (c) {
     case 'I': return 9;
+    case 'L': return 12;
     case 'O': return 15;
     case 'Q': return 17;
     case 'S': return 19;
