@@ -4,8 +4,8 @@
 #include <ModbusMaster.h>
 #include <QuickMedianLib.h>
 
-#define MAX485_DE      26
-#define MAX485_RE_NEG  26
+#define MAX485_DE      6
+#define MAX485_RE_NEG  6
 
 // instantiate ModbusMaster object
 ModbusMaster node3;
