@@ -1,6 +1,6 @@
 #define TINY_GSM_MODEM_BC95G
 
-#define MAX_RETRAY        1
+#define MAX_RETRAY        2
 
 
 #include <TinyGsmClient.h>
@@ -190,7 +190,7 @@ int EnviaMQTT(String MessageToSend)
 
   Serial.println("Enviando mensaje al broker");
 
-  //MessageToSend = "TEST: "+String(millis());
+  //MessageToSend += " TEST: "+String(millis());
 
   if (modem.mqttSend(finalTopic.c_str(), MessageToSend.c_str()))
   {

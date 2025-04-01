@@ -149,6 +149,7 @@ void loop() {
         {
           contador++;
           if (contador < MAX_RETRAY) {
+            Serial.println("insertando \"I\"");
             insertarComando("I", longitud + 1, programa);
           }
         }
@@ -187,12 +188,13 @@ void loop() {
           if (startComPort() != 0) {
             retry_connect++;
             if (retry_connect == MAX_RETRAY) {
-              Serial.println("Número máximo de intentos de conexión alcanzado");
+              Serial.println("Número máximo de intentos de conexión alcanzado, insertando \"S\"");
               insertarComando("S", longitud + 1, programa);
               contFallos++;
             }
             else {
               if ( retry_connect > MAX_RETRAY )retry_connect = 1;
+              Serial.println("insertando \"SO\"");
               insertarComando("SO", longitud + 1, programa);
             }
           } else retry_connect = 0;
@@ -225,37 +227,38 @@ void loop() {
         else if (err_com != 0 && err_com != 99) {
           retry_send++;
           if (retry_send == MAX_RETRAY) {
+            Serial.println("insertando \"S\"");
             insertarComando("S", longitud + 1, programa);
             contFallos++;
           }
           else {
             if ( retry_send > MAX_RETRAY )retry_send = 1;
             if ( err_com == 1) { //ANTES 2
-              Serial.println("ERROR! El dispositivo no se encontraba conectado cuando se intentó hacer el envío(No hay conexión con la red)");
+              Serial.println("ERROR! El dispositivo no se encontraba conectado cuando se intentó hacer el envío(No hay conexión con la red, insertando \"SOQ\")");
               insertarComando("SOQ", longitud + 1, programa);
             }
             if ( err_com == 2) {
-              Serial.println("ERROR DE COMUNICACIONES (error al conectar con el servidor web HTTP)");
+              Serial.println("ERROR DE COMUNICACIONES (error al conectar con el servidor web HTTP, insertando \"SOQ\")");
               insertarComando("SOQ", longitud + 1, programa);
             }
             if ( err_com == 3) { //ANTES 3
-              Serial.println("ERROR DE COMUNICACIONES (error al enviar mensaje HTTP)");
+              Serial.println("ERROR DE COMUNICACIONES (error al enviar mensaje HTTP), insertando \"SOQ\"");
               insertarComando("SOQ", longitud + 1, programa);
             }
             if ( err_com == 4) { //ANTES 3
-              Serial.println("ERROR DE COMUNICACIONES (error al conectar con el servidor web HTTPS)");
+              Serial.println("ERROR DE COMUNICACIONES (error al conectar con el servidor web HTTPS, insertando \"SOQ\")");
               insertarComando("SOQ", longitud + 1, programa);
             }
             if ( err_com == 5) { //ANTES 3
-              Serial.println("ERROR DE COMUNICACIONES (error al enviar mensaje HTTPS)");
+              Serial.println("ERROR DE COMUNICACIONES (error al enviar mensaje HTTPS, insertando \"SOQ\")");
               insertarComando("SOQ", longitud + 1, programa);
             }
             if ( err_com == 10) { //ANTES 1
-              Serial.println("ERROR DE COMUNICACIONES (error al conectar con broker MQTT)");
+              Serial.println("ERROR DE COMUNICACIONES (error al conectar con broker MQTT, insertando \"fQ\")");
               insertarComando("fQ", longitud + 1, programa);
             }
             if ( err_com == 11) { //ANTES 1
-              Serial.println("ERROR DE COMUNICACIONES (error al enviar el mensaje MQTT)");
+              Serial.println("ERROR DE COMUNICACIONES (error al enviar el mensaje MQTT, insertando \"fQ\")");
               insertarComando("fQ", longitud + 1, programa);
             }
           }
@@ -413,7 +416,7 @@ void loop() {
             if (retry_connect2 >= MAX_RETRAY)
             {
               contFallos++;
-              Serial.println("Número máximo de reintentos alcanzado");
+              Serial.println("Número máximo de reintentos alcanzado, insertando \"S\"");
 
               insertarComando("S", longitud + 1, programa);
               retry_connect2 = 1;
@@ -427,8 +430,10 @@ void loop() {
             }
             else {
 #if defined(NO_DISCONNECT)
+Serial.println("insertando \"rOt\"");
               insertarComando("rOt", longitud + 1, programa);
 #else
+Serial.println("insertando \"SrOt\"");
               insertarComando("SrOt", longitud + 1, programa);
 #endif
             }

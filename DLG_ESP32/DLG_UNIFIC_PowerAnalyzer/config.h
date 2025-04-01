@@ -19,10 +19,10 @@
 #define DEF_PORT          80 //SSL 443 NOSSL 80 //UBIDOTS: SSL:9812
 #define DEF_FLAG_SSL      false
 #define DEF_PATH          "/astican.php" //
-#define DEF_SENSOR_ID     "SSM-Aport-006"   //"SSM-sens-002" // "SSM-whst-002" //"SSM-pres-002" //"SSM-desa-001" //"SSM-comp-001" // "SSM-test1"  //"SSM-test2"  //"SSM-hidroc-001" //"SSM-AnalizRed-002" 
-#define DEF_MEASURE_FREQ  30// TIEMPO ENTRE MEDICIONES (continuas) minimo 10 segundos (para menos modificar numero de lecturas) en segundos
+#define DEF_SENSOR_ID     "SSM-Aport-004"   //"SSM-sens-002" // "SSM-whst-002" //"SSM-pres-002" //"SSM-desa-001" //"SSM-comp-001" // "SSM-test1"  //"SSM-test2"  //"SSM-hidroc-001" //"SSM-AnalizRed-002" 
+#define DEF_MEASURE_FREQ  590// TIEMPO ENTRE MEDICIONES (continuas) minimo 10 segundos (para menos modificar numero de lecturas) en segundos
 #define DEF_SLEEP_TIME    5// SleepTime LowPower en segundos
-#define DEF_WAIT_TIME     60 //TIEMPO ENTRE ENVIOS en segundos 
+#define DEF_WAIT_TIME     600 //TIEMPO ENTRE ENVIOS en segundos 
 #define DEF_MIN_SPACE     65000 //KB espacio mínimo en la SD antes de empezar a borrar archivos (65000 espacio aprox 1 mes wavepiston)
 #define DEF_PROGRAM       "LIOQfSU"//"IOQfSU"//"GLDIOQvHU"  
 //"GLBDIOQveBArOPSHVvU"    
