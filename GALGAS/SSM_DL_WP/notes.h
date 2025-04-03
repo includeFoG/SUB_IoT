@@ -28,7 +28,7 @@ IMPORTANTE: MODIFICAR LA CAPACIDAD DE LA PILA BATTERY_CAPACITY
  * TaskWIFI          SE CREA EN TASKBLE
  * TaskDataReading   SE CREA EN TASKBLE
  * 
- * ____________________________________________INDICADORES BATERIA____________________________________________
+ * ____________________________________________INDICADORES BATERIA___________________________________________ _
  * LED 5 -> Conectado a pin 9 -> Se pone a GND cuando la batería está cargando (ENDENDIDO), se apaga cuando la batería está cargada
  * LED 4 -> Conectado a pin 7 -> Se pone a GND cuando la tensión de entrada para cargar la batería está dentro de los valores necesarios
  * 
