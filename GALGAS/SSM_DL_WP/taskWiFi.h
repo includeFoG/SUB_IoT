@@ -14,7 +14,7 @@ TaskHandle_t wifi_task_handle;
 void TaskWIFI( void *pvParameters ) {
   //sincroniza NTP con el RTC_INT
   sntp_set_time_sync_notification_cb( timeavailable ); //configuracion del ntp, setea un callback timeavailable() que actualiza el RTC interno de forma automática. Se ejecuta timeavailable en cada sincronizacion
-  sntp_servermode_dhcp(1);    // (optional) Enable sntp from dhcp
+  esp_sntp_servermode_dhcp(1);//sntp_servermode_dhcp(1);    // (optional) Enable sntp from dhcp
   configTime(gmtOffset_sec, daylightOffset_sec, ntpServer1, ntpServer2);  //initialice ntp with GMT config //!!!!HAY QUE PROBAR A TRABAJAR CON UTC HACIENDO CAMBIOS DE CONFIGURACIONES
 
   WiFi.begin(SSID, SSID_PASS);

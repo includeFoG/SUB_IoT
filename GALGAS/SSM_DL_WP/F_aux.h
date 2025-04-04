@@ -1,3 +1,6 @@
+
+
+
 void myDelayMs(int ms)
 {
   vTaskDelay( ms  / portTICK_PERIOD_MS );
@@ -194,12 +197,12 @@ void sesionFreqTimerCallBack(TimerHandle_t expiredTimer) {
 
 
 esp_err_t setup_Timer() {
-  const char* TAG_TIMERSESION = "[TimerSesion]";
+  const char TAG_TIMERSESION[] = "[TimerSesion]";
   ESP_LOGI(TAG_TIMERSESION, "Starting Timer");
   sesionFreqTimer = xTimerCreate("sesionTimer", //just a name
                                  pdMS_TO_TICKS(MEASURING_TIME * 60000), //timer period ticks
                                  pdFALSE, //autoreload when expires
-                                 (void *)timerId, //assign ech timer  auniq id equal to its array index
+                                 (void *)&timerId, //assign ech timer  auniq id equal to its array index
                                  sesionFreqTimerCallBack);
 
   if (sesionFreqTimer == NULL) {
@@ -386,7 +389,7 @@ uint8_t checkIfCharging() {
   if (digitalRead(PWR_IN)) { //cable de carga conectado
     if (v_infoBat[2] >= 0) { //corriente >= 0
       if (v_infoBat[3] >= (0.9 * v_infoBat[4])) { //capacidad = 10000/10400  antes:v_infoBat[0] == 100 carga 100%, esto a veces estando al 97% al conectar cable marca 100%, no lo ponemos en 10400 porque podría tardar muchas horas más
-        Serial.println("bat full charge");
+        Serial.println(">>bat full charged");
         return 5; //cargada 100%
       }
 
@@ -436,7 +439,7 @@ void checkStateOfChargeToSleep(bool sleepIfCharging = false, bool sleepIfFullCha
           Serial.updateBaudRate(BAUD_SERIAL);
           //checkFreqs(); QUITADO POR REDUCCION DE TIEMPO
 
-          Serial.println("C-going to sleep for: " + String(BLINK_CHARGE_FREQUENCE) + " s");
+          Serial.println("C-going to sleep for: " + String(BLINK_CHARGE_FREQUENCE) + " s\n\n");
 
           //Al estar ya encendido habilitamos ISR_DeepSleep a LOW
           detachInterrupt(digitalPinToInterrupt(PWR_IN));
@@ -454,9 +457,8 @@ void checkStateOfChargeToSleep(bool sleepIfCharging = false, bool sleepIfFullCha
           Serial.println("\nState FULLCHARED Lowing Frequency");
           setCpuFrequencyMhz(10);
           Serial.updateBaudRate(BAUD_SERIAL);
-          //checkFreqs(); QUITADO POR REDUCCION DE TIEMPO
-
-          Serial.println("FC-going to sleep for: " + String(BLINK_CHARGE_FREQUENCE * 6) + " s");
+          
+          Serial.println("FC-going to sleep for: " + String(BLINK_CHARGE_FREQUENCE*6)+" s\n\n");
 
           pinsToLow();
           digitalWrite(RLED, LOW);//DEJAMOS FIJO EL RGB ROJO
@@ -544,6 +546,7 @@ void checkStateOfChargeIfISRInSleepMode() {
       myDelayMs(500); //delay para dar tiempo a la batería a que empiece a cargar
       //ver si está cargando o cargado
       if (checkIfWantToSleepCharging()) { //preguntamos al usuario si quiere abortar el sleepmode
+
         checkStateOfChargeToSleep(true, true); //comprobamos estado de carga y si está cargando volvemos a dormir
       }
     }
@@ -567,7 +570,7 @@ void checkStateOfChargeIfISRInSleepMode() {
 
 
 //prototipo de funcion
-void IRAM_ATTR ISR_connectPowerCable();
+void ISR_connectPowerCable();
 /*
    ESTA INTERRUPCION SE ENCARGA DE CUANDO EL EQUIPO ESTA DESPIERTO INDICAR QUE SE HA DESCONECTADO EL CABLE DE ALIMENTACION
    Cambiará el estado de la variable de control STATE a CONFIG
@@ -712,7 +715,7 @@ void wakeup_reason()
   }
 }
 
-const byte myAlarmSesion[] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23};//{ 2, 6, 10, 14, 18, 22};
+const byte myAlarmSesion[] = { 2, 6, 10, 14, 18, 22};//{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23};//
 //Obtiene la hora de la siguiente sesión en función de un vector de horas -> se posiciona en el vector en la hora que coincide con la actual (para posteriormente comprobar timewindow) o la siguiente
 uint8_t getNextSesion(struct tm actual_tm) {
   uint8_t actualHour = actual_tm.tm_hour;
@@ -872,7 +875,7 @@ void blinkLed(uint8_t led, int time, uint8_t pulses = 1) //DEBERIA USARSE UNICAM
 
 //lee el buffer de recepción del RS485 hasta el caracter ']'
 std::string waitResponseRS485Command() {
-  //const char* TAG_RS485_RX = "[RS485-Rx]";
+  //const char TAG_RS485_RX[] = "[RS485-Rx]";
   digitalWrite(PWR_V3_EN, HIGH);//INTERNO
   digitalWrite(PWR_RS485_EN, HIGH); //EXTERNO
 
@@ -913,7 +916,7 @@ std::string waitResponseRS485Command() {
 
 
 void sendTransmisionRS485(std::string command) {
-  //const char* TAG_RS485_TX = "[RS485-Tx]";
+  //const char TAG_RS485_TX[] = "[RS485-Tx]";
   //NOS ASEGURAMOS DE QUE ESTE ENCENDIDO
   digitalWrite(PWR_RS485_EN, HIGH);
   digitalWrite(PWR_V3_EN, HIGH);
@@ -974,6 +977,21 @@ class MyCallbacks: public BLECharacteristicCallbacks {
    rst reinicia el valor de las variables estáticas usadas para el filtro, debe reiniciarse si se cambia de condiciones iniciales (posición) respecto a la última calibración
 */
 void getIMUFiltered(IMUStruct & IMUParams, uint16_t samples = 25, uint8_t movil = 2, bool rst = false) {
+
+   if (samples == 1) {
+      sensorIMU.getAcceleration(&IMUParams.measure_aX, &IMUParams.measure_aY, &IMUParams.measure_aZ);
+      sensorIMU.getRotation(&IMUParams.measure_gX, &IMUParams.measure_gY, &IMUParams.measure_gZ);
+  
+      IMUParams.pond_aX = IMUParams.measure_aX;
+      IMUParams.pond_aY = IMUParams.measure_aY;
+      IMUParams.pond_aZ = IMUParams.measure_aZ;
+  
+      IMUParams.pond_gX = IMUParams.measure_gX;
+      IMUParams.pond_gY = IMUParams.measure_gY;
+      IMUParams.pond_gZ = IMUParams.measure_gZ;
+      return;
+  }
+  
   //Variables usadas por el filtro pasa bajos perduran en el tiempo
   static long f_aX, f_aY, f_aZ;
   static long f_gX, f_gY, f_gZ;

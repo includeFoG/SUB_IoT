@@ -7,7 +7,7 @@
 
 #define VERSION "V.0.0.7.2"
 
-#define CONFIG_LOG_DEFAULT_LEVEL 3 //3:Info, 4:debug->errores de  //BAJAR A 2 PARA EJECUTAR NORMAL
+#define CONFIG_LOG_DEFAULT_LEVEL 2 //3:Info, 4:debug->errores de  //BAJAR A 2 PARA EJECUTAR NORMAL
 
 String SSID = "";
 String SSID_PASS = "";
@@ -41,28 +41,28 @@ long lastTimeISRWire = 0; //DEBOUNCING esta variable guarda la última vez que s
 
 //____________________________________________________________NVS__________________________________________________________
 #define NVS_NAMESPACE  "NVS_VARS"
-char* nvs_key_filename = "nvs_intro";
+char nvs_key_filename[] = "nvs_intro";
 int16_t  nvs_val_filename = 1; //almacena el valor introducido por el usuario para usarlo como nombre de archivo
 
 //OFFSETS DE ACELERACIONES
-char* nvs_key_offset_aX = "nvs_off_aX";
-char* nvs_key_offset_aY = "nvs_off_aY";
-char* nvs_key_offset_aZ = "nvs_off_aZ";
+char nvs_key_offset_aX[] = "nvs_off_aX";
+char nvs_key_offset_aY[] = "nvs_off_aY";
+char nvs_key_offset_aZ[] = "nvs_off_aZ";
 int16_t nvs_val_offset_aX = 0;
 int16_t nvs_val_offset_aY = 0;
 int16_t nvs_val_offset_aZ = 0;
 
 //OFFSET DE GIROSCOPIO
-char* nvs_key_offset_gX = "nvs_off_gX";
-char* nvs_key_offset_gY = "nvs_off_gY";
-char* nvs_key_offset_gZ = "nvs_off_gZ";
+char nvs_key_offset_gX[] = "nvs_off_gX";
+char nvs_key_offset_gY[] = "nvs_off_gY";
+char nvs_key_offset_gZ[] = "nvs_off_gZ";
 int16_t nvs_val_offset_gX = 0;
 int16_t nvs_val_offset_gY = 0;
 int16_t nvs_val_offset_gZ = 0;
 
 //SENSIBILIDAD IMU
-char* nvs_key_sens_acel_IMU = "nvs_sensA";
-char* nvs_key_sens_giro_IMU = "nvs_sensG";
+char nvs_key_sens_acel_IMU[] = "nvs_sensA";
+char nvs_key_sens_giro_IMU[] = "nvs_sensG";
 int16_t nvs_val_sens_acel_IMU = 0;  //0:+-2g ,1:+-4g ,2:+-8g ,3:+-16g
 int16_t nvs_val_sens_giro_IMU = 0;  //0:+-250º/s ,1:+-500º/s ,2:+-1000º/s ,3:+-2000º/s
 
@@ -122,19 +122,19 @@ const unsigned int BATTERY_CAPACITY = 10400; // e.g. 850mAh battery design capac
 
 
 
-const char* host = "esp32";
-const char* ntpServer1 = "pool.ntp.org";
-const char* ntpServer2 = "time.nist.gov";
+const char host[] = "esp32";
+const char ntpServer1[] = "pool.ntp.org";
+const char ntpServer2[] = "time.nist.gov";
 const long  gmtOffset_sec = 0;         //0 Hora canaria GMT+0 | 3600 -> zona horaria +1
 const int   daylightOffset_sec = 3600;    //3600 = uso de horario de verano usado para pasar UTC a GMT
-const char* time_zone = "CET-1CEST,M3.5.0,M10.5.0/3";  // TimeZone rule for Europe/Rome including daylight adjustment rules (optional)
+const char time_zone[] = "CET-1CEST,M3.5.0,M10.5.0/3";  // TimeZone rule for Europe/Rome including daylight adjustment rules (optional)
 
 
 
-const char* name_batteryStatusFile = "/dataBattery.csv";
-const char* directoryBattery = "/BatteryInfo";
+const char name_batteryStatusFile[] = "/dataBattery.csv";
+const char directoryBattery[] = "/BatteryInfo";
 
-const char* directorySession = "/Datalog";
+const char directorySession[] = "/Datalog";
 
 
 //____________________________________________________________PIN DEFINITION____________________________________________________________

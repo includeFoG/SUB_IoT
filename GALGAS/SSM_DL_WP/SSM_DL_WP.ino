@@ -48,7 +48,7 @@ ESP32Time rtc; //RTC interno
 ErriezDS1339 rtcEXT; //RTC externo
 
 
-RTC_DATA_ATTR enum states { //posibles estados del dispositivo (SOLO USADOS PARA ESTADOS FUERA DE HILOS DE CONFIG BT y WIFI, NO GENERAR ESTADOS PARA ESTOS HILOS)
+ enum states { //posibles estados del dispositivo (SOLO USADOS PARA ESTADOS FUERA DE HILOS DE CONFIG BT y WIFI, NO GENERAR ESTADOS PARA ESTOS HILOS)
   IDDLE,        //0
   CONFIG,       //1 en hilo de BT/WIFI
   INTIME,       //2 en hora de sesión
@@ -57,7 +57,7 @@ RTC_DATA_ATTR enum states { //posibles estados del dispositivo (SOLO USADOS PARA
   CHARGING,     //5
   FULLCHARGED   //6
 };
-RTC_DATA_ATTR states STATE = CONFIG; //estado inicial
+RTC_DATA_ATTR states STATE = CONFIG; //estado inicial almacenado en RTC
 states PRESTATE = MEASURING; //preestado inicial -> para hacer que salte
 
 
@@ -113,13 +113,15 @@ void setup()
 
   switch (STATE) {
     case CONFIG:
-      Serial.println("\n\n****************************************************");
-      Serial.println("        Program start         ");
-      Serial.println(FILENAME);
-      Serial.print(DEVICE_NAME);
+      Serial.println("\n\n***********************************************************");
+      Serial.println("            Program start");
+      Serial.print(FILENAME);
       Serial.print("\t|\t");
       Serial.println(VERSION);
-      Serial.println("****************************************************");
+      Serial.print(DEVICE_NAME);
+      Serial.print("\t|\tCONFIG_LOG_DEFAULT_LEVEL:");
+      Serial.println(CONFIG_LOG_DEFAULT_LEVEL);
+      Serial.println("***********************************************************");
       break;
     case CHARGING: //CREADO PARA QUE EL DEFAULT NO NOS MODIFIQUE EL ESTADO A INTIME Y PARA ACTUAR EN WAKEUP MIENTRAS CARGA
       Serial.println("\n\n******************************");
@@ -134,6 +136,7 @@ void setup()
       digitalWrite(RLED, HIGH);
 
       if (checkIfWantToSleepCharging()) { //preguntamos al usuario si quiere abortar el sleepmode
+
         checkStateOfChargeToSleep(true, false); //comprobamos estado de carga y si está cargando volvemos a dormir
         if (STATE == CHARGING) {
           break;
@@ -371,15 +374,14 @@ void loop ()//funciona como un hilo más cuando pase el setup
     checkFreqs();
     Serial.print("going to sleep for: ");
 #ifdef RESET_WITH_RTC
-    Serial.print(sToSleep); Serial.println(" s");
+    Serial.print(sToSleep); Serial.println(" s\n\n");
     esp_sleep_enable_timer_wakeup(sToSleep * S_TO_uS_FACTOR); //uS
 #else
     unsigned long sleepingTime = ((FREQ_TIME * 60 * 1000) - millis()); //FREQ_TIME en min y sleepingTime en ms tiene en cuenta el tiempo que ha pasado desde que se despertó
     esp_sleep_enable_timer_wakeup(sleepingTime * mS_TO_uS_FACTOR); //4 * 3600 * S_TO_uS_FACTOR); //uS
     sleepingTime = sleepingTime / 1000; //pasado a segundos
-    Serial.print(sleepingTime / 60); Serial.print("min "); Serial.print(sleepingTime % 60); Serial.println("sec");
+    Serial.print(sleepingTime / 60); Serial.print(" min "); Serial.print(sleepingTime % 60); Serial.println(" sec\n\n");
 #endif
-
     STATE = SLEEP;
     xSemaphoreGive(manager_semaphore);
 

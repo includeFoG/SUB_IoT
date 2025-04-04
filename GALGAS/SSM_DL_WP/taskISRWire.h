@@ -25,7 +25,7 @@
 // Thread taskISRWire
 //*****************************************************************
 
-void checkStateOfChargeToSleep(bool sleepIfCharging , bool sleepIfFullCharged ); //PROTOTIPADO procede de F_aux.h
+void checkStateOfChargeToSleep(bool sleepIfCharging , bool sleepIfFullCharged); //PROTOTIPADO procede de F_aux.h
 
 TaskHandle_t ISRWire_task_handle;
 void TaskISRWire( void *pvParameters ) {
@@ -34,10 +34,9 @@ void TaskISRWire( void *pvParameters ) {
     //sincroniza NTP con el RTC_INT
     Serial.println("\nInit [taskIRWIRE]");
     for (;;) {
-      Serial.println("A");
       
       //no nos interesa que se ejecute nada mientras, recordemos que esto es porque en la interrupción no podíamos ejecutar todo el código que necesitabamos NO HEMOS ENCONTRADO LA FORMA DE PARAR EL RESTO DE HILOS
-
+      Serial.println("A");
       checkStateOfChargeToSleep(true, true);//ver si está cargando o cargado
 
       Serial.println("B");

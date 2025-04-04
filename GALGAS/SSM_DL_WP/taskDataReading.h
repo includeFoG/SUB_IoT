@@ -13,7 +13,7 @@ void TaskDataReading( void *pvParameters )
   Serial.println("\nStarting data thread");
   myDelayMs(50);
 
-  const char* TAG_DATAREADING = "[DAT]";
+  const char TAG_DATAREADING[] = "[DAT]";
 
   if (configCalibrationIMU()) {
     Serial.println("CONFIGURACION DE IMU CARGADA");
@@ -26,6 +26,8 @@ void TaskDataReading( void *pvParameters )
 
   std::string rxData = ""; //buffer recepción
   IMUStruct IMUParams; //estructura de datos de IMU
+
+  getIMUFiltered(IMUParams, 25, 2, true); //reiniciamos valor de imu
 
   //ESPERAMOS HASTA QUE EL DISPOSITIVO TRANSDUCTOR ESTE LISTO PARA COMUNICAR
   char c_ = 0;
@@ -54,8 +56,8 @@ void TaskDataReading( void *pvParameters )
 
   File sessionFile; //nuevo en cada iteración
   File batteryStatusFile; //único
-  char* resultPathBatteryStatusFile = "";
-  char* resultPathSessionFile = "";
+  char* resultPathBatteryStatusFile= nullptr;
+  char* resultPathSessionFile = nullptr;
 
   uxBitsDatos = xEventGroupGetBits(xEventDatos);
   // bool f_fileCreated = false; //flag para indicar si ya se ha creado el archivo de sesión
@@ -142,7 +144,9 @@ void TaskDataReading( void *pvParameters )
 
 
     sessionFile = SD.open(resultPathSessionFile, FILE_WRITE); //a partir de aqui sessionFile devuelve true
-    sessionFile.println("Time[us],SG1[kg],SG2[kg],AcelX[m/s2],AcelY[m/s2],AcelZ[m/s2],GyroX[º/s],GyroY[º/s],GyroZ[º/s],Temp[ºC]");
+    sessionFile.print("Time[us],SG1[kg],SG2[kg],AcelX[m/s2],AcelY[m/s2],AcelZ[m/s2],GyroX[deg/s],GyroY[deg/s],GyroZ[deg/s],Temp[");
+    sessionFile.write(176); // Código ASCII del símbolo º (grado)
+    sessionFile.println("C]");
     // **********************************************************************************************************
   }
 
@@ -190,6 +194,7 @@ void TaskDataReading( void *pvParameters )
       vTaskDelete( NULL );
     }
   }
+
 
   for (;;)
   {
@@ -266,13 +271,13 @@ void TaskDataReading( void *pvParameters )
     if(countComma!=2)
     {
       Serial.println("\nmissData :"+String(countComma));
-      for(int=0;i<(2-countComma);i++){ //nos aseguramos de añadir las comas esperadas para que al menos a partir de aquí sí estén los datos bien ordenados
+      for(int i=0;i<(2-countComma);i++){ //nos aseguramos de añadir las comas esperadas para que al menos a partir de aquí sí estén los datos bien ordenados
         rxData +=',';
       }
     }
     //IMU
 
-    getIMUFiltered(IMUParams, 1, 2, false); //getIMUFiltered(IMUParams);
+    getIMUFiltered(IMUParams, 2, 1, false); //getIMUFiltered(IMUParams);
 
     float v_measures[7];
     v_measures[0] = IMUParams.pond_aX;
