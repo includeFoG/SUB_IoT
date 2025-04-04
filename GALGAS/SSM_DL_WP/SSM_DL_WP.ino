@@ -114,7 +114,7 @@ void setup()
   switch (STATE) {
     case CONFIG:
       Serial.println("\n\n***********************************************************");
-      Serial.println("            Program start");
+      Serial.println("\t\t\tProgram start");
       Serial.print(FILENAME);
       Serial.print("\t|\t");
       Serial.println(VERSION);

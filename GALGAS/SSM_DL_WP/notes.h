@@ -123,8 +123,7 @@ IMPORTANTE: MODIFICAR LA CAPACIDAD DE LA PILA BATTERY_CAPACITY
  * - Se ha cambiado el algoritmo que determina que la pila está cargada, había casos que no contemplaba
  * - Ahora aunque se pierda el dato se posicionan las comas necesarias para que el resto de valores si estén ordenados
  * - Mejoras en tiempos de deep-sleep
- * - Por la nueva frecuencia se ha modificado el filtro de media movil getIMUFiltered, cantidad disminuide de muestras de 25 a 2 y movil reducido de 2 a 1 ahora el filtrado es menor y la respuesta es más rápida
- * - Ahora se garantiza que la media movil se limpie antes de iniciar el archivo
+ * - Por la nueva frecuencia se ha modificado el filtro de media movil getIMUFiltered, cantidad disminuide de muestras de 25 a 1 y se ha quitado el filtrado de media movil
  * 
  * PROBLEMAS DETECTADOS:
  * - Al cambiar de pila como cambia la capacidad hay un problema con el cálculo de batería llena -> MUY IMPORTANTE INDICAR LA CAPACIDAD DE LA BATERIA PARA QUE CARGUE CORRECTAMENTE

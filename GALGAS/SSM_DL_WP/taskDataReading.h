@@ -27,8 +27,6 @@ void TaskDataReading( void *pvParameters )
   std::string rxData = ""; //buffer recepción
   IMUStruct IMUParams; //estructura de datos de IMU
 
-  getIMUFiltered(IMUParams, 25, 2, true); //reiniciamos valor de imu
-
   //ESPERAMOS HASTA QUE EL DISPOSITIVO TRANSDUCTOR ESTE LISTO PARA COMUNICAR
   char c_ = 0;
   long preTime = millis();
@@ -277,7 +275,7 @@ void TaskDataReading( void *pvParameters )
     }
     //IMU
 
-    getIMUFiltered(IMUParams, 2, 1, false); //getIMUFiltered(IMUParams);
+    getIMUFiltered(IMUParams, 1, 2, false); //getIMUFiltered(IMUParams);
 
     float v_measures[7];
     v_measures[0] = IMUParams.pond_aX;

@@ -715,7 +715,7 @@ void wakeup_reason()
   }
 }
 
-const byte myAlarmSesion[] = { 2, 6, 10, 14, 18, 22};//{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23};//
+const byte myAlarmSesion[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23};//{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23};//{ 2, 6, 10, 14, 18, 22};
 //Obtiene la hora de la siguiente sesión en función de un vector de horas -> se posiciona en el vector en la hora que coincide con la actual (para posteriormente comprobar timewindow) o la siguiente
 uint8_t getNextSesion(struct tm actual_tm) {
   uint8_t actualHour = actual_tm.tm_hour;
