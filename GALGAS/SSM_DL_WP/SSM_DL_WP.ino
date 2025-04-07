@@ -115,6 +115,7 @@ void setup()
     case CONFIG:
       Serial.println("\n\n***********************************************************");
       Serial.println("\t\t\tProgram start");
+      Serial.print("\t");
       Serial.print(FILENAME);
       Serial.print("\t|\t");
       Serial.println(VERSION);

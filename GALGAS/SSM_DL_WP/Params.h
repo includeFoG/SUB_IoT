@@ -7,7 +7,7 @@
 
 #define VERSION "V.0.0.7.2"
 
-#define CONFIG_LOG_DEFAULT_LEVEL 3 //3:Info, 4:debug->errores de rto  //BAJAR A 2 PARA EJECUTAR NORMAL
+#define CONFIG_LOG_DEFAULT_LEVEL 2 //3:Info, 4:debug->errores de rto  //BAJAR A 2 PARA EJECUTAR NORMAL
 
 String SSID = "";
 String SSID_PASS = "";
