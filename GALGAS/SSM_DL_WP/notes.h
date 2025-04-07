@@ -125,6 +125,9 @@ IMPORTANTE: MODIFICAR LA CAPACIDAD DE LA PILA BATTERY_CAPACITY
  * - Mejoras en tiempos de deep-sleep
  * - Por la nueva frecuencia se ha modificado el filtro de media movil getIMUFiltered, cantidad disminuide de muestras de 25 a 1 y se ha quitado el filtrado de media movil
  * 
+ * -> Se plantea usar este código con 4 paquetes de 3 baterías como si todo fuese una celda de 41400mAh. Esto implica que si se configuran los 41400mAh como Battery_capacity podrá indicar en la descarga el porcentaje de 
+ * carga restante, pero si se desea cargar se tendrán que cargar los 4 paquetes de forma simultanea o reprogramar para modificar el valor de Battery_capacity
+ * 
  * PROBLEMAS DETECTADOS:
  * - Al cambiar de pila como cambia la capacidad hay un problema con el cálculo de batería llena -> MUY IMPORTANTE INDICAR LA CAPACIDAD DE LA BATERIA PARA QUE CARGUE CORRECTAMENTE
  * - Cuando entre en modo sesión de forma automática aparecen mensajes de intentos de wire.begin() con una frecuencia de 3 segundos, [lo quitamos evitando que la tarea taskledStatus consulte a la batería

@@ -122,6 +122,7 @@ void setup()
       Serial.print(DEVICE_NAME);
       Serial.print("\t|\tCONFIG_LOG_DEFAULT_LEVEL:");
       Serial.println(CONFIG_LOG_DEFAULT_LEVEL);
+      Serial.print(" BATTERY CAPACITY: "); Serial.print(BATTERY_CAPACITY); Serial.println(" mAh");
       Serial.println("***********************************************************");
       break;
     case CHARGING: //CREADO PARA QUE EL DEFAULT NO NOS MODIFIQUE EL ESTADO A INTIME Y PARA ACTUAR EN WAKEUP MIENTRAS CARGA

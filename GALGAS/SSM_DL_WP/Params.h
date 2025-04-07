@@ -118,7 +118,7 @@ typedef enum
 #define mS_TO_uS_FACTOR 1000ULL
 
 //// Set BATTERY_CAPACITY to the design capacity of your battery.
-const unsigned int BATTERY_CAPACITY = 10400; // e.g. 850mAh battery design capacity  para el fuelgauge
+const unsigned int BATTERY_CAPACITY = 10400; // Release V1: 10400 // V2: 3450
 
 
 
