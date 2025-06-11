@@ -52,10 +52,11 @@ ErriezDS1339 rtcEXT; //RTC externo
   IDDLE,        //0
   CONFIG,       //1 en hilo de BT/WIFI
   INTIME,       //2 en hora de sesión
-  MEASURING,   //3 midiendo
+  MEASURING,    //3 midiendo
   SLEEP,        //4
   CHARGING,     //5
-  FULLCHARGED   //6
+  FULLCHARGED,  //6
+  DISCHARGED    //7
 };
 RTC_DATA_ATTR states STATE = CONFIG; //estado inicial almacenado en RTC
 states PRESTATE = MEASURING; //preestado inicial -> para hacer que salte
@@ -320,7 +321,7 @@ void setup()
     Serial.println("ERROR0");
   }
   else {
-    xSemaphoreGive(manager_semaphore); //libera semaforo manager
+    xSemaphoreGive(manager_semaphore); //libera semaforo manager //esta devolucion de semaforo hay que revisarla, se debería devolver en el mismo hilo que la toma
   }
 }
 
@@ -360,15 +361,56 @@ void loop ()//funciona como un hilo más cuando pase el setup
     }
     else if (STATE == INTIME) {
       Serial.println("PREPARING MEASUREMENT");
-      xEventGroupSetBits(xEventDatos, BIT_1_DAT_SESION); //habilita bit sesión
-      xTaskCreatePinnedToCore(TaskDataReading,  "Task Read" ,  4096        ,  NULL,  1  ,  &data_read_task_handle ,  ARDUINO_RUNNING_CORE); //lanza hilo de medidas
+      
+      bool sessionAborted = false; //determina en función del nivel de batería si se hace sesion o no
+      digitalWrite(PWR_V3_EN, HIGH); //aseguramos que se habilita  PULL-UP I2C
+      
+      if (setupBQ27441())  //si hay batería conectada
+      {
+        printf("\nCHECKING BATTERY VOLTAGE...\n");
+      
+        std::string batStat = getBatteryStatus();
+        int firstComma = batStat.find(',');
+        int secondComma = batStat.find(',',firstComma+1);
+        std::string volt="0";
+        
+        if( (firstComma!=std::string::npos) && (secondComma!=std::string::npos) )
+        {
+          volt = batStat.substr(firstComma + 1, secondComma - firstComma - 1);
+        }
+        
+        if(std::stoi(volt)<=MIN_BAT_FOR_SESSION)
+        {
+          sessionAborted = true;
+          printf("ATTENTION, LOW-BATTERY, MEASURING ABORTED TO AVOID SD DAMAGE\n\n");
+          if (xSemaphoreTake(manager_semaphore, pdMS_TO_TICKS(100)) == pdTRUE) {
+           STATE = DISCHARGED;
+          }
+        }
+        else{
+          printf("BATTERY VOLTAGE SECURE: %d mV\n\n",std::stoi(volt));
+        }
+      }
+
+      if(!sessionAborted)
+      {
+        xEventGroupSetBits(xEventDatos, BIT_1_DAT_SESION); //habilita bit sesión
+        xTaskCreatePinnedToCore(TaskDataReading,  "Task Read" ,  4096        ,  NULL,  1  ,  &data_read_task_handle ,  ARDUINO_RUNNING_CORE); //lanza hilo de medidas
+      }
     }
-    xSemaphoreGive(manager_semaphore);
+    
+    xSemaphoreGive(manager_semaphore); //estas devoluciones de semaforos hay que revisarlas , se debería devolver en el mismo hilo que la toma
   }
 
-  if (STATE == IDDLE) { //entra después de haber cerrado el archivo de la sesión
+  if ((STATE == IDDLE) || (STATE == DISCHARGED)) { //entra después de haber cerrado el archivo de la sesión
     long sToSleep = 0;
     sToSleep = sToNextSesion(getNextSesion(rtc.getTimeStruct())); //mira cuándo es la próxima sesión
+    
+    if((sToSleep==1) && (STATE == DISCHARGED)) //estamos en timeWindow pero batería está descargada
+    {
+      sToSleep = (TIME_WINDOW * 60)+1; //duerme el timewindow+1s
+    }
+    
     Serial.println("s Sleep Time: " + String(sToSleep));
     Serial.println("\nLowing Frequency");
     setCpuFrequencyMhz(10);
@@ -385,7 +427,7 @@ void loop ()//funciona como un hilo más cuando pase el setup
     Serial.print(sleepingTime / 60); Serial.print(" min "); Serial.print(sleepingTime % 60); Serial.println(" sec\n\n");
 #endif
     STATE = SLEEP;
-    xSemaphoreGive(manager_semaphore);
+    xSemaphoreGive(manager_semaphore); //esta devolucion de semaforo hay que revisarla
 
     detachInterrupt(digitalPinToInterrupt(PWR_IN));
     if (digitalRead(PWR_IN)) { //si esta a nivel alto

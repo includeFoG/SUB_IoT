@@ -85,7 +85,7 @@ void TaskBLE( void *pvParameters )
           case CMD_SG_CALIB: //COMANDO DE CALIBRACION DE GALGA SOLO FUNCIONA SI SE ACABA DE ENCENDER LA BASE SG
             //PENDIENTE: Comprobar estado evento 3.3v , en caso de estar previamente activo preguntar si se quiere apagar y volver a encender para entrar en modo configuración
             Serial.println("[BLE] Gauge Calibration,Send any character when ready and wait BT");
-            if (xSemaphoreTake(BLE_txSemaphore, 0) == pdTRUE)
+            if (xSemaphoreTake(BLE_txSemaphore, pdMS_TO_TICKS(100)) == pdTRUE)
             {
               txBLE = "Gauge Calibration, \n\tSend any character when ready and wait\n";
               xSemaphoreGive(BLE_txSemaphore);
@@ -101,7 +101,7 @@ void TaskBLE( void *pvParameters )
           case CMD_IMU_CALIB: //COMANDO DE CALIBRACION DE IMU
             Serial.println("[BLE] IMU calibration");
 
-            if (xSemaphoreTake(BLE_txSemaphore, 0) == pdTRUE)
+            if (xSemaphoreTake(BLE_txSemaphore, pdMS_TO_TICKS(100)) == pdTRUE)
             {
               txBLE = "IMU calibration started:\n\t\tSend 0 for factory calibration(first calibration)\n\t\tSend 1 for recalibration\n";//Send 0 to calibrate horizontal (white top)\n\t\tSend 1 to calibrate vertical (connector botton)\n";
               xSemaphoreGive(BLE_txSemaphore);
@@ -114,7 +114,7 @@ void TaskBLE( void *pvParameters )
           case CMD_CFG_WIFI://COMANDO DE CONFIGURACION WIFI
             Serial.println("[BLE] WiFi Configuration");
 
-            if (xSemaphoreTake(BLE_txSemaphore, 0) == pdTRUE)
+            if (xSemaphoreTake(BLE_txSemaphore, pdMS_TO_TICKS(100)) == pdTRUE)
             {
               txBLE = "WiFi Configuration\nType SSID:\n";
               xSemaphoreGive(BLE_txSemaphore);
@@ -126,7 +126,7 @@ void TaskBLE( void *pvParameters )
 
 
           case CMD_STOP_WIFI: //COMANDO DE DESACTIVACION WIFI
-            if (xSemaphoreTake(BLE_txSemaphore, 0) == pdTRUE)
+            if (xSemaphoreTake(BLE_txSemaphore, pdMS_TO_TICKS(100)) == pdTRUE)
             {
               if (wifi_task_handle != NULL) {
                 Serial.println("[BLE] Disconnecting WiFi");
@@ -143,7 +143,7 @@ void TaskBLE( void *pvParameters )
 
 
           case CMD_CFG_RTC: //COMANDO DE ACTUALIZACION RTC
-            if (xSemaphoreTake(BLE_txSemaphore, 0) == pdTRUE)
+            if (xSemaphoreTake(BLE_txSemaphore, pdMS_TO_TICKS(100)) == pdTRUE)
             {
               if (wifi_task_handle != NULL) {
                 Serial.println("[BLE] RTC Configuration\n");
@@ -162,7 +162,7 @@ void TaskBLE( void *pvParameters )
           case CMD_VIEW_DATA: //COMANDO PARA VISUALIZAR LOS DATOS ENVIADOS POR EL DISPOSITIVO TRANSDUCTOR BASE
             Serial.println("[BLE] Data Visualization");
 
-            if (xSemaphoreTake(BLE_txSemaphore, 0) == pdTRUE)
+            if (xSemaphoreTake(BLE_txSemaphore, pdMS_TO_TICKS(100)) == pdTRUE)
             {
               txBLE = "Data Visualization\n";
               xSemaphoreGive(BLE_txSemaphore);
@@ -173,7 +173,7 @@ void TaskBLE( void *pvParameters )
           case CMD_DATA_SESION: //COMANDO PARA INICIALIZAR LA GRABACION DE UNA SESION
             Serial.println("[BLE] Preparing Sesion");
 
-            if (xSemaphoreTake(BLE_txSemaphore, 0) == pdTRUE)
+            if (xSemaphoreTake(BLE_txSemaphore, pdMS_TO_TICKS(100)) == pdTRUE)
             {
               txBLE = "Preparing sesion\n";
               xSemaphoreGive(BLE_txSemaphore);
@@ -186,7 +186,7 @@ void TaskBLE( void *pvParameters )
           case CMD_STOP_DATA: //COMANDO PARA FINALIZAR LA VISUALIZACION Y GRABACION DE UNA SESION
             if ((uxbitsDatos & (BIT_1_DAT_SESION | BIT_0_DAT_VIEW)) != 0) { //si se está trabajando con los datos
               Serial.println("[BLE] Stop Data");
-              if (xSemaphoreTake(BLE_txSemaphore, 0) == pdTRUE)
+              if (xSemaphoreTake(BLE_txSemaphore, pdMS_TO_TICKS(100)) == pdTRUE)
               {
                 txBLE = "Stop data\n";
                 xSemaphoreGive(BLE_txSemaphore);
@@ -201,7 +201,7 @@ void TaskBLE( void *pvParameters )
             }
             else { //si no se está trabajando con datos
               Serial.println("[BLE] Data Visualization NOT init");
-              if (xSemaphoreTake(BLE_txSemaphore, 0) == pdTRUE)
+              if (xSemaphoreTake(BLE_txSemaphore, pdMS_TO_TICKS(100)) == pdTRUE)
               {
                 txBLE = "Data Visualization NOT init\n";
                 xSemaphoreGive(BLE_txSemaphore);
@@ -212,7 +212,7 @@ void TaskBLE( void *pvParameters )
 
           case CMD_END_BLE: //TERMINA CON LA TAREA DE BLE
             if (wifi_task_handle != NULL) {
-              if (xSemaphoreTake(BLE_txSemaphore, 0) == pdTRUE)
+              if (xSemaphoreTake(BLE_txSemaphore, pdMS_TO_TICKS(100)) == pdTRUE)
               {
                 txBLE = "\nClosing WiFi Thread";
                 Serial.println(txBLE.c_str());
@@ -224,7 +224,7 @@ void TaskBLE( void *pvParameters )
 
               while ((uxbitsWifi & BIT_0_DESC_WIFI) != 0) { //wifi_task_handle != NULL) { //mientras siga habilitado Wifi
                 uxbitsWifi = xEventGroupGetBits(xEventWifi);
-                if (xSemaphoreTake(BLE_txSemaphore, 0) == pdTRUE)
+                if (xSemaphoreTake(BLE_txSemaphore, pdMS_TO_TICKS(100)) == pdTRUE)
                 {
                   txBLE = ".";
                   Serial.print(txBLE.c_str());
@@ -235,7 +235,7 @@ void TaskBLE( void *pvParameters )
               Serial.println("wifi_task_handle=Null");
             }
 
-            if (xSemaphoreTake(BLE_txSemaphore, 0) == pdTRUE)
+            if (xSemaphoreTake(BLE_txSemaphore, pdMS_TO_TICKS(100)) == pdTRUE)
             {
               txBLE = "Closing BLE conn and task";
               Serial.println(txBLE.c_str());
@@ -254,7 +254,7 @@ void TaskBLE( void *pvParameters )
           case CMD_BAT_INFO: //consultar estado de batería
              Serial.println("[BLE] [Battery Info] - ");
 
-            if (xSemaphoreTake(BLE_txSemaphore, 0) == pdTRUE)
+            if (xSemaphoreTake(BLE_txSemaphore, pdMS_TO_TICKS(100)) == pdTRUE)
             {
               txBLE = "[Battery info]:\nChrg[%],Vol[mV],AvgCur[mA],Cap[mAh],FullCap[mAh],Pwr[mW],Health[%]:\n";
               txBLE += getBatteryStatus(true);
@@ -265,7 +265,7 @@ void TaskBLE( void *pvParameters )
 
 
           default:
-            if (xSemaphoreTake(BLE_txSemaphore, 0) == pdTRUE)
+            if (xSemaphoreTake(BLE_txSemaphore, pdMS_TO_TICKS(100)) == pdTRUE)
             {
               txBLE = "Command no recognized\n";
               Serial.print(txBLE.c_str());
@@ -284,7 +284,7 @@ void TaskBLE( void *pvParameters )
             SSID = (String)rxBLE.c_str(); //asigna valor enviado por BLE para SSID-Wifi
             SSID = SSID.substring(0, SSID.length() - 1); //quita caracter final
 
-            if (xSemaphoreTake(BLE_txSemaphore, 0) == pdTRUE)
+            if (xSemaphoreTake(BLE_txSemaphore, pdMS_TO_TICKS(100)) == pdTRUE)
             {
               txBLE = "Type Pass:\n";
               xSemaphoreGive(BLE_txSemaphore);
@@ -297,7 +297,7 @@ void TaskBLE( void *pvParameters )
             SSID_PASS = (String)rxBLE.c_str();//asigna valor enviado por BLE para password-wifi
             SSID_PASS = SSID_PASS.substring(0, SSID_PASS.length() - 1); //quita caracter final
 
-            if (xSemaphoreTake(BLE_txSemaphore, 0) == pdTRUE)
+            if (xSemaphoreTake(BLE_txSemaphore, pdMS_TO_TICKS(100)) == pdTRUE)
             {
               txBLE = "WiFi Config Complete, please wait\n";
               xSemaphoreGive(BLE_txSemaphore);
@@ -344,7 +344,7 @@ void TaskBLE( void *pvParameters )
                 //si ha llegado hasta aquí se ha iniciado gaugeCalibration(true) en base SG
                 //en primer lugar envía las medidas de calculo de offset
                 Serial.println("[BLE] Calculating offset, please retire all the forces in the body. \tSend any character when ready and wait, this process could take a few secs");
-                if (xSemaphoreTake(BLE_txSemaphore, 0) == pdTRUE)
+                if (xSemaphoreTake(BLE_txSemaphore, pdMS_TO_TICKS(100)) == pdTRUE)
                 {
                   txBLE = "Calculating offset\n\t1.please retire all the forces in the body.\n\t2.Send any character when ready and wait,\n\tthis process could take a few secs\n";
                   xSemaphoreGive(BLE_txSemaphore);
@@ -354,7 +354,7 @@ void TaskBLE( void *pvParameters )
               }
               else {
                 Serial.print("[BLE] Reception RS485 Error: "); Serial.println(rxDataRS485.c_str());
-                if (xSemaphoreTake(BLE_txSemaphore, 0) == pdTRUE)
+                if (xSemaphoreTake(BLE_txSemaphore, pdMS_TO_TICKS(100)) == pdTRUE)
                 {
                   txBLE = "Error, please check connection and reset the system: ";
                   txBLE += rxDataRS485;
@@ -366,7 +366,7 @@ void TaskBLE( void *pvParameters )
             }
             else { // si no hay respuesta
               Serial.println("[BLE] No response");
-              if (xSemaphoreTake(BLE_txSemaphore, 0) == pdTRUE)
+              if (xSemaphoreTake(BLE_txSemaphore, pdMS_TO_TICKS(100)) == pdTRUE)
               {
                 txBLE = "no response\n";
                 xSemaphoreGive(BLE_txSemaphore);
@@ -388,7 +388,7 @@ void TaskBLE( void *pvParameters )
             //base envía "[Put the weigth to set Slope ID:]" y espera que datalogger envíe un valor (introducido desde BT)
             waitResponseRS485Command();
             Serial.println("[BLE] Place weight and introduce value for SG1 by BT"); //tiene que volver a pasar por el bucle para que refresque valor introducido por BT ir a (f_waitSGParam)
-            if (xSemaphoreTake(BLE_txSemaphore, 0) == pdTRUE)
+            if (xSemaphoreTake(BLE_txSemaphore, pdMS_TO_TICKS(100)) == pdTRUE)
             {
               txBLE = "\nPlace weight and introduce value for SG1\n";
               xSemaphoreGive(BLE_txSemaphore);
@@ -405,7 +405,7 @@ void TaskBLE( void *pvParameters )
               //ESTE CASE CONTINUA AL CASE 2
             }
             else {
-              if (xSemaphoreTake(BLE_txSemaphore, 0) == pdTRUE)
+              if (xSemaphoreTake(BLE_txSemaphore, pdMS_TO_TICKS(100)) == pdTRUE)
               {
                 //base SG responde con [weigth measure ID: valor medido kg]
                 txBLE =  waitResponseRS485Command();
@@ -432,7 +432,7 @@ void TaskBLE( void *pvParameters )
                   //ESPERAMOS A QUE NOS LLEGE [Put the weigth to set Slope ID]
                   waitResponseRS485Command();
                   Serial.println("Please introduce weight value for SG2 by BT");
-                  if (xSemaphoreTake(BLE_txSemaphore, 0) == pdTRUE)
+                  if (xSemaphoreTake(BLE_txSemaphore, pdMS_TO_TICKS(100)) == pdTRUE)
                   {
                     txBLE = "\nPlease introduce weight value for SG2\n";
                     xSemaphoreGive(BLE_txSemaphore);
@@ -445,7 +445,7 @@ void TaskBLE( void *pvParameters )
                   //ESPERAMOS A RECIBIR [Out of config mode]
                   waitResponseRS485Command();
                   Serial.println("[BLE] OK SG - END CONFIG"); //LA BASE SG YA SE ENCUENTRA LIBRE Y EN EL LOOP
-                  if (xSemaphoreTake(BLE_txSemaphore, 0) == pdTRUE)
+                  if (xSemaphoreTake(BLE_txSemaphore, pdMS_TO_TICKS(100)) == pdTRUE)
                   {
                     txBLE = "\n\nOK SG - END CONFIG\n\n\n";
                     xSemaphoreGive(BLE_txSemaphore);
@@ -458,7 +458,7 @@ void TaskBLE( void *pvParameters )
                 waitResponseRS485Command();
                 //vuelve a el case superior
                 Serial.println("Introduce the value again by BT"); //permanece en el modo de configuración SGParam
-                if (xSemaphoreTake(BLE_txSemaphore, 0) == pdTRUE)
+                if (xSemaphoreTake(BLE_txSemaphore, pdMS_TO_TICKS(100)) == pdTRUE)
                 {
                   txBLE = "Introduce the value again by BT\n";
                   xSemaphoreGive(BLE_txSemaphore);
@@ -472,7 +472,7 @@ void TaskBLE( void *pvParameters )
             }
           case 2:
             Serial.println("[BLE] ERROR in format, please send weight again\n Should be > 0");
-            if (xSemaphoreTake(BLE_txSemaphore, 0) == pdTRUE)
+            if (xSemaphoreTake(BLE_txSemaphore, pdMS_TO_TICKS(100)) == pdTRUE)
             {
               txBLE = "\nERROR in format, please send the weight again\n";
               xSemaphoreGive(BLE_txSemaphore);
@@ -502,7 +502,7 @@ void TaskBLE( void *pvParameters )
           else {
             aux_stringMode = "Factory calibration";
           }
-          if (xSemaphoreTake(BLE_txSemaphore, 0) == pdTRUE)
+          if (xSemaphoreTake(BLE_txSemaphore, pdMS_TO_TICKS(100)) == pdTRUE)
           {
             txBLE = aux_stringMode;
             txBLE += "\n\t\tSend 0 to calibrate horizontal (white top)\n\t\tSend 1 to calibrate vertical (connector botton)\n";
@@ -525,7 +525,7 @@ void TaskBLE( void *pvParameters )
             Serial.println("Horizontal Calibration");
             calibrateIMU(b_modeCalibIMU, true);
 
-            if (xSemaphoreTake(BLE_txSemaphore, 0) == pdTRUE)
+            if (xSemaphoreTake(BLE_txSemaphore, pdMS_TO_TICKS(100)) == pdTRUE)
             {
               txBLE = "IMU Calibrated\n\nSelect Acel Sens:\n\t1:+-2g\n\t2:+-4g\n\t3:+-8g;\n\t4:+-16g\n";
               xSemaphoreGive(BLE_txSemaphore);
@@ -537,7 +537,7 @@ void TaskBLE( void *pvParameters )
             Serial.println("Vertical Calibration");
             calibrateIMU(b_modeCalibIMU, false);
 
-            if (xSemaphoreTake(BLE_txSemaphore, 0) == pdTRUE)
+            if (xSemaphoreTake(BLE_txSemaphore, pdMS_TO_TICKS(100)) == pdTRUE)
             {
               txBLE = "IMU Calibrated\n\nSelect Acel Sens:\n\t1:+-2g\n\t2:+-4g\n\t3:+-8g;\n\t4:+-16g\n"; //he tenido que aumentar en 1 el indice porque toint() devuelve 0 si hay error (ver case 2)
               xSemaphoreGive(BLE_txSemaphore);
@@ -552,7 +552,7 @@ void TaskBLE( void *pvParameters )
 
               write_nvs_16(nvs_key_sens_acel_IMU, nvs_val_sens_acel_IMU); //lo guardamos en nvs
 
-              if (xSemaphoreTake(BLE_txSemaphore, 0) == pdTRUE)
+              if (xSemaphoreTake(BLE_txSemaphore, pdMS_TO_TICKS(100)) == pdTRUE)
               {
                 txBLE = "Select Gyro Sens:\n\t1:+-250º/s\n\t2:+-500º/s\n\t3:+-1000º/s;\n\t4:+-2000º/s\n";
                 xSemaphoreGive(BLE_txSemaphore);
@@ -560,7 +560,7 @@ void TaskBLE( void *pvParameters )
               i_statusConfigIMU = 3; //vamos a la selección de sens de giro
             }
             else { //si no es un valor válido le obligamos a volver a pasar por el case
-              if (xSemaphoreTake(BLE_txSemaphore, 0) == pdTRUE)
+              if (xSemaphoreTake(BLE_txSemaphore, pdMS_TO_TICKS(100)) == pdTRUE)
               {
                 txBLE = "ERROR in format, please:\nSelect Acel Sens:\n\t1:+-2g\n\t2:+-4g\n\t3:+-8g;\n\t4:+-16g\n";//he tenido que aumentar en 1 el indice porque toint() devuelve 0 si hay error (ver case 2)
                 xSemaphoreGive(BLE_txSemaphore);
@@ -578,7 +578,7 @@ void TaskBLE( void *pvParameters )
               //FALLTHROUGH
             }
             else { //si no es un valor válido le obligamos a volver a pasar por el case
-              if (xSemaphoreTake(BLE_txSemaphore, 0) == pdTRUE)
+              if (xSemaphoreTake(BLE_txSemaphore, pdMS_TO_TICKS(100)) == pdTRUE)
               {
                 txBLE = "ERROR in format, please:\nSelect Gyro Sens:\n\t1:+-250º/s\n\t2:+-500º/s\n\t3:+-1000º/s;\n\t4:+-2000º/s\n";
                 xSemaphoreGive(BLE_txSemaphore);
@@ -595,7 +595,7 @@ void TaskBLE( void *pvParameters )
 
             Serial.println("\n[BLE] End of process of calibration\n");
 
-            if (xSemaphoreTake(BLE_txSemaphore, 0) == pdTRUE)
+            if (xSemaphoreTake(BLE_txSemaphore, pdMS_TO_TICKS(100)) == pdTRUE)
             {
               txBLE = "\n OK - End of process of calibration\n";
               xSemaphoreGive(BLE_txSemaphore);
@@ -614,9 +614,9 @@ void TaskBLE( void *pvParameters )
 
     if (f_BLE_deviceConnected && (txBLE.length() > 0)) { //Si hay algun dispositivo conectado por BLE y estamos pendientes de realizar una transmisión
       //-> debería estar en otro hilo para no depender de llegar aquí para enviar un mensaje
-      pTxCharacteristic->setValue((String)rxBLE.c_str()); //establece el nuevo valor de la característica
+      pTxCharacteristic->setValue(txBLE.c_str()); //establece el nuevo valor de la característica
       pTxCharacteristic->notify();        //notifica el nuevo valor a los dispositivos conectados
-      if (xSemaphoreTake(BLE_txSemaphore, 0) == pdTRUE) //? Si tenemos acceso limpia el buffer pero y si no?
+      if (xSemaphoreTake(BLE_txSemaphore, pdMS_TO_TICKS(100)) == pdTRUE) //? Si tenemos acceso limpia el buffer pero y si no?
       {
         txBLE = "";
         xSemaphoreGive(BLE_txSemaphore);
@@ -657,7 +657,7 @@ void TaskBLE( void *pvParameters )
         if (millis() - start_time_CD > TIME_BLE_WAIT_DEVICE * 1000) { //si se pasa el tiempo para que un dispositivo se conecte
 
           if (wifi_task_handle != NULL) {
-            if (xSemaphoreTake(BLE_txSemaphore, 0) == pdTRUE)
+            if (xSemaphoreTake(BLE_txSemaphore, pdMS_TO_TICKS(100)) == pdTRUE)
             {
               txBLE = "\nClosing WiFi Thread ";
               Serial.println(txBLE.c_str());
@@ -669,7 +669,7 @@ void TaskBLE( void *pvParameters )
 
             while ((uxbitsWifi & BIT_0_DESC_WIFI) != 0) { //wifi_task_handle != NULL) { //mientras siga habilitado Wifi
               uxbitsWifi = xEventGroupGetBits(xEventWifi);
-              if (xSemaphoreTake(BLE_txSemaphore, 0) == pdTRUE)
+              if (xSemaphoreTake(BLE_txSemaphore, pdMS_TO_TICKS(100)) == pdTRUE)
               {
                 txBLE = ".";
                 Serial.print(txBLE.c_str());
@@ -680,7 +680,7 @@ void TaskBLE( void *pvParameters )
             Serial.println("wifi_task_handle=Null");
           }
 
-          if (xSemaphoreTake(BLE_txSemaphore, 0) == pdTRUE)
+          if (xSemaphoreTake(BLE_txSemaphore, pdMS_TO_TICKS(100)) == pdTRUE)
           {
             txBLE = "Closing BLE Thread";
             Serial.println(txBLE.c_str());

@@ -19,6 +19,7 @@ void i2cScann() {
   myDelayMs(5000);
   Wire.begin();
   Serial.println("Scanning for I2C devices ...");
+
   for (address = 0x01; address < 0x7f; address++) {
     Wire.beginTransmission(address);
     error = Wire.endTransmission();
@@ -221,9 +222,9 @@ esp_err_t setup_Timer() {
 void setup_RTC_EXT() //configuraciones iniciales
 {
   //antes de hacer el begin vamos a comprobar que exista una diferencia entre ambos RTC
-
   while (!rtcEXT.begin()) {
     Serial.println("RTC EXT not found");
+    myDelayMs(1000);
   }
   // Set square wave out pin
   // SquareWaveDisable, SquareWave1Hz, SquareWave4096Hz, SquareWave8192Hz, SquareWave32768Hz
@@ -666,7 +667,7 @@ std::string getBatteryStatus(bool checkSecureSystem = false) {
   if (!setupBQ27441()) { //si no consigue contactar con el cargador
     return ("Battery not available check switch and battery secure system"); //puede ser porque no esté habilitado el switch
   }
-  myDelayMs(2000); //tiempo para estabilizar medida
+  myDelayMs(3000); //tiempo para estabilizar medida
   return batteryStats(checkSecureSystem);
 }
 
@@ -715,7 +716,7 @@ void wakeup_reason()
   }
 }
 
-const byte myAlarmSesion[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23};//{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23};//{ 2, 6, 10, 14, 18, 22};
+const byte myAlarmSesion[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23};//{ 2, 6, 10, 14, 18, 22};//{ 2, 6, 10, 14, 18, 22};//{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23};//{ 2, 6, 10, 14, 18, 22};
 //Obtiene la hora de la siguiente sesión en función de un vector de horas -> se posiciona en el vector en la hora que coincide con la actual (para posteriormente comprobar timewindow) o la siguiente
 uint8_t getNextSesion(struct tm actual_tm) {
   uint8_t actualHour = actual_tm.tm_hour;

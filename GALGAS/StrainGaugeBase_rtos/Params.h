@@ -2,7 +2,7 @@
 #define DEVICE_NAME "SSM_GAUGE_TEST"
 #define FILENAME (strrchr(__FILE__, '\\') ? strrchr(__FILE__, '\\') + 1 : __FILE__)
 
-#define VERSION "V.0.0.5"
+#define VERSION "V.0.0.6"
 
 
 // USADOS EN gaugeCalibration:

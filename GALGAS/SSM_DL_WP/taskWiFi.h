@@ -12,11 +12,15 @@
 TaskHandle_t BLE_task_handle;
 TaskHandle_t wifi_task_handle;
 void TaskWIFI( void *pvParameters ) {
+  printf("[TaskWIFI Started]\n");
+  myDelayMs(1000);
+  WiFi.mode(WIFI_STA); //indicamos conexión a punto de acceso al iniciar el WiFi
   //sincroniza NTP con el RTC_INT
   sntp_set_time_sync_notification_cb( timeavailable ); //configuracion del ntp, setea un callback timeavailable() que actualiza el RTC interno de forma automática. Se ejecuta timeavailable en cada sincronizacion
   esp_sntp_servermode_dhcp(1);//sntp_servermode_dhcp(1);    // (optional) Enable sntp from dhcp
   configTime(gmtOffset_sec, daylightOffset_sec, ntpServer1, ntpServer2);  //initialice ntp with GMT config //!!!!HAY QUE PROBAR A TRABAJAR CON UTC HACIENDO CAMBIOS DE CONFIGURACIONES
 
+  printf("Init WiFi\n");
   WiFi.begin(SSID, SSID_PASS);
   Serial.print("CONNECTING TO: ");
   Serial.print(SSID);
@@ -39,7 +43,7 @@ void TaskWIFI( void *pvParameters ) {
 
     if (millis() - timerConnection > 15000) {
 
-      if (xSemaphoreTake(BLE_txSemaphore, 0) == pdTRUE)
+      if (xSemaphoreTake(BLE_txSemaphore, pdMS_TO_TICKS(100)) == pdTRUE)
       {
         txBLE = "Cant connect to WiFi, please stop WiFi and reconfig\n"; //para que esto se imprima tiene que llegar al final del loop de BT
         xSemaphoreGive(BLE_txSemaphore);
@@ -50,7 +54,7 @@ void TaskWIFI( void *pvParameters ) {
 
   Serial.println();
   myDelayMs(50);
-  if (xSemaphoreTake(BLE_txSemaphore, 0) == pdTRUE)
+  if (xSemaphoreTake(BLE_txSemaphore, pdMS_TO_TICKS(100)) == pdTRUE)
   {
     txBLE = "Connected to ";
     txBLE += String(SSID).c_str();
@@ -173,7 +177,7 @@ void TaskWIFI( void *pvParameters ) {
       t2.tm_year = t2.tm_year - 100 + 2000; //transformación para ver el año en tiempo real (t2.tm_year = años desde 1900)
       t2.tm_mon++; //enero=0
 
-      if (xSemaphoreTake(BLE_txSemaphore, 0) == pdTRUE)
+      if (xSemaphoreTake(BLE_txSemaphore, pdMS_TO_TICKS(100)) == pdTRUE)
       {
         txBLE = (String(t2.tm_year) + "/" + String(t2.tm_mon) + "/" + String(t2.tm_mday) + " " + String(t2.tm_hour) + ":" + String(t2.tm_min) + ":" + String(t2.tm_sec)).c_str();
         //txBLE = String(&t2, "%A, %B %d %Y %H:%M:%S").c_str();

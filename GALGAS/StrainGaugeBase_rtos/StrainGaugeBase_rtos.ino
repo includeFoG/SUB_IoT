@@ -9,6 +9,7 @@ float peso2 = 0.0;
 
 #include "Params.h"
 #include "F_aux.h"
+#include "events.h"
 
 
 //**************************************************************************
@@ -31,7 +32,7 @@ TaskHandle_t Handle_SG1Task;
 static void threadSG1( void *pvParameters )
 {
   //SERIAL.println("\n\nThread A: Started");
-  TickType_t lastWakeTime = xTaskGetTickCount();
+  TickType_t lastWakeTime1 = xTaskGetTickCount();
   if (paramStrain1.valid == true) {
     MyScale1.setOffset(paramStrain1.offset);
     MyScale1.setCalibration(paramStrain1.scale);
@@ -39,14 +40,19 @@ static void threadSG1( void *pvParameters )
   while (1) {
     if ( xMutex_SG1 != NULL )
     {
-      if ( xSemaphoreTake( xMutex_SG1, ( TickType_t ) 10 ) == pdTRUE )
+      if ( xSemaphoreTake( xMutex_SG1, 0) == pdTRUE )
       {
+        taskENTER_CRITICAL();
         peso1 = MyScale1.readWeight();
-
+        taskEXIT_CRITICAL();
+        
         xSemaphoreGive( xMutex_SG1 );
-        //myDelayMsUntil(&lastWakeTime, 13);
-        //myDelayUsUntil(&lastWakeTime, 12500); //al poner a funcionar las tres tareas a la vez con esta instrucción con frecuencias bajas parece que da problemas
-        myDelayUs(12500);
+
+        xEventGroupSetBits(xEventSend, BIT_0_SG1_READY);//marcamos la lectura de SG1 como hecha
+        myDelayUsUntil(&lastWakeTime1, 12500);   // myDelayUs(12500);
+      }
+      else {
+        SERIAL.println("SG1 sem timeout");
       }
     }
 
@@ -62,7 +68,7 @@ TaskHandle_t Handle_SG2Task;
 static void threadSG2( void *pvParameters )
 {
   //SERIAL.println("\n\nThread C: Started");
-  TickType_t lastWakeTime = xTaskGetTickCount();
+  TickType_t lastWakeTime2 = xTaskGetTickCount();
   if (paramStrain2.valid == true) {
     MyScale2.setOffset(paramStrain2.offset);
     MyScale2.setCalibration(paramStrain2.scale);
@@ -70,15 +76,21 @@ static void threadSG2( void *pvParameters )
   while (1) {
     if ( xMutex_SG2 != NULL )
     {
-      if ( xSemaphoreTake( xMutex_SG2, ( TickType_t ) 10 ) == pdTRUE )
+      
+      if ( xSemaphoreTake( xMutex_SG2, 0) == pdTRUE )
       {
+        taskENTER_CRITICAL();
         peso2 = MyScale2.readWeight();
+        taskEXIT_CRITICAL();
 
         xSemaphoreGive( xMutex_SG2 );
-        // myDelayMsUntil(&lastWakeTime, 13);
-        //myDelayUsUntil(&lastWakeTime, 12500); //al poner a funcionar las tres tareas a la vez con esta instrucción con frecuencias bajas parece que da problemas
-        myDelayUs(12500);
+
+        xEventGroupSetBits(xEventSend, BIT_1_SG2_READY);//marcamos la lectura de SG2 como hecha
+        myDelayUsUntil(&lastWakeTime2, 12500); // myDelayUs(12500);
       }
+    }
+    else {
+      SERIAL.println("SG2 sem timeout");
     }
   }
 }
@@ -95,38 +107,49 @@ static void threadRS485TxMeasure( void *pvParameters )
 
   unsigned long tiempoMedida = 0;
   char bufferAUX[128];  // Buffer para almacenar el valor convertido a string
-
+  const EventBits_t uxBitsToWaitFor = BIT_0_SG1_READY | BIT_1_SG2_READY;
+  
   //Se puede hacer pruebas en las que no se haga cambio de puerto serie (quitar debug) y ver si podemos quitar el control de flujo y dejarlo fuera del bucle
   //ya que no estoy seguro de que esto afecte a otras funcionalidades que no son el almacenamiento de la sesion
   digitalWrite(RS485_FLOW, HIGH);
   myDelayMs(5);
 
+
   TickType_t lastWakeTime = xTaskGetTickCount();
+  
   while (1)
   {
-    if (( xSemaphoreTake( xMutex_SG1, ( TickType_t ) 10 ) == pdTRUE ) && ( xSemaphoreTake( xMutex_SG2, ( TickType_t ) 10 ) == pdTRUE ))
-    {
-      myDelayUsUntil(&lastWakeTime, 12500); //hacemos la espera aquí para garantizar que tenemos el semaforo cuando salgamos
-            
-      tiempoMedida = millis();
-      SERIAL.print(tiempoMedida);
-      SERIAL.write(',');
-      SERIAL.print(peso1, 3);
-      SERIAL.write(',');
-      SERIAL.print(peso2, 3);
-      SERIAL.println();
+    xEventGroupWaitBits(xEventSend, uxBitsToWaitFor, pdTRUE, pdTRUE, portMAX_DELAY); //limpia los bits una vez los recibe
+    
+    if ( xSemaphoreTake( xMutex_SG1,  pdMS_TO_TICKS(12) ) == pdTRUE ) {
+      if ( xSemaphoreTake( xMutex_SG2,  pdMS_TO_TICKS(12) ) == pdTRUE ) { //si se han tomado ambos semaforos
 
-      SERIAL1.print(tiempoMedida);
-      SERIAL1.write(',');
-      SERIAL1.print(peso1, 3);
-      SERIAL1.write(',');
-      SERIAL1.print(peso2, 3);
-      SERIAL1.write('\n'); //mejor que println == \r\n
+        tiempoMedida = millis();
+        SERIAL.print(tiempoMedida);
+        SERIAL.write(',');
+        SERIAL.print(peso1, 3);
+        SERIAL.write(',');
+        SERIAL.print(peso2, 3);
+        SERIAL.println();
 
-      xSemaphoreGive( xMutex_SG2 );
-      xSemaphoreGive( xMutex_SG1 );
+        SERIAL1.print(tiempoMedida);
+        SERIAL1.write(',');
+        SERIAL1.print(peso1, 3);
+        SERIAL1.write(',');
+        SERIAL1.print(peso2, 3);
+        SERIAL1.write('\n'); //mejor que println == \r\n
+
+        xSemaphoreGive( xMutex_SG1 );
+        xSemaphoreGive( xMutex_SG2 );
+
+        myDelayUsUntil(&lastWakeTime, 12500); //cedemos el tiempo de ejecución para que las otras tareas puedan tomar el semaforo
+      }
+      else{ // si no se ha tomado el semaforo de sg2
+         xSemaphoreGive(xMutex_SG1);
+      }
     }
-  }
+
+  } 
 }
 
 
@@ -161,7 +184,7 @@ void setup()
   pinMode(RATE_SEL, OUTPUT);
   digitalWrite(RATE_SEL, RATE_SEL_STATUS);
 
-  delay(5000); // prevents usb driver crash on startup, do not omit this
+  delay(7000); // prevents usb driver crash on startup, do not omit this 5000
   //while (!SERIAL) ;  // Wait for serial terminal to open port before starting program
 
   FlashStorage(myFlashST1, paramST);
@@ -217,7 +240,7 @@ void setup()
     SERIAL.println("calibration validation flag on gauge is FALSE, NEED FIRST CALIBRATION");
   }
   else {
-    SERIAL.println("\n\nInitit Meassuring, press any key to cancel and calibrate");
+    SERIAL.println("\n\nInit Meassuring, press any key to cancel and calibrate");
   }
 
   commandResponseRS485("ready for commands"); //envia mediante command response por si datalogger quiere hacer configuración para avisarle que está listo
@@ -313,12 +336,19 @@ void setup()
   xMutex_SG1 = xSemaphoreCreateMutex();
   xMutex_SG2 = xSemaphoreCreateMutex();
 
+  if (xMutex_SG1 == NULL || xMutex_SG2 == NULL) {
+    SERIAL.println("Error creando mutex");
+    while (1);
+  }
+  
+  createEvents();
+
   // Create the threads that will be managed by the rtos
   // Sets the stack size and priority of each task
   // Also initializes a handler pointer to each task, which are important to communicate with and retrieve info from tasks
-  xTaskCreate(threadSG1,     "Task SG1",       256, NULL, tskIDLE_PRIORITY + 2, &Handle_SG1Task); //calibration saved in paramStrain1 and after that measure every 100ms
+  xTaskCreate(threadSG1,     "Task SG1",       320, NULL, tskIDLE_PRIORITY + 2, &Handle_SG1Task); //calibration saved in paramStrain1 and after that measure every 100ms
   xTaskCreate(threadSG2,     "Task SG2",       256, NULL, tskIDLE_PRIORITY + 2, &Handle_SG2Task); //calibration saved in paramStrain1 and after that measure every 100ms
-  xTaskCreate(threadRS485TxMeasure,     "Task RS485TxMeasure",       320, NULL, tskIDLE_PRIORITY + 3, &Handle_RS485TxMeasureTask); //print in terminal and send by RS485 the result of measures every 100ms
+  xTaskCreate(threadRS485TxMeasure,     "Task RS485TxMeasure",       512, NULL, tskIDLE_PRIORITY + 3, &Handle_RS485TxMeasureTask); //print in terminal and send by RS485 the result of measures every 100ms
   //xTaskCreate(threadD,     "Task D",       256, NULL, tskIDLE_PRIORITY, &Handle_dTask); //listening rs485 to config command
   //xTaskCreate(threadCalib,     "Task Calib",       256, NULL, tskIDLE_PRIORITY + 3, &Handle_calibTask);
   // Start the RTOS, this function will never return and will schedule the tasks.

@@ -77,7 +77,6 @@ uint8_t check_cmd(const char*  rxRS485, int &response) {
       Serial.println("[RS485] End of configuration");
       break;
 
-
     case CMD_SG_CALIB: //COMANDO DE CALIBRACION DE GALGA
       delay(200);
       commandResponseRS485("OK"); //informa que ha recivido el comando

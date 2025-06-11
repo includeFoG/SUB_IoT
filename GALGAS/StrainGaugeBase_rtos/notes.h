@@ -29,7 +29,13 @@
  * 
  */
 
-/*  [v.0.0.5] 02/04/2025
+/*  [v.0.0.6] 26/05/2025
+ *   -Corregido problema con un delay que hacía que el semáforo se lo quedase siempre la tarea de envío sin dar paso a las demás
+ *   -Se ha modificado el uso de los semaforos que estaba generando bloqueos por eso no funcionaban bien los delayuntil, ya pueden usarse con normalidad
+ *   -Se ha añadido eventos que indican a la tarea de envio que ambas medidas han sido tomadas para que no se envie dos veces la misma medida
+ *   
+ *   
+ *   [v.0.0.5] 02/04/2025
  *  - Parece que al bajar por debajo de 13ms tenemos probloemas al leer las galgas si utilizamos en las 3 tareas delayuntil. dejando uno solo va bien.
  *  - Se ha metido un mutex para el acceso de los datos entre tareas.
  *   
@@ -41,7 +47,7 @@
  * - Corregidos problemas con el parámetro ID
  * - Ahora la galga cuando se configura desde BLE no tarda tanto en empezar a enviar los valores
  *  
- *  [v.0.0.2] 03/01/2024
+ *  [v.0.0.2] 03/01/2024 
  *  - Añadida lectura de comandos mediante RS485 al inicio
  *  - gaugeCalibration modificada para remote config, Calibración de la galga habilitada dede BLE->RS485
  *  - Se ha añadido caracter inicial "[" y final "]" para comunicaciones de configuracion mediante RS485

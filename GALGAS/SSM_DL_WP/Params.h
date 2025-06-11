@@ -5,14 +5,12 @@
 #define FILENAME (strrchr(__FILE__, '\\') ? strrchr(__FILE__, '\\') + 1 : __FILE__)
 #define NUMITEMS(arg) ((unsigned int) (sizeof (arg) / sizeof (arg [0]))) //ADDED
 
-#define VERSION "V.0.0.7.2"
+#define VERSION "V.0.0.7.4"
 
 #define CONFIG_LOG_DEFAULT_LEVEL 2 //3:Info, 4:debug->errores de rto  //BAJAR A 2 PARA EJECUTAR NORMAL
 
 String SSID = "";
 String SSID_PASS = "";
-
-
 
 #define RESET_WITH_RTC //si se comenta al empezar inicia sesión pero después se amolda al vector de horas(siempre que tenga el RTC en hora), si no se comenta espera a que sea el vector el que le de el inicio
 #if !defined(RESET_WITH_RTC)
@@ -36,8 +34,11 @@ String SSID_PASS = "";
 
 //__________________________________________________CHARGE__________________________________________________
 bool CHOOSE_SLEEP_DURING_CHARGE = true; //esta variable decide si el dispositivo duerme durante la carga, en la ejecución solo puede pasar a false si el usuario se lo indica, si quiere volver a false tiene que reiniciar equipo
-long lastTimeISRWire = 0; //DEBOUNCING esta variable guarda la última vez que se ejecutó una interrupción por conexión o desconexión del cable de alimentación para evitar rebotes
+long lastTimeISRWire = 0;         //DEBOUNCING esta variable guarda la última vez que se ejecutó una interrupción por conexión o desconexión del cable de alimentación para evitar rebotes
 #define BLINK_CHARGE_FREQUENCE 10 //frecuencia de blink (segundos) cuando el dispositivo se encuentra cargando
+
+const unsigned int BATTERY_CAPACITY = 4800; // Release V1: 10400 
+#define MIN_BAT_FOR_SESSION 3300  //mV
 
 //____________________________________________________________NVS__________________________________________________________
 #define NVS_NAMESPACE  "NVS_VARS"
@@ -116,11 +117,6 @@ typedef enum
 //____________________________________________________________CONSTANTS____________________________________________________________
 #define S_TO_uS_FACTOR 1000000ULL     /* Conversion factor for  seconds to micro seconds */
 #define mS_TO_uS_FACTOR 1000ULL
-
-//// Set BATTERY_CAPACITY to the design capacity of your battery.
-const unsigned int BATTERY_CAPACITY = 10400; // Release V1: 10400 // V2: 3450
-
-
 
 const char host[] = "esp32";
 const char ntpServer1[] = "pool.ntp.org";

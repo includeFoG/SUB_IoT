@@ -26,7 +26,7 @@ IMPORTANTE: MODIFICAR LA CAPACIDAD DE LA PILA BATTERY_CAPACITY
  * TaskBLE           SE CREA EN SETUP()
  * TaskLedStatus     SE CREA EN SETUP()
  * TaskWIFI          SE CREA EN TASKBLE
- * TaskDataReading   SE CREA EN TASKBLE
+ * TaskDataReading   SE CREA EN TASKBLE y EN HILO MAIN
  * 
  * ____________________________________________INDICADORES BATERIA___________________________________________ _
  * LED 5 -> Conectado a pin 9 -> Se pone a GND cuando la batería está cargando (ENDENDIDO), se apaga cuando la batería está cargada
@@ -90,6 +90,7 @@ IMPORTANTE: MODIFICAR LA CAPACIDAD DE LA PILA BATTERY_CAPACITY
  *  * '/n' Caracter de fin
 */
 /*____________________________________________________TODO: ________________________________________________________________________
+ * -REVISAR LA DEVOLUCION DE SEMAFOROS EN DISTINTOS HILOS!!! PUEDE DAR ERRORES
  * - aprender más sobre los uuid
  * - Habría que ver si al despertar en lugar de hacer un wakeup normal podemos pasar a otro modo de menor consumo antes de decircir si 
  * hacer el wakeup normal o no
@@ -115,6 +116,16 @@ IMPORTANTE: MODIFICAR LA CAPACIDAD DE LA PILA BATTERY_CAPACITY
  */
 
 /*__________________________________________________________________________________________________NOTAS DE VERSION__________________________________________________________________________________________________
+ * [v.0.0.7.4] - 10/06/2025
+ * -Detectado problema con SD y perifericos como el RTCExt cuando la tensión de batería cae por debajo de 3V, se ha puesto una protección que comprueba la tensión de batería y en caso de estar por debajo de 3300mV
+ * evita hacer sesiones
+ * 
+ * [v.0.0.7.3] - 26/05/2025
+ * -Corregido error en envíos se estaba usando buffer de recepción.
+ * -Descubierto problema al iniciar taskWifi: assert failed: tcpip_callback /IDF/components/lwip/lwip/src/api/tcpip.c:313 (Invalid mbox)
+ *      [RESUELTO] No se indicaba la forma de inicio del modulo WIFI_STA conexión a punto de acceso. Esto se debió a que se actualizó el framework. El cambio tuvo lugar entre las versiones v2.0.6 y v2.0.10
+
+ * 
  * [v.0.0.7.2] - 03/04/2025
  * - Para poder alcanzar la nueva frecuencia de 80Hz introducida en la lectura de las galgas en el firmware 0.0.5 de la base, se ha tenido que reducir la cantidad de muestras que se toman para obtener las medidas de la imu 
  *    pasando de 25 a 5 en el getIMUFiltered del taskDataReading

@@ -6,6 +6,11 @@
 TaskHandle_t data_read_task_handle;
 void TaskDataReading( void *pvParameters )
 {
+  /*setCpuFrequencyMhz(160);
+  Serial.updateBaudRate(BAUD_SERIAL);
+  Serial1.updateBaudRate(BAUD_SERIAL);
+  checkFreqs();*/
+  
   digitalWrite(PWR_RS485_EN, HIGH); //Alimenta RS485 Externo
   digitalWrite(PWR_V3_EN, HIGH);    //Alimenta RS485 INTERNO, SD, IMU, PULL-UP I2C
   Wire.begin();
@@ -52,7 +57,7 @@ void TaskDataReading( void *pvParameters )
   Serial.println();
   rxData = "";
 
-  File sessionFile; //nuevo en cada iteración
+  File sessionFile;       //nuevo en cada iteración (de sesión)
   File batteryStatusFile; //único
   char* resultPathBatteryStatusFile= nullptr;
   char* resultPathSessionFile = nullptr;
@@ -60,7 +65,7 @@ void TaskDataReading( void *pvParameters )
   uxBitsDatos = xEventGroupGetBits(xEventDatos);
   // bool f_fileCreated = false; //flag para indicar si ya se ha creado el archivo de sesión
 
-  if ((uxBitsDatos & BIT_1_DAT_SESION) != 0) { //si se ha activado la sesión de datose
+  if ((uxBitsDatos & BIT_1_DAT_SESION) != 0) { //si se ha activado la sesión de datos
     if (!SD.begin()) {
       Serial.println("Card Mount Failed, deleting task");
       xEventGroupClearBits(xEventDatos, BIT_1_DAT_SESION );
@@ -142,7 +147,7 @@ void TaskDataReading( void *pvParameters )
 
 
     sessionFile = SD.open(resultPathSessionFile, FILE_WRITE); //a partir de aqui sessionFile devuelve true
-    sessionFile.print("Time[us],SG1[kg],SG2[kg],AcelX[m/s2],AcelY[m/s2],AcelZ[m/s2],GyroX[deg/s],GyroY[deg/s],GyroZ[deg/s],Temp[");
+    sessionFile.print("Time[ms],SG1[kg],SG2[kg],AcelX[m/s2],AcelY[m/s2],AcelZ[m/s2],GyroX[deg/s],GyroY[deg/s],GyroZ[deg/s],Temp[");
     sessionFile.write(176); // Código ASCII del símbolo º (grado)
     sessionFile.println("C]");
     // **********************************************************************************************************
@@ -321,7 +326,7 @@ void TaskDataReading( void *pvParameters )
           for (int i = 0; i < rxData.length(); i++)
           {
             Serial.write(rxData[i]);
-            if (xSemaphoreTake(BLE_txSemaphore, 0) == pdTRUE)
+            if (xSemaphoreTake(BLE_txSemaphore, pdMS_TO_TICKS(100)) == pdTRUE)
             {
               txBLE += rxData[i];
               xSemaphoreGive(BLE_txSemaphore);
