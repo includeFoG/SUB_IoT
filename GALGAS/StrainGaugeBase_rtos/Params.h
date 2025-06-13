@@ -1,5 +1,5 @@
 //GENERAL:
-#define DEVICE_NAME "SSM_GAUGE_TEST"
+#define DEVICE_NAME "SSM_GAUGE_0000"
 #define FILENAME (strrchr(__FILE__, '\\') ? strrchr(__FILE__, '\\') + 1 : __FILE__)
 
 #define VERSION "V.0.0.6"

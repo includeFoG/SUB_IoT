@@ -70,7 +70,7 @@ int gaugeCalibration(bool remoteConfig = false);
 */
 uint8_t check_cmd(const char*  rxRS485, int &response) {
   cmd_RS485 cmd = cmd_decoder(rxRS485);
-  int res = 0;
+  //int res = 0;
   switch (cmd)
   {
     case CMD_STOP_CONFIG: //COMANDO DE CALIBRACION DE GALGA
@@ -104,7 +104,7 @@ int setScale(paramST &paramStrain, DFRobot_HX711 myScale, bool remoteConfig = fa
   SERIAL.println("Put the weigth on the measuring body to set Slope, dont retire it until prompted. After that enter the weight value (format: 123.45)");
   //long scale = 0;
   String rxData = "";
-  unsigned long  timeNow = millis();
+  //unsigned long  timeNow = millis();
   char c = 0;
   float weight = 0.0;
   paramStrain.valid = false;
@@ -252,8 +252,8 @@ int gaugeCalibration(bool remoteConfig) //remoteConfig determina si el comando d
   //SERIAL.setTimeout(2000); //?  sets the maximum milliseconds to wait for serial data when using serial.readBytesUntil() or serial.readBytes(). It defaults to 1000 milliseconds.
 
   String rxData = "";
-  unsigned long timeNow = millis();
-  char c_;
+  //unsigned long timeNow = millis();
+  char c_='\0';
 
   //while ((millis() - timeNow ) < TIMEOUT_CALIBRATION) //! este timeout puede hacer que la galga se quede sin calibrar imprimendo datos sin sentido, es necesario realizar una segunda comprobación para que no llegue a tomar datos sin estar calibrado
   while (true)

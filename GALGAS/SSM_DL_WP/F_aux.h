@@ -1,5 +1,5 @@
 
-
+static const char TAG_F_AUX[] = "F_aux";
 
 void myDelayMs(int ms)
 {
@@ -37,7 +37,8 @@ void i2cScann() {
 
 void checkFreqs() {
   uint32_t Freq = getCpuFrequencyMhz();
-  Serial.print("CPU Freq = " + String(Freq) + " MHz\n"); //INIT: 240 MHz
+  ESP_LOGI(TAG_F_AUX,"CPU Freq = %d MHz\n", Freq); //INIT: 240 MHz 
+  //Serial.print("CPU Freq = " + String(Freq) + " MHz\n"); //INIT: 240 MHz
   /*Freq = getXtalFrequencyMhz();
     Serial.print("XTAL Freq = "); //INIT: 40 MHz
     Serial.print(Freq);
@@ -53,6 +54,7 @@ void startPinConfig() {
   pinMode(RLED, OUTPUT);
   pinMode(GLED, OUTPUT);
   pinMode(BLED, OUTPUT);
+  pinMode(BUZZER,OUTPUT);
   pinMode(IRQ_IMU, INPUT_PULLUP);
   pinMode(IRQ_RTC, INPUT_PULLUP);
   pinMode(IRQ_FUEL, INPUT_PULLUP);
@@ -71,6 +73,17 @@ void startPinConfig() {
   digitalWrite(_RE_485, LOW);
   digitalWrite(PWR_RS485_EN, LOW); //Alimentación RS485 EXTERNO
   digitalWrite(PWR_V3_EN, LOW); //Alimenta RS485 INTERNO, SD, IMU, PULL-UP I2C
+}
+
+void buzzerStart()
+{
+  for(int i = 0; i<3; i++)
+  {
+    myDelayMs(100);
+    digitalWrite(BUZZER, HIGH);
+    myDelayMs(100);
+    digitalWrite(BUZZER, LOW);
+  }
 }
 
 /*
@@ -316,7 +329,7 @@ bool setupBQ27441(bool sendPrints = true)
     return false;
   }
   if (sendPrints) {
-    Serial.println("Wire Connected to BQ27441!");
+    ESP_LOGI(TAG_F_AUX,"Battery Connected to BQ27441!");
   }
 
   // Uset lipo.setCapacity(BATTERY_CAPACITY) to set the design capacity
@@ -433,6 +446,7 @@ void checkStateOfChargeToSleep(bool sleepIfCharging = false, bool sleepIfFullCha
 
     switch (checkIfCharging()) { //
       case 4: //cargando
+        ESP_LOGI(TAG_F_AUX, "CHANGING STATE TO CHARGING");
         STATE = CHARGING;
         if (sleepIfCharging) {
           Serial.println("\nCHARGING Lowing Frequency");
@@ -453,6 +467,7 @@ void checkStateOfChargeToSleep(bool sleepIfCharging = false, bool sleepIfFullCha
         }
         break;
       case 5: //100% cargado
+        ESP_LOGI(TAG_F_AUX, "CHANGING STATE TO FULLCHARGED");
         STATE = FULLCHARGED; //cambiamos STATE
         if (sleepIfFullCharged) {
           Serial.println("\nState FULLCHARED Lowing Frequency");
@@ -515,6 +530,7 @@ bool checkIfWantToSleepCharging() {
       }
       Serial.print(".");
     }
+    Serial.println("\n");
     return 1; //en caso de pasar el timeout se va a dormir
   }
   else { //si se cambió previamente
@@ -561,6 +577,7 @@ void checkStateOfChargeIfISRInSleepMode() {
     gpio_deep_sleep_hold_dis(); //quita el aislamiento del todos los pines haciendo que puedan cambiar de estado en deep sleep
     digitalWrite(RLED, HIGH);//en caso de que estuviese encendido apaga el led (logica inversa)
     if ((STATE != INTIME) && (STATE != MEASURING)) {
+      ESP_LOGI(TAG_F_AUX, "CHANGING STATE TO CONFIG");
       STATE = CONFIG;
     }
     else {
@@ -586,6 +603,7 @@ void IRAM_ATTR ISR_disconnectPowerCable() {
     digitalWrite(RLED, HIGH);//en caso de que estuviese encendido apaga el led (logica inversa)
 
     if ((STATE != INTIME) && (STATE != MEASURING)) {
+      ESP_LOGI(TAG_F_AUX, "CHANGING STATE TO CONFIG");
       STATE = CONFIG;
     }
     attachInterrupt(digitalPinToInterrupt(PWR_IN), ISR_connectPowerCable, RISING); //habilitamos interrupción conexion de PWR_IN (CARGA DE BATERIA)
@@ -696,18 +714,18 @@ void wakeup_reason()
   wakeup_reason = esp_sleep_get_wakeup_cause();
   switch (wakeup_reason)
   {
-    case ESP_SLEEP_WAKEUP_EXT0 : Serial.println("\n>>>Wakeup caused by external signal using RTC_IO");  break;
+    case ESP_SLEEP_WAKEUP_EXT0 : ESP_LOGI(TAG_F_AUX,">>>Wakeup caused by external signal using RTC_IO");  break;
     case ESP_SLEEP_WAKEUP_EXT1 : //Este caso puede pasar por la desconexión del cable de alimentación ISR en deepSleep
-      Serial.println("\n>>>Wakeup caused by external signal using RTC_CNTL");
+
+       ESP_LOGI(TAG_F_AUX,">>>Wakeup caused by external signal using RTC_CNTL");
       checkStateOfChargeIfISRInSleepMode();
       //STATUS = CONFIG; //pasamos el STATUS a config
       break;
-    case ESP_SLEEP_WAKEUP_TIMER : Serial.println("\n>>>Wakeup caused by timer"); sync_RTCs(true); break; //actualizamos RTCINT con RTCEXT para no perder segundos (no comprueba si es correcto)
-    case ESP_SLEEP_WAKEUP_TOUCHPAD : Serial.println("\n>>>Wakeup caused by touchpad"); break;
-    case ESP_SLEEP_WAKEUP_ULP : Serial.println("\n>>>Wakeup caused by ULP program"); break;
+    case ESP_SLEEP_WAKEUP_TIMER :     ESP_LOGI(TAG_F_AUX,">>>Wakeup caused by timer");   sync_RTCs(true); break; //actualizamos RTCINT con RTCEXT para no perder segundos (no comprueba si es correcto)
+    case ESP_SLEEP_WAKEUP_TOUCHPAD :  ESP_LOGI(TAG_F_AUX,">>>Wakeup caused by touchpad"); break;
+    case ESP_SLEEP_WAKEUP_ULP :       ESP_LOGI(TAG_F_AUX,">>>Wakeup caused by ULP program"); break;
     default :
-      Serial.printf("\n>>>Wakeup was not caused by deep sleep (LP): %d\n", wakeup_reason);
-      Serial.printf("reason: %d\n", esp_reset_reason());
+      ESP_LOGI(TAG_F_AUX,">>>Wakeup was not caused by deep sleep (LP): %d\nreason: %d\n", wakeup_reason,esp_reset_reason());
 
       sync_RTCs(true, true); //actualizamos RTCINT A PARTIR DE RTCEXT y hacemos check de RTCEXT por si no estuviese en hora
       break;
@@ -768,7 +786,7 @@ uint32_t sToNextSesion(uint8_t alarmTime) {//TEST
       return 1; //si es así retorna 1 seg
     }
     else {
-      Serial.println("not in TimeWindow, going to next sesion");
+      ESP_LOGI(TAG_F_AUX, "not in TimeWindow, wait for next sesion");
       uint8_t idx = 0;
       uint8_t numHoras = NUMITEMS(myAlarmSesion);
       while ((idx < numHoras) && (alarmTime >= myAlarmSesion[idx])) {

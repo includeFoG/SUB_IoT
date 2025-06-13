@@ -90,13 +90,11 @@ IMPORTANTE: MODIFICAR LA CAPACIDAD DE LA PILA BATTERY_CAPACITY
  *  * '/n' Caracter de fin
 */
 /*____________________________________________________TODO: ________________________________________________________________________
- * -REVISAR LA DEVOLUCION DE SEMAFOROS EN DISTINTOS HILOS!!! PUEDE DAR ERRORES
  * - aprender más sobre los uuid
  * - Habría que ver si al despertar en lugar de hacer un wakeup normal podemos pasar a otro modo de menor consumo antes de decircir si 
  * hacer el wakeup normal o no
  * 
  * Secundarias:
- * - Mejorar tiempo de carga haciendo que el dispositivo entre en modo ultra lowpower si detecta que está cargando
  * - Configurar hora mediante comandos
  * - Consultar RTC  bit7 registro archivo log + info reset 
  * - Ver si es posible modificar la comunicación BLE->RS485 para que sea relativa al comando recibido (hilo dedicado en base)
@@ -109,13 +107,19 @@ IMPORTANTE: MODIFICAR LA CAPACIDAD DE LA PILA BATTERY_CAPACITY
  * Terciarias:
  * - trabajar con el segundo nucleo
  * - Eventgroup 3.3V para ver si alguien lo está usando y que no se deshabilite por error
- * - Ver opciones multinucleo
  * - Convertir en función la escritura en los buffers
  * - !!!!HAY QUE PROBAR A TRABAJAR CON UTC HACIENDO CAMBIOS DE CONFIGURACIONES. CONFIGURAR SESIONES EN GMT LOCAL Y ALMACENAR UTC
- * - Mirar si hace falta cambiar delay por msdelay
  */
 
 /*__________________________________________________________________________________________________NOTAS DE VERSION__________________________________________________________________________________________________
+ * [v.0.0.7.6] - 13/06/2025
+ * -Se observa que la placa de vez en cuando entra en algún modo no esperado en el que mantiene encendida la placa de galgas pero se queda en modo "sleep" se han hecho modificaciones en el loop para intentar evitar que 
+ * esto ocurra y se ha cambiado la liberación de semáforos para que tenga lugar en los hilos donde se toman. 
+ * Se ha detectado que este error pasa cuando no tiene tarjeta SD o no la detecta, se debe a que nunca cambia de STATE
+ * 
+ * [v.0.0.7.5] - 12/06/2025
+ *  -Añadido buzzer al encendido
+ *  
  * [v.0.0.7.4] - 10/06/2025
  * -Detectado problema con SD y perifericos como el RTCExt cuando la tensión de batería cae por debajo de 3V, se ha puesto una protección que comprueba la tensión de batería y en caso de estar por debajo de 3300mV
  * evita hacer sesiones
@@ -163,7 +167,7 @@ IMPORTANTE: MODIFICAR LA CAPACIDAD DE LA PILA BATTERY_CAPACITY
  * [v.0.0.7] - 06/02/2024
  * - Añadida funcionalidad monitorización de batería mediante archivo independiente.
  * - Añadido comando BLE para consultar estado de batería.
- * - OJO: Se ha probado el dispositivo a una frecuencia de 80Hz y se ve que al recibir los datos de la base en ocasiones se come algún dato, se van a hacer pruebas con 160Hz a ver si sigue pasando
+ * - OJO: Se ha probado el dispositivo a una frecuencia de 80Hz y se ve que al recibir los datos de la base en ocasiones se come algún dato, se van a hacer pruebas con 160Hz de freq de micro a ver si sigue pasando
  * - OJO: si se baja el tiempo de medida por debajo de la ventana de tiempo se pueden duplicar archivos
  * - Añadidos indicadores lumínicos para informar si el dispositivo se encuentra cargando o está cargado
  * - Ahora si el dispositivo se conecta a cargar estando en cualquier estado si el usuario no se lo corta entra en un estado de lowpower hasta que se cargue

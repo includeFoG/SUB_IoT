@@ -6,10 +6,10 @@
 TaskHandle_t data_read_task_handle;
 void TaskDataReading( void *pvParameters )
 {
-  /*setCpuFrequencyMhz(160);
+  setCpuFrequencyMhz(160);
   Serial.updateBaudRate(BAUD_SERIAL);
   Serial1.updateBaudRate(BAUD_SERIAL);
-  checkFreqs();*/
+  checkFreqs();
   
   digitalWrite(PWR_RS485_EN, HIGH); //Alimenta RS485 Externo
   digitalWrite(PWR_V3_EN, HIGH);    //Alimenta RS485 INTERNO, SD, IMU, PULL-UP I2C
@@ -63,14 +63,29 @@ void TaskDataReading( void *pvParameters )
   char* resultPathSessionFile = nullptr;
 
   uxBitsDatos = xEventGroupGetBits(xEventDatos);
-  // bool f_fileCreated = false; //flag para indicar si ya se ha creado el archivo de sesión
 
   if ((uxBitsDatos & BIT_1_DAT_SESION) != 0) { //si se ha activado la sesión de datos
     if (!SD.begin()) {
-      Serial.println("Card Mount Failed, deleting task");
-      xEventGroupClearBits(xEventDatos, BIT_1_DAT_SESION );
-      data_read_task_handle = NULL;
-      vTaskDelete(NULL);
+      if (STATE == INTIME) {//Este if es para que el while solo tenga lugar cuando se trata de una sesión automática por tiempo, no manual mediante BT (si es manual se para manualmente)
+        ESP_LOGE(TAG_DATAREADING,"Card Mount Failed, deleting task - CHANGING STATE TO IDDLE");
+        
+        xEventGroupClearBits(xEventDatos, BIT_1_DAT_SESION );
+        Serial.println("TEST1");
+        if (xSemaphoreTake(manager_semaphore, portMAX_DELAY) == pdTRUE) {
+          Serial.println("TEST2");
+          STATE = IDDLE;
+          xSemaphoreGive(manager_semaphore); //ADDED 0.7.6
+        }
+        Serial.println("TEST3");
+        digitalWrite(PWR_RS485_EN, LOW);
+        Serial.println("TEST4");
+        data_read_task_handle = NULL;
+        Serial.println("TEST5");
+        Serial.println("STATE");
+        printf(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ESTADO: %d", STATE);
+        Serial.println("TEST6");
+        vTaskDelete(NULL);
+      }
     } else {
       Serial.println("[DAT] SD ok");
     }
@@ -162,7 +177,7 @@ void TaskDataReading( void *pvParameters )
   }
 
   Serial.print("[DAT] start Sesion");
-  ESP_LOGI(TAG_DATAREADING, "STATE: %d", STATE);
+  ESP_LOGI(TAG_DATAREADING, "*STATE: %d", STATE);
 
   //nos posicionamos en el punto desde el que queremos almacenar los datos:
   c_ = 0;
@@ -180,19 +195,23 @@ void TaskDataReading( void *pvParameters )
   if (STATE == INTIME) {//Este if es para que el while solo tenga lugar cuando se trata de una sesión automática por tiempo, no manual mediante BT (si es manual se para manualmente)
     //habilitamos el timer, el timer en el callback limpiará BIT_1_DAT_SESION finalizando la sesión
     if ( setup_Timer() == ESP_OK) {
-      ESP_LOGI(TAG_DATAREADING, "START TIMER MEASURE");
-      if (xSemaphoreTake(manager_semaphore, pdMS_TO_TICKS(100)) == pdTRUE) {
+      ESP_LOGI(TAG_DATAREADING, "START TIMER MEASURE - CHANGING STATE TO MEASURING");
+      if (xSemaphoreTake(manager_semaphore, portMAX_DELAY) == pdTRUE) {
         STATE = MEASURING;
+        xSemaphoreGive(manager_semaphore); //ADDED 0.7.6
       }
     }
     else {
-      ESP_LOGE(TAG_DATAREADING, "ERROR STARTING");
+      ESP_LOGE(TAG_DATAREADING, "ERROR STARTING - CHANGING STATE TO IDDLE");
       //FALTA AQUI DESARROLLAR UN POCO QUE PASA SI FALLA
-      if (xSemaphoreTake(manager_semaphore, pdMS_TO_TICKS(100)) == pdTRUE) {
+      if (xSemaphoreTake(manager_semaphore, portMAX_DELAY) == pdTRUE) {
         STATE = IDDLE;
+        xSemaphoreGive(manager_semaphore); //ADDED 0.7.6
       }
+
       free(resultPathBatteryStatusFile); //liberamos espacio de resultPath
       free(resultPathSessionFile);
+      digitalWrite(PWR_RS485_EN, LOW);
       data_read_task_handle = NULL;
       vTaskDelete( NULL );
     }
@@ -226,9 +245,13 @@ void TaskDataReading( void *pvParameters )
         digitalWrite(PWR_RS485_EN, LOW);
 
         if (STATE == MEASURING) {//Este if solo es TRUE cuando se trata de una sesión automática por tiempo, no manual mediante BT (si es manual STATE = CONFIG)
-          if (xSemaphoreTake(manager_semaphore, pdMS_TO_TICKS(100)) == pdTRUE) {
+
+          ESP_LOGI(TAG_DATAREADING,"CHANGING STATE TO IDDLE");
+          if (xSemaphoreTake(manager_semaphore, portMAX_DELAY) == pdTRUE) {
             STATE = IDDLE;
+            xSemaphoreGive(manager_semaphore); //ADDED 0.7.6
           }
+          
         }
         preTime = millis();
         //terminamos de limpiar lo que queda en puerto serie
@@ -366,6 +389,7 @@ void TaskDataReading( void *pvParameters )
 
   }
   Serial.println("!!!out TaskDataRead");
+  digitalWrite(PWR_RS485_EN, LOW);
   data_read_task_handle = NULL;
   vTaskDelete( NULL );
 }

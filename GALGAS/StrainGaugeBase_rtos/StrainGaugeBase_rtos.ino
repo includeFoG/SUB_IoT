@@ -106,7 +106,7 @@ static void threadRS485TxMeasure( void *pvParameters )
   //SERIAL.println("\n\nThread B: Started");
 
   unsigned long tiempoMedida = 0;
-  char bufferAUX[128];  // Buffer para almacenar el valor convertido a string
+  //char bufferAUX[128];  // Buffer para almacenar el valor convertido a string
   const EventBits_t uxBitsToWaitFor = BIT_0_SG1_READY | BIT_1_SG2_READY;
   
   //Se puede hacer pruebas en las que no se haga cambio de puerto serie (quitar debug) y ver si podemos quitar el control de flujo y dejarlo fuera del bucle

@@ -5,21 +5,21 @@
 #define FILENAME (strrchr(__FILE__, '\\') ? strrchr(__FILE__, '\\') + 1 : __FILE__)
 #define NUMITEMS(arg) ((unsigned int) (sizeof (arg) / sizeof (arg [0]))) //ADDED
 
-#define VERSION "V.0.0.7.4"
+#define VERSION "V.0.0.7.6"
 
 #define CONFIG_LOG_DEFAULT_LEVEL 2 //3:Info, 4:debug->errores de rto  //BAJAR A 2 PARA EJECUTAR NORMAL
 
 String SSID = "";
 String SSID_PASS = "";
 
-#define RESET_WITH_RTC //si se comenta al empezar inicia sesión pero después se amolda al vector de horas(siempre que tenga el RTC en hora), si no se comenta espera a que sea el vector el que le de el inicio
+#define RESET_WITH_RTC //si se comenta al empezar  se amolda al vector de horas(siempre que tenga el RTC en hora), si no se comenta espera a que sea el vector el que le de el inicio
 #if !defined(RESET_WITH_RTC)
 #define FREQ_TIME  240//en caso de no estar definido el vector de horas, esta es la frecuencia entre medidas en minutos
 #endif
 
 //cuidado, si se baja el tiempo de medida por debajo de la ventana de tiempo se pueden duplicar archivos
 #define MEASURING_TIME 20 //tiempo midiendo (min) 20min
-#define TIME_WINDOW 5 //ventana de tiempo por si se reinicia el dispositivo o se incia en los primeros X minutos de una sesión
+#define TIME_WINDOW 5 //5 min ventana de tiempo por si se reinicia el dispositivo o se incia en los primeros X minutos de una sesión
 #define EXTENSION     ".csv"
 
 #if CONFIG_FREERTOS_UNICORE
@@ -37,7 +37,7 @@ bool CHOOSE_SLEEP_DURING_CHARGE = true; //esta variable decide si el dispositivo
 long lastTimeISRWire = 0;         //DEBOUNCING esta variable guarda la última vez que se ejecutó una interrupción por conexión o desconexión del cable de alimentación para evitar rebotes
 #define BLINK_CHARGE_FREQUENCE 10 //frecuencia de blink (segundos) cuando el dispositivo se encuentra cargando
 
-const unsigned int BATTERY_CAPACITY = 4800; // Release V1: 10400 
+const unsigned int BATTERY_CAPACITY = 10400; // Release V1: 10400 
 #define MIN_BAT_FOR_SESSION 3300  //mV
 
 //____________________________________________________________NVS__________________________________________________________
@@ -138,6 +138,8 @@ const char directorySession[] = "/Datalog";
 #define RLED 1            //L1-R
 #define GLED 2            //L1-G
 #define BLED 6            //L1-B
+
+#define BUZZER 35
 
 #define CS_SD 10          //ChipSlect SD
 

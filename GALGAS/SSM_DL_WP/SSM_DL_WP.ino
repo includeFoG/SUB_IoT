@@ -74,11 +74,13 @@ states PRESTATE = MEASURING; //preestado inicial -> para hacer que salte
 #include "taskLedStatus.h"
 
 //__________________________________________________________________________________________MAIN CODE__________________________________________________________________________________________
+static const char TAG_MAIN[] = "MAIN";
 
 bool checkISRInFirstTime = true; //esta variable permite comprobar el estado del pin de interrupción de carga ISR_connectPowerCable haciendo que solo se produzca 1 vez, la primera que arranca el dispositivo
 void setup()
 {
   startPinConfig();
+  
 
   //______________________________________________________________ISR______________________________________________________________________________
   //              OJO LAS INTERRUPCIONES SE DESACTIVAN AL ENTRAR EN DEEPSLEEP
@@ -114,6 +116,7 @@ void setup()
 
   switch (STATE) {
     case CONFIG:
+      buzzerStart();
       Serial.println("\n\n***********************************************************");
       Serial.println("\t\t\tProgram start");
       Serial.print("\t");
@@ -123,7 +126,7 @@ void setup()
       Serial.print(DEVICE_NAME);
       Serial.print("\t|\tCONFIG_LOG_DEFAULT_LEVEL:");
       Serial.println(CONFIG_LOG_DEFAULT_LEVEL);
-      Serial.print(" BATTERY CAPACITY: "); Serial.print(BATTERY_CAPACITY); Serial.println(" mAh");
+      Serial.print("BATTERY CAPACITY: "); Serial.print(BATTERY_CAPACITY); Serial.println(" mAh");
       Serial.println("***********************************************************");
       break;
     case CHARGING: //CREADO PARA QUE EL DEFAULT NO NOS MODIFIQUE EL ESTADO A INTIME Y PARA ACTUAR EN WAKEUP MIENTRAS CARGA
@@ -146,7 +149,8 @@ void setup()
         }
       }
       else { //si quiere abortar el sleep mode pasamos a state config
-        Serial.println(" CHANGED TO CONFIG MODE");
+        //Serial.println(" CHANGED TO CONFIG MODE");
+        ESP_LOGI(TAG_MAIN, "CHANGING STATE TO CONFIG");
         STATE = CONFIG;
         break;
       }
@@ -162,13 +166,15 @@ void setup()
         checkStateOfChargeToSleep(true, true); //comprobamos estado de carga y volvemos a dormir
       }
       else { //si quiere abortar el sleep mode pasamos a state config
-        Serial.println(" CHANGED TO CONFIG MODE");
+        //Serial.println(" CHANGED TO CONFIG MODE");
+        ESP_LOGI(TAG_MAIN, "CHANGING STATE TO CONFIG");
         STATE = CONFIG;
       }
 
       break;
     default:
        if( sToNextSesion(getNextSesion(rtc.getTimeStruct()))< TIME_WINDOW *60){
+          ESP_LOGI(TAG_MAIN, "CHANGING STATE TO INTIME");
           STATE = INTIME;
           Serial.println("\n\n******************************");
           Serial.println("       Time to Sesion         ");
@@ -176,7 +182,7 @@ void setup()
       }
       else{
           Serial.println("\n\n******************************");
-          Serial.print("       State:"); Serial.println(STATE);
+          Serial.print("       -State:"); Serial.println(STATE);
           Serial.println("******************************");
       }
       break;
@@ -235,7 +241,7 @@ void setup()
   check_nvs_index_value(); //comprueba si el valor que se le va a poner al archivo en caso de falla de RTC es correcto
 
   createEvents();
-  createSemaphores();
+  createSemaphores(); //inicados "cogidos"
   myDelayMs(10); //en alguna ocasion ha aceptado el dispositivo antes de terminar de hacer algunas cosas
 
   xTaskCreatePinnedToCore(TaskLedStatus,  "Task LedStatus" ,  2048,  NULL,  1,  &LedStatus_task_handle,  ARDUINO_RUNNING_CORE);
@@ -273,7 +279,7 @@ void setup()
 
 
   if (STATE == CONFIG) { //la tarea del BLE solo se inicia si el dispositivo ha sido reiniciado
-    xSemaphoreGive(BLE_txSemaphore); //libera semaforo BLE
+    xSemaphoreGive(BLE_txSemaphore); //libera semaforo BLE importante se inicia cogido
     xTaskCreatePinnedToCore(TaskBLE,  "Task BLE" ,  4096,  NULL,  1,  &BLE_task_handle,  ARDUINO_RUNNING_CORE);
     long sSleepTime = 0;
 
@@ -305,6 +311,7 @@ void setup()
     Serial.println("Sleeping for: 1 s");
     esp_sleep_enable_timer_wakeup(1 * S_TO_uS_FACTOR); //uS
 #endif
+    ESP_LOGI(TAG_MAIN, "CHANGING STATE TO SLEEP");
     STATE = SLEEP;
 
     detachInterrupt(digitalPinToInterrupt(PWR_IN));
@@ -320,8 +327,8 @@ void setup()
     //LO SIGUIENTE NUNCA TIENE LUGAR
     Serial.println("ERROR0");
   }
-  else {
-    xSemaphoreGive(manager_semaphore); //libera semaforo manager //esta devolucion de semaforo hay que revisarla, se debería devolver en el mismo hilo que la toma
+ else {
+    xSemaphoreGive(manager_semaphore); //libera semaforo manager importante se inicia "cogido"
   }
 }
 
@@ -337,12 +344,12 @@ void loop ()//funciona como un hilo más cuando pase el setup
     Serial.println("\n----------------------------");
     Serial.print("STATE: ");
     switch (STATE) {
-      case IDDLE: Serial.println("IDDLE"); break;
-      case CONFIG: Serial.println("CONFIG"); break;
-      case INTIME: Serial.println("INTIME"); break;
-      case MEASURING: Serial.println("MEASURING"); break;
-      case SLEEP: Serial.println("SLEEP"); break;
-      case CHARGING: Serial.println("CHARGING"); break;
+      case IDDLE:       Serial.println("IDDLE");        break;
+      case CONFIG:      Serial.println("CONFIG");       break;
+      case INTIME:      Serial.println("INTIME");       break;
+      case MEASURING:   Serial.println("MEASURING");    break;
+      case SLEEP:       Serial.println("SLEEP");        break;
+      case CHARGING:    Serial.println("CHARGING");     break;
       case FULLCHARGED: Serial.println("FULL CHARGED"); break;
     }
     Serial.println("----------------------------");
@@ -382,9 +389,11 @@ void loop ()//funciona como un hilo más cuando pase el setup
         if(std::stoi(volt)<=MIN_BAT_FOR_SESSION)
         {
           sessionAborted = true;
-          printf("ATTENTION, LOW-BATTERY, MEASURING ABORTED TO AVOID SD DAMAGE\n\n");
-          if (xSemaphoreTake(manager_semaphore, pdMS_TO_TICKS(100)) == pdTRUE) {
+          
+          ESP_LOGE(TAG_MAIN,"ATTENTION, LOW-BATTERY, MEASURING ABORTED TO AVOID SD DAMAGE - CHANGING STATE TO DISCHARGED\n");
+          if (xSemaphoreTake(manager_semaphore, portMAX_DELAY) == pdTRUE) {
            STATE = DISCHARGED;
+           xSemaphoreGive(manager_semaphore); //ADDED 0.7.6
           }
         }
         else{
@@ -399,14 +408,15 @@ void loop ()//funciona como un hilo más cuando pase el setup
       }
     }
     
-    xSemaphoreGive(manager_semaphore); //estas devoluciones de semaforos hay que revisarlas , se debería devolver en el mismo hilo que la toma
+   //ADDED 0.7.6 xSemaphoreGive(manager_semaphore); //estas devoluciones de semaforos hay que revisarlas , se debería devolver en el mismo hilo que la toma
   }
 
-  if ((STATE == IDDLE) || (STATE == DISCHARGED)) { //entra después de haber cerrado el archivo de la sesión
+  
+  if ((STATE == IDDLE) || (STATE == DISCHARGED) ){ // entra después de haber cerrado el archivo de la sesión
     long sToSleep = 0;
     sToSleep = sToNextSesion(getNextSesion(rtc.getTimeStruct())); //mira cuándo es la próxima sesión
     
-    if((sToSleep==1) && (STATE == DISCHARGED)) //estamos en timeWindow pero batería está descargada
+    if(((sToSleep==1) && (STATE == DISCHARGED)))  //estamos en timeWindow pero batería está descargada
     {
       sToSleep = (TIME_WINDOW * 60)+1; //duerme el timewindow+1s
     }
@@ -426,8 +436,12 @@ void loop ()//funciona como un hilo más cuando pase el setup
     sleepingTime = sleepingTime / 1000; //pasado a segundos
     Serial.print(sleepingTime / 60); Serial.print(" min "); Serial.print(sleepingTime % 60); Serial.println(" sec\n\n");
 #endif
-    STATE = SLEEP;
-    xSemaphoreGive(manager_semaphore); //esta devolucion de semaforo hay que revisarla
+
+    ESP_LOGI(TAG_MAIN,"CHANGING STATE TO SLEEP");
+    if (xSemaphoreTake(manager_semaphore, portMAX_DELAY) == pdTRUE) { //ADDED 0.7.6
+      STATE = SLEEP;
+      xSemaphoreGive(manager_semaphore); //ADDED 0.7.6
+    }
 
     detachInterrupt(digitalPinToInterrupt(PWR_IN));
     if (digitalRead(PWR_IN)) { //si esta a nivel alto

@@ -44,10 +44,10 @@ bool createEvents() {
 
 
 //________________________________________________SEMAPHORES________________________________________________
-volatile SemaphoreHandle_t BLE_txSemaphore; //Semaforo usado para impedir que otros hilos escriban de forma simultanea en txBLE sin que otro termine
-volatile SemaphoreHandle_t manager_semaphore; //Semaforo usado en en loop() (manager) para esperar a que se cumplan ciertas acciones sin sobrecargas
+volatile SemaphoreHandle_t BLE_txSemaphore;    //Semaforo usado para impedir que otros hilos escriban de forma simultanea en txBLE sin que otro termine
+volatile SemaphoreHandle_t manager_semaphore;  //Semaforo usado en en loop() (manager) para esperar a que se cumplan ciertas acciones sin sobrecargas
 
-void createSemaphores() {
+void createSemaphores() { //iniciados "cogidos"
   BLE_txSemaphore = xSemaphoreCreateBinary();
   manager_semaphore = xSemaphoreCreateBinary();
 }

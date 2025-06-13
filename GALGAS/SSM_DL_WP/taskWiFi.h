@@ -134,8 +134,10 @@ void TaskWIFI( void *pvParameters ) {
 
       if (BLE_task_handle == NULL) // SI NO EXISTE HILO DE BT
       {
-        if (xSemaphoreTake(manager_semaphore, pdMS_TO_TICKS(100)) == pdTRUE) {
+        Serial.println("[WiFi] CHANGING STATE TO IDDLE");
+        if (xSemaphoreTake(manager_semaphore,portMAX_DELAY) == pdTRUE) {
           STATE = IDDLE; //consideramos que ya estamos configurados
+          xSemaphoreGive(manager_semaphore); //ADDED 0.7.6
         }
       }
       WiFi.disconnect();

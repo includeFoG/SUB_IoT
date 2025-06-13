@@ -244,6 +244,7 @@ void TaskBLE( void *pvParameters )
             }
             myDelayMs(50);
 
+            Serial.println("[BLE] CHANGING STATE TO IDDLE");
             STATE = IDDLE; //consideramos que ya estamos configurados
 
             BLEDevice::deinit(false);
@@ -686,9 +687,10 @@ void TaskBLE( void *pvParameters )
             Serial.println(txBLE.c_str());
             xSemaphoreGive(BLE_txSemaphore);
           }
+          Serial.println("CHANGING STATE TO IDDLE");
           STATE = IDDLE; //consideramos que ya estamos configurados
 
-          Serial.println("STATE = IDDLE\n");
+         
 
           BLEDevice::deinit(false);
           BLE_task_handle = NULL;
