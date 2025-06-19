@@ -6,13 +6,14 @@
 TaskHandle_t data_read_task_handle;
 void TaskDataReading( void *pvParameters )
 {
-  setCpuFrequencyMhz(160);
+  setCpuFrequencyMhz(240);
   Serial.updateBaudRate(BAUD_SERIAL);
   Serial1.updateBaudRate(BAUD_SERIAL);
   checkFreqs();
   
   digitalWrite(PWR_RS485_EN, HIGH); //Alimenta RS485 Externo
   digitalWrite(PWR_V3_EN, HIGH);    //Alimenta RS485 INTERNO, SD, IMU, PULL-UP I2C
+  myDelayMs(2000);
   Wire.begin();
 
   Serial.println("\nStarting data thread");
@@ -30,12 +31,14 @@ void TaskDataReading( void *pvParameters )
   EventBits_t uxBitsDatos;
 
   std::string rxData = ""; //buffer recepción
+  //std::string rxToSD = ""; //buffer de almacenamiento 
+  //uint8_t countToWrite = 0; //indice usado para decidir cuando se almacena el dato en la SD
   IMUStruct IMUParams; //estructura de datos de IMU
 
   //ESPERAMOS HASTA QUE EL DISPOSITIVO TRANSDUCTOR ESTE LISTO PARA COMUNICAR
   char c_ = 0;
   long preTime = millis();
-  Serial.print("[DAT] Waiting for SG Transductor response...");
+  Serial.print("[DAT] Waiting for SG Transductor response...\n");
   while (c_ != '\n') { //filtro para esperar a que esté enviando el RS485 del transductor NO ESTA FUNCIONANDO CORRECTAMENTE, SE LO SALTA AUNQUE NO ENVIE¿?
     if (Serial1.available() > 0) {
       c_ = Serial1.read();
@@ -65,34 +68,52 @@ void TaskDataReading( void *pvParameters )
   uxBitsDatos = xEventGroupGetBits(xEventDatos);
 
   if ((uxBitsDatos & BIT_1_DAT_SESION) != 0) { //si se ha activado la sesión de datos
-    if (!SD.begin()) {
+    
+    SPI.begin();  // Usa pines por defecto del ESP32
+    SPI.setFrequency(SPI_SPEED); 
+    myDelayMs(2000);
+
+    bool sd_ok = false;
+    for (int i = 0; i < 3; i++)
+    {
+      if (SD.begin(CS_SD)) {
+        sd_ok = true;
+        ESP_LOGI(TAG_DATAREADING, "SD_INITIALIZED");
+        break;
+      }
+      ESP_LOGW(TAG_DATAREADING, "Intento %d: SD.begin() falló, reintentando...", i+1);
+      myDelayMs(300);
+    }
+    
+    if (!sd_ok) 
+    {
+      ESP_LOGE(TAG_DATAREADING, "No se pudo iniciar la tarjeta SD tras varios intentos.");
+    }
+
+    ESP_LOGI(TAG_DATAREADING, "Rechecking-SD");
+
+    if (!SD.begin(CS_SD)) {
+      ESP_LOGE(TAG_DATAREADING,"Error al iniciar tarjeta SD");
       if (STATE == INTIME) {//Este if es para que el while solo tenga lugar cuando se trata de una sesión automática por tiempo, no manual mediante BT (si es manual se para manualmente)
         ESP_LOGE(TAG_DATAREADING,"Card Mount Failed, deleting task - CHANGING STATE TO IDDLE");
         
         xEventGroupClearBits(xEventDatos, BIT_1_DAT_SESION );
-        Serial.println("TEST1");
+
         if (xSemaphoreTake(manager_semaphore, portMAX_DELAY) == pdTRUE) {
-          Serial.println("TEST2");
           STATE = IDDLE;
           xSemaphoreGive(manager_semaphore); //ADDED 0.7.6
         }
-        Serial.println("TEST3");
+
         digitalWrite(PWR_RS485_EN, LOW);
-        Serial.println("TEST4");
         data_read_task_handle = NULL;
-        Serial.println("TEST5");
-        Serial.println("STATE");
-        printf(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ESTADO: %d", STATE);
-        Serial.println("TEST6");
         vTaskDelete(NULL);
       }
     } else {
-      Serial.println("[DAT] SD ok");
+      ESP_LOGI(TAG_DATAREADING,"[DAT] SD ok");
     }
 
     digitalWrite(PWR_RS485_EN, HIGH); //PRUEBA no debería ser necesario
     myDelayMs(50);
-
 
     //NO MOVER ESTE BLOQUE DE AQUI PARA QUE EL NOMBRE DEL ARCHIVO ESTE LO MAS CERCANO AL TIEMPO DE INICIO POSIBLE
     // ***********************************************************************************************************
@@ -112,7 +133,6 @@ void TaskDataReading( void *pvParameters )
     nameFile += EXTENSION;
     write_nvs_16(nvs_key_filename, nvs_val_filename);
     Serial.print("FileName: "); Serial.println(nameFile.c_str());
-
 
     //una vez tenemos el nombre de archivo comprobamos que exista la carpeta de archivos y si no la creamos
     resultPathSessionFile = (char*)malloc(strlen(directorySession) + nameFile.length() + 1); //+1 para el endchar
@@ -162,6 +182,7 @@ void TaskDataReading( void *pvParameters )
 
 
     sessionFile = SD.open(resultPathSessionFile, FILE_WRITE); //a partir de aqui sessionFile devuelve true
+    myDelayMs(100);
     sessionFile.print("Time[ms],SG1[kg],SG2[kg],AcelX[m/s2],AcelY[m/s2],AcelZ[m/s2],GyroX[deg/s],GyroY[deg/s],GyroZ[deg/s],Temp[");
     sessionFile.write(176); // Código ASCII del símbolo º (grado)
     sessionFile.println("C]");
@@ -195,7 +216,7 @@ void TaskDataReading( void *pvParameters )
   if (STATE == INTIME) {//Este if es para que el while solo tenga lugar cuando se trata de una sesión automática por tiempo, no manual mediante BT (si es manual se para manualmente)
     //habilitamos el timer, el timer en el callback limpiará BIT_1_DAT_SESION finalizando la sesión
     if ( setup_Timer() == ESP_OK) {
-      ESP_LOGI(TAG_DATAREADING, "START TIMER MEASURE - CHANGING STATE TO MEASURING");
+      ESP_LOGI(TAG_DATAREADING, "CHANGING STATE TO MEASURING");
       if (xSemaphoreTake(manager_semaphore, portMAX_DELAY) == pdTRUE) {
         STATE = MEASURING;
         xSemaphoreGive(manager_semaphore); //ADDED 0.7.6
@@ -363,15 +384,37 @@ void TaskDataReading( void *pvParameters )
         xEventGroupSetBits(xEventLeds, BIT_0_LED_DATA_SAVE); //parpadeo VERDE 50ms
 
         if (sessionFile) { //si se generó el archivo de sesión (necesario para crear el archivo por si primero se acriva el VIEW y posteriormente el DAT_SESION)
+            /*if(countToWrite >= NUMBER_OF_MEASURES_TO_WRITE) //si toca escribir
+            {
+              for (int i = 0; i < rxToSD.length(); i++)
+              {
+                sessionFile.write(rxToSD[i]);   //Almacena el dato en el archivo
+    
+                if (CONFIG_LOG_DEFAULT_LEVEL > 2) { //para que solo se vea cuando esta activado el core debug > info
+                  if ( counterPrint % 100 == 0) {
+                    Serial.write(rxData[i]);
+                  }
+                }
+              }
+
+               rxToSD = "";
+               countToWrite=0;
+            }
+            else{ //si no toca escribir
+              rxToSD += rxData;
+              countToWrite++;
+            }*/
+            
           for (int i = 0; i < rxData.length(); i++)
           {
             sessionFile.write(rxData[i]);   //Almacena el dato en el archivo
-            if (CONFIG_LOG_DEFAULT_LEVEL > 2) { //para que solo se vea cuando esta activado el core debug en info
+
+            if (CONFIG_LOG_DEFAULT_LEVEL > 3) { //para que solo se vea cuando esta activado el core debug > info
               if ( counterPrint % 100 == 0) {
                 Serial.write(rxData[i]);
               }
             }
-          }
+          } 
 
           //ESP_LOGI(TAG_DATAREADING, "%s",rxData.c_str()); //Solo funciona con el primer mensaje después no imprime nada de rxData
 
@@ -379,6 +422,24 @@ void TaskDataReading( void *pvParameters )
         else { //EN CASO DE QUE SE ESTUVIESEN VISUALIZANDO DATOS Y POSTERIORMENTE SE DECIDIESE GRABAR LA SESION
           //PENDIENTE!!!
           //Serial.println("Opening file");
+           if ( counterPrint % 100 == 0) {
+                    ESP_LOGE(TAG_DATAREADING, "ERROR - NO HAY ARCHIVO ABIERTO!");
+                    
+           }
+           if (!SD.begin(CS_SD)) {
+             ESP_LOGE(TAG_DATAREADING, "ERROR COMUNICANDO CON SD!");
+           }
+           else{
+             ESP_LOGI(TAG_DATAREADING, "Intentando reabrir...");
+             sessionFile = SD.open(resultPathSessionFile, FILE_APPEND); //a partir de aqui sessionFile devuelve true
+             if(sessionFile)
+             {
+              ESP_LOGI(TAG_DATAREADING, "Archivo reabrierto");
+             }
+             else{
+              ESP_LOGE(TAG_DATAREADING, "NO SE HA PODIDO REABRIR EL ARCHIVO");
+             }
+           }
         }
       }
       counterPrint++;

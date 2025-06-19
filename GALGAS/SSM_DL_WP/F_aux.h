@@ -226,6 +226,9 @@ esp_err_t setup_Timer() {
     if (xTimerStart(sesionFreqTimer, 0) != pdPASS) {
       ESP_LOGE(TAG_TIMERSESION, "ERROR! timer could not set in active state");
     }
+    else{
+      ESP_LOGI(TAG_TIMERSESION, "Timer measure STARTED");
+    }
   }
 
   return ESP_OK;
@@ -442,58 +445,59 @@ uint8_t checkIfCharging() {
    toSleep = 0 -> no permite a la función dormir al equipo solo cambia el estado de STATE
 */
 void checkStateOfChargeToSleep(bool sleepIfCharging = false, bool sleepIfFullCharged = false) {
-  if (digitalRead(PWR_IN)) { //miramos si tiene cable de carga conectado
-
-    switch (checkIfCharging()) { //
-      case 4: //cargando
-        ESP_LOGI(TAG_F_AUX, "CHANGING STATE TO CHARGING");
-        STATE = CHARGING;
-        if (sleepIfCharging) {
-          Serial.println("\nCHARGING Lowing Frequency");
-          setCpuFrequencyMhz(10);
-          Serial.updateBaudRate(BAUD_SERIAL);
-          //checkFreqs(); QUITADO POR REDUCCION DE TIEMPO
-
-          Serial.println("C-going to sleep for: " + String(BLINK_CHARGE_FREQUENCE) + " s\n\n");
-
-          //Al estar ya encendido habilitamos ISR_DeepSleep a LOW
-          detachInterrupt(digitalPinToInterrupt(PWR_IN));
-          esp_sleep_enable_ext1_wakeup(PWR_IN_MASK, ESP_EXT1_WAKEUP_ANY_LOW);     //DeepSleep ISR Se despierta por nivel bajo en el pin PWR_IN
-          esp_sleep_enable_timer_wakeup(BLINK_CHARGE_FREQUENCE * S_TO_uS_FACTOR); //Se despierta a los BLINK_CHARGE_FREQUENCE segundos
-
-          esp_deep_sleep_start();
-          //LO SIGUIENTE NUNCA TIENE LUGAR
-          Serial.println("ERROR2");
-        }
-        break;
-      case 5: //100% cargado
-        ESP_LOGI(TAG_F_AUX, "CHANGING STATE TO FULLCHARGED");
-        STATE = FULLCHARGED; //cambiamos STATE
-        if (sleepIfFullCharged) {
-          Serial.println("\nState FULLCHARED Lowing Frequency");
-          setCpuFrequencyMhz(10);
-          Serial.updateBaudRate(BAUD_SERIAL);
-          
-          Serial.println("FC-going to sleep for: " + String(BLINK_CHARGE_FREQUENCE*6)+" s\n\n");
-
-          pinsToLow();
-          digitalWrite(RLED, LOW);//DEJAMOS FIJO EL RGB ROJO
-
-          //Al estar ya encendido habilitamos ISR_DeepSleep a LOW
-          detachInterrupt(digitalPinToInterrupt(PWR_IN));
-
-          esp_sleep_enable_ext1_wakeup(PWR_IN_MASK, ESP_EXT1_WAKEUP_ANY_LOW);     //DeepSleep ISR Se despierta por nivel bajo en el pin PWR_IN
-          esp_sleep_enable_timer_wakeup(BLINK_CHARGE_FREQUENCE * 6 * S_TO_uS_FACTOR); //Se despierta a los BLINK_CHARGE_FREQUENCE segundos
-          gpio_hold_en((gpio_num_t) RLED);
-          gpio_deep_sleep_hold_en(); //aisla los pines haciendo que no cambien de estado a partir de este punto
-          esp_deep_sleep_start();
-
-          //LO SIGUIENTE NUNCA TIENE LUGAR
-          Serial.println("ERROR3");
-        }
-        break;
-      default:
-        break;
+  if((STATE != MEASURING) && (STATE!=INTIME) ){
+    if (digitalRead(PWR_IN)) { //miramos si tiene cable de carga conectado
+      switch (checkIfCharging()) { //
+        case 4: //cargando
+          ESP_LOGI(TAG_F_AUX, "CHANGING STATE TO CHARGING");
+          STATE = CHARGING;
+          if (sleepIfCharging) {
+            Serial.println("\nCHARGING Lowing Frequency");
+            setCpuFrequencyMhz(10);
+            Serial.updateBaudRate(BAUD_SERIAL);
+            //checkFreqs(); QUITADO POR REDUCCION DE TIEMPO
+  
+            Serial.println("C-going to sleep for: " + String(BLINK_CHARGE_FREQUENCE) + " s\n\n");
+  
+            //Al estar ya encendido habilitamos ISR_DeepSleep a LOW
+            detachInterrupt(digitalPinToInterrupt(PWR_IN));
+            esp_sleep_enable_ext1_wakeup(PWR_IN_MASK, ESP_EXT1_WAKEUP_ANY_LOW);     //DeepSleep ISR Se despierta por nivel bajo en el pin PWR_IN
+            esp_sleep_enable_timer_wakeup(BLINK_CHARGE_FREQUENCE * S_TO_uS_FACTOR); //Se despierta a los BLINK_CHARGE_FREQUENCE segundos
+  
+            esp_deep_sleep_start();
+            //LO SIGUIENTE NUNCA TIENE LUGAR
+            Serial.println("ERROR2");
+          }
+          break;
+        case 5: //100% cargado
+          ESP_LOGI(TAG_F_AUX, "CHANGING STATE TO FULLCHARGED");
+          STATE = FULLCHARGED; //cambiamos STATE
+          if (sleepIfFullCharged) {
+            Serial.println("\nState FULLCHARED Lowing Frequency");
+            setCpuFrequencyMhz(10);
+            Serial.updateBaudRate(BAUD_SERIAL);
+            
+            Serial.println("FC-going to sleep for: " + String(BLINK_CHARGE_FREQUENCE*3)+" s\n\n");
+  
+            pinsToLow();
+            digitalWrite(RLED, LOW);//DEJAMOS FIJO EL RGB ROJO
+  
+            //Al estar ya encendido habilitamos ISR_DeepSleep a LOW
+            detachInterrupt(digitalPinToInterrupt(PWR_IN));
+  
+            esp_sleep_enable_ext1_wakeup(PWR_IN_MASK, ESP_EXT1_WAKEUP_ANY_LOW);     //DeepSleep ISR Se despierta por nivel bajo en el pin PWR_IN
+            esp_sleep_enable_timer_wakeup(BLINK_CHARGE_FREQUENCE * 3 * S_TO_uS_FACTOR); //Se despierta a los BLINK_CHARGE_FREQUENCE segundos
+            gpio_hold_en((gpio_num_t) RLED);
+            gpio_deep_sleep_hold_en(); //aisla los pines haciendo que no cambien de estado a partir de este punto
+            esp_deep_sleep_start();
+  
+            //LO SIGUIENTE NUNCA TIENE LUGAR
+            Serial.println("ERROR3");
+          }
+          break;
+        default:
+          break;
+      }
     }
   }
 }
@@ -506,8 +510,8 @@ void checkStateOfChargeToSleep(bool sleepIfCharging = false, bool sleepIfFullCha
 */
 bool checkIfWantToSleepCharging() {
   if (CHOOSE_SLEEP_DURING_CHARGE) {
-    Serial.println();
-    Serial.println("Power wire to charge battery is connected. Want to GO TO SLEEP until disconnect or full charge?");
+
+    Serial.println("\nPower wire to charge battery is connected. Want to GO TO SLEEP until disconnect or full charge?");
     Serial.print("OK? [Y/N]");
 
     long pretime = millis();

@@ -112,10 +112,19 @@ IMPORTANTE: MODIFICAR LA CAPACIDAD DE LA PILA BATTERY_CAPACITY
  */
 
 /*__________________________________________________________________________________________________NOTAS DE VERSION__________________________________________________________________________________________________
+ * [v.0.0.8.0] - 18/06/2025
+ * -Como persiste el problema de la SD que corta las sesiones se va a probar a aumentar los buffers para hacer menos escrituras. se crea el buffer rxToSD
+ * -Se añaden también logs para ver si se ha cerrado el archivo e intentos de reapertura en modo append
+ * 
+ * -> No ha funcionado ha ido a peor con archivos de solo 205kB, quitamos el buffer dejamos la reapertura de archivo, aunque esta tampoco ha ocurrido
+ * 
+ * -Se ha aumentado la frecuencia del bus spi de 4MHz a 10MHz y la frecuencia del micro a 240Mhz 
+ * 
  * [v.0.0.7.6] - 13/06/2025
  * -Se observa que la placa de vez en cuando entra en algún modo no esperado en el que mantiene encendida la placa de galgas pero se queda en modo "sleep" se han hecho modificaciones en el loop para intentar evitar que 
  * esto ocurra y se ha cambiado la liberación de semáforos para que tenga lugar en los hilos donde se toman. 
  * Se ha detectado que este error pasa cuando no tiene tarjeta SD o no la detecta, se debe a que nunca cambia de STATE
+ * -Añadidos filtros de comprobación de carga si está en STATE = INTIME || MEASURING
  * 
  * [v.0.0.7.5] - 12/06/2025
  *  -Añadido buzzer al encendido

@@ -1,13 +1,13 @@
 //#define CONFIG_ESP_INT_WDT_TIMEOUT_MS 10000 //MODIFICACION de watchdog ISR
 
 #define DEVICE_NAME "SSM_DL_GAUGE_0000"//"SSM_DL_GAUGE_A001"
-#define BLE_ID "SSM_DL_GAUGE_0000"
+#define BLE_ID "SSM_DL_GAUGE_0210"
 #define FILENAME (strrchr(__FILE__, '\\') ? strrchr(__FILE__, '\\') + 1 : __FILE__)
 #define NUMITEMS(arg) ((unsigned int) (sizeof (arg) / sizeof (arg [0]))) //ADDED
 
-#define VERSION "V.0.0.7.6"
+#define VERSION "V.0.0.8.0"
 
-#define CONFIG_LOG_DEFAULT_LEVEL 2 //3:Info, 4:debug->errores de rto  //BAJAR A 2 PARA EJECUTAR NORMAL
+#define CONFIG_LOG_DEFAULT_LEVEL 3 //3:Info, 4:debug->errores de rto  //BAJAR A 2 PARA EJECUTAR NORMAL
 
 String SSID = "";
 String SSID_PASS = "";
@@ -32,12 +32,15 @@ String SSID_PASS = "";
 
 #define TIME_OUT_RS485 20      //tiempo en segundos que esperan los bucles a recibir mensajes por RS485
 
+#define SPI_SPEED 10000000
+//#define NUMBER_OF_MEASURES_TO_WRITE 10 //cantidad de medidas que se toman antes de escribirlas en el archivo de la sd
+
 //__________________________________________________CHARGE__________________________________________________
 bool CHOOSE_SLEEP_DURING_CHARGE = true; //esta variable decide si el dispositivo duerme durante la carga, en la ejecución solo puede pasar a false si el usuario se lo indica, si quiere volver a false tiene que reiniciar equipo
 long lastTimeISRWire = 0;         //DEBOUNCING esta variable guarda la última vez que se ejecutó una interrupción por conexión o desconexión del cable de alimentación para evitar rebotes
 #define BLINK_CHARGE_FREQUENCE 10 //frecuencia de blink (segundos) cuando el dispositivo se encuentra cargando
 
-const unsigned int BATTERY_CAPACITY = 10400; // Release V1: 10400 
+const unsigned int BATTERY_CAPACITY = 3600; // Release V1: 10400 
 #define MIN_BAT_FOR_SESSION 3300  //mV
 
 //____________________________________________________________NVS__________________________________________________________

@@ -36,10 +36,8 @@ void TaskISRWire( void *pvParameters ) {
     for (;;) {
       
       //no nos interesa que se ejecute nada mientras, recordemos que esto es porque en la interrupción no podíamos ejecutar todo el código que necesitabamos NO HEMOS ENCONTRADO LA FORMA DE PARAR EL RESTO DE HILOS
-      Serial.println("A");
       checkStateOfChargeToSleep(true, true);//ver si está cargando o cargado
 
-      Serial.println("B");
       //xTaskResumeAll(); //no va a llegar aquí
 
       ISRWire_task_handle = NULL;

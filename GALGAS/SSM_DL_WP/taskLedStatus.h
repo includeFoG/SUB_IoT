@@ -19,7 +19,7 @@ void TaskLedStatus( void *pvParameters ) {
       xEventGroupClearBits(xEventLeds, BIT_0_LED_DATA_SAVE);
     }
     
-    if(STATE != MEASURING){
+    if((STATE != MEASURING) && (STATE!=INTIME) ){
           if (digitalRead(PWR_IN)) { //si está habilitado el pin de tensión de entrada -> alimentación de batería ya que aquí solo nos interesa ver si está en carga o cargada 100% (con conector)
           switch (checkIfCharging()) { //
             case 4: //cargando
