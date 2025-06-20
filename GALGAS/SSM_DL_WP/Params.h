@@ -5,7 +5,7 @@
 #define FILENAME (strrchr(__FILE__, '\\') ? strrchr(__FILE__, '\\') + 1 : __FILE__)
 #define NUMITEMS(arg) ((unsigned int) (sizeof (arg) / sizeof (arg [0]))) //ADDED
 
-#define VERSION "V.0.0.8.0"
+#define VERSION "V.0.0.8.1"
 
 #define CONFIG_LOG_DEFAULT_LEVEL 3 //3:Info, 4:debug->errores de rto  //BAJAR A 2 PARA EJECUTAR NORMAL
 
@@ -19,7 +19,7 @@ String SSID_PASS = "";
 
 //cuidado, si se baja el tiempo de medida por debajo de la ventana de tiempo se pueden duplicar archivos
 #define MEASURING_TIME 20 //tiempo midiendo (min) 20min
-#define TIME_WINDOW 5 //5 min ventana de tiempo por si se reinicia el dispositivo o se incia en los primeros X minutos de una sesión
+#define TIME_WINDOW 15 //5 min ventana de tiempo por si se reinicia el dispositivo o se incia en los primeros X minutos de una sesión
 #define EXTENSION     ".csv"
 
 #if CONFIG_FREERTOS_UNICORE

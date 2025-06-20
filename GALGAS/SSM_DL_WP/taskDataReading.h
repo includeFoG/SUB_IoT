@@ -3,6 +3,7 @@
 //*****************************************************************
 // Thread TaskDataReading
 //*****************************************************************
+
 TaskHandle_t data_read_task_handle;
 void TaskDataReading( void *pvParameters )
 {
@@ -76,9 +77,12 @@ void TaskDataReading( void *pvParameters )
     bool sd_ok = false;
     for (int i = 0; i < 3; i++)
     {
+      SD.end();  // Reset interno del driver SD
+      myDelayMs(500);
+      
       if (SD.begin(CS_SD)) {
         sd_ok = true;
-        ESP_LOGI(TAG_DATAREADING, "SD_INITIALIZED");
+        ESP_LOGI(TAG_DATAREADING, "SD_PRE_INITIALIZED");
         break;
       }
       ESP_LOGW(TAG_DATAREADING, "Intento %d: SD.begin() falló, reintentando...", i+1);
@@ -91,6 +95,9 @@ void TaskDataReading( void *pvParameters )
     }
 
     ESP_LOGI(TAG_DATAREADING, "Rechecking-SD");
+    
+    SD.end();  // Reset interno del driver SD
+    myDelayMs(500);
 
     if (!SD.begin(CS_SD)) {
       ESP_LOGE(TAG_DATAREADING,"Error al iniciar tarjeta SD");
@@ -171,7 +178,7 @@ void TaskDataReading( void *pvParameters )
         }
       }
     }
-
+    
     batteryStatusFile = SD.open(resultPathBatteryStatusFile, FILE_APPEND);
     batteryStatusFile.print(nameFile.c_str()); //guardamos archivo relacionado a la medición de batería
     batteryStatusFile.print(",");
@@ -180,12 +187,12 @@ void TaskDataReading( void *pvParameters )
     batteryStatusFile.close(); //cerramos archivo
     myDelayMs(100);
 
-
     sessionFile = SD.open(resultPathSessionFile, FILE_WRITE); //a partir de aqui sessionFile devuelve true
     myDelayMs(100);
     sessionFile.print("Time[ms],SG1[kg],SG2[kg],AcelX[m/s2],AcelY[m/s2],AcelZ[m/s2],GyroX[deg/s],GyroY[deg/s],GyroZ[deg/s],Temp[");
     sessionFile.write(176); // Código ASCII del símbolo º (grado)
     sessionFile.println("C]");
+    
     // **********************************************************************************************************
   }
 
@@ -250,6 +257,7 @@ void TaskDataReading( void *pvParameters )
     {
       if (sessionFile) //si había un archivo abierto lo cierra, sessionfile necesario: se puede tener el bit BIT_1_DAT_SESION a 0 y estar viendo los datos, cerrando un archivo que no existe
       {
+
         Serial.println("[DAT] closing file");
         sessionFile.close();
         myDelayMs(100);
@@ -260,6 +268,8 @@ void TaskDataReading( void *pvParameters )
         batteryStatusFile.println((getBatteryStatus()).c_str()); //guardamos datos de batería
         batteryStatusFile.close(); //cerramos archivo
         myDelayMs(100);
+        SD.end();
+
       }
       if ( (uxBitsDatos & BIT_0_DAT_VIEW) == 0 ) //si tampoco se están visualizando datos se cierra el hilo
       {
@@ -404,7 +414,7 @@ void TaskDataReading( void *pvParameters )
               rxToSD += rxData;
               countToWrite++;
             }*/
-            
+
           for (int i = 0; i < rxData.length(); i++)
           {
             sessionFile.write(rxData[i]);   //Almacena el dato en el archivo
@@ -426,12 +436,16 @@ void TaskDataReading( void *pvParameters )
                     ESP_LOGE(TAG_DATAREADING, "ERROR - NO HAY ARCHIVO ABIERTO!");
                     
            }
+           SD.end();
+           myDelayMs(500);
            if (!SD.begin(CS_SD)) {
              ESP_LOGE(TAG_DATAREADING, "ERROR COMUNICANDO CON SD!");
            }
            else{
              ESP_LOGI(TAG_DATAREADING, "Intentando reabrir...");
+             
              sessionFile = SD.open(resultPathSessionFile, FILE_APPEND); //a partir de aqui sessionFile devuelve true
+           
              if(sessionFile)
              {
               ESP_LOGI(TAG_DATAREADING, "Archivo reabrierto");

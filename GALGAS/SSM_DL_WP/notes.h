@@ -112,6 +112,10 @@ IMPORTANTE: MODIFICAR LA CAPACIDAD DE LA PILA BATTERY_CAPACITY
  */
 
 /*__________________________________________________________________________________________________NOTAS DE VERSION__________________________________________________________________________________________________
+ * [v.0.0.8.1] - 19/06/2025
+ * -Añadidas secciones criticas en escrituras -> no son viables al usar interrupciones internas
+ * -Añadidos cierres de SD
+ * 
  * [v.0.0.8.0] - 18/06/2025
  * -Como persiste el problema de la SD que corta las sesiones se va a probar a aumentar los buffers para hacer menos escrituras. se crea el buffer rxToSD
  * -Se añaden también logs para ver si se ha cerrado el archivo e intentos de reapertura en modo append
